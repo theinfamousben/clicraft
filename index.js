@@ -5,6 +5,8 @@ import { searchMods } from './commands/search.js';
 import { installMod } from './commands/install.js';
 import { login, logout, authStatus } from './commands/auth.js';
 import { launchInstance } from './commands/launch.js';
+import { instanceInfo } from './commands/info.js';
+import { upgrade } from './commands/upgrade.js';
 
 import {program} from 'commander'; 
 
@@ -56,5 +58,20 @@ program
     .option('--offline', 'Launch in offline mode')
     .option('--verbose', 'Enable verbose output')
     .action(launchInstance);
+
+program
+    .command('info')
+    .description('Show information about the current Minecraft instance')
+    .option('-i, --instance <path>', 'Path to the instance directory')
+    .option('--verbose', 'Show detailed information')
+    .action(instanceInfo);
+
+program
+    .command('upgrade [mod]')
+    .description('Upgrade mods, Minecraft version, or mod loader')
+    .option('-i, --instance <path>', 'Path to the instance directory')
+    .option('-f, --force', 'Force upgrade even if already up to date')
+    .option('--verbose', 'Enable verbose output')
+    .action(upgrade);
 
 program.parse();

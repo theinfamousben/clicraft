@@ -6,6 +6,7 @@ import { pipeline } from 'stream/promises';
 import { Readable } from 'stream';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import * as pkg from '../package.json' with { type: 'json' };
 
 const execAsync = promisify(exec);
 
@@ -676,6 +677,7 @@ export async function createInstance(options) {
 
         // Step 8: Create mcconfig.json
         const config = {
+            configVersion: pkg.version,
             name: instanceName.trim(),
             type: instanceType.toLowerCase(),
             modLoader: modLoader.toLowerCase(),

@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2026-01-18
+
+### Added
+
+- **Instance Info** (`mcpkg info`)
+  - Display comprehensive instance information
+  - Shows instance name, type, mod loader, and versions
+  - Lists installed mods with version numbers
+  - Storage breakdown by directory (libraries, assets, mods, etc.)
+  - World saves count and details
+  - Verbose mode for detailed output (`--verbose`)
+
+- **Upgrade Command** (`mcpkg upgrade`)
+  - Interactive upgrade menu for mods, loader, or Minecraft version
+  - Upgrade all mods at once to latest compatible versions
+  - Upgrade individual mods by name (`mcpkg upgrade sodium`)
+  - Upgrade Fabric loader version with automatic library downloads
+  - Config format migration for future compatibility
+  - Force upgrade option (`--force`)
+
+- **Config Versioning**
+  - Added `configVersion` field to `mcconfig.json`
+  - Enables future migrations and compatibility checks
+
+### Changed
+
+- Improved mod tracking with `updatedAt` timestamp on upgrades
+
 ## [0.1.0] - 2026-01-17
 
 ### Added

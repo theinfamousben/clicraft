@@ -7,7 +7,9 @@ A simple Minecraft Mod Package Manager written in Node.js. Create and manage Min
 - 🎮 **Create Instances** - Set up new Minecraft client or server instances with Fabric or Forge
 - 🔍 **Search Mods** - Find mods on Modrinth with filters for version, loader, and more
 - 📦 **Install Mods** - Download and install mods directly to your instance
-- 🔐 **Microsoft Login** - Authenticate with your Microsoft account to play online
+- � **Upgrade** - Update mods, mod loader, or Minecraft version
+- ℹ️ **Instance Info** - View detailed information about your instances
+- �🔐 **Microsoft Login** - Authenticate with your Microsoft account to play online
 - 🚀 **Launch Game** - Start Minecraft directly from the terminal
 
 ## Installation
@@ -114,6 +116,37 @@ Options:
 - `-i, --instance <path>` - Path to the instance directory
 - `--offline` - Launch in offline mode (no authentication required)
 - `--verbose` - Show detailed launch information
+
+### View instance info
+
+```bash
+cd my-instance
+mcpkg info
+```
+
+Shows detailed information about your instance including installed mods, storage usage, and world saves.
+
+Options:
+- `-i, --instance <path>` - Path to the instance directory
+- `--verbose` - Show detailed information
+
+### Upgrade mods or loader
+
+```bash
+# Interactive upgrade menu
+mcpkg upgrade
+
+# Upgrade a specific mod
+mcpkg upgrade sodium
+
+# Upgrade all mods
+mcpkg upgrade  # then select "All mods"
+```
+
+Options:
+- `-i, --instance <path>` - Path to the instance directory
+- `-f, --force` - Force upgrade even if already up to date
+- `--verbose` - Enable verbose output
 
 ## Instance Structure
 
