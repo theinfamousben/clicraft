@@ -110,7 +110,7 @@ npm uninstall -g clicraft
 To also remove configuration files:
 
 ```bash
-rm -rf ~/.clicraft
+rm -rf ~/.mcpkg
 ```
 
 ## 🐛 Troubleshooting
