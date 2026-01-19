@@ -10,7 +10,7 @@ const MODRINTH_API = 'https://api.modrinth.com/v2';
 async function getProject(slugOrId) {
     const response = await fetch(`${MODRINTH_API}/project/${slugOrId}`, {
         headers: {
-            'User-Agent': 'mcpkg/0.1.0 (https://github.com/theinfamousben/mcpkg)'
+            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
         }
     });
 
@@ -36,7 +36,7 @@ async function getProjectVersions(slugOrId, mcVersion, loader) {
 
     const response = await fetch(`${MODRINTH_API}/project/${slugOrId}/version?${params}`, {
         headers: {
-            'User-Agent': 'mcpkg/0.1.0 (https://github.com/theinfamousben/mcpkg)'
+            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
         }
     });
 
@@ -51,7 +51,7 @@ async function getProjectVersions(slugOrId, mcVersion, loader) {
 async function downloadFile(url, destPath) {
     const response = await fetch(url, {
         headers: {
-            'User-Agent': 'mcpkg/0.1.0 (https://github.com/theinfamousben/mcpkg)'
+            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
         }
     });
 
@@ -99,7 +99,7 @@ export async function installMod(modSlug, options) {
         const project = await getProject(modSlug);
         if (!project) {
             console.log(chalk.red(`Error: Mod "${modSlug}" not found on Modrinth.`));
-            console.log(chalk.gray('Use "mcpkg search <query>" to find available mods.'));
+            console.log(chalk.gray('Use "clicraft search <query>" to find available mods.'));
             return;
         }
 
@@ -197,7 +197,7 @@ export async function installMod(modSlug, options) {
                         }
                     }
                 }
-                console.log(chalk.gray('\nInstall dependencies with: mcpkg install <slug>'));
+                console.log(chalk.gray('\nInstall dependencies with: clicraft install <slug>'));
             }
         }
 

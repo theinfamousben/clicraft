@@ -28,7 +28,7 @@ async function searchModrinth(query, options = {}) {
 
     const response = await fetch(`${MODRINTH_API}/search?${params}`, {
         headers: {
-            'User-Agent': 'mcpkg/0.1.0 (https://github.com/theinfamousben/mcpkg)'
+            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
         }
     });
 
@@ -52,7 +52,7 @@ function formatDownloads(count) {
 export async function searchMods(query, options) {
     if (!query) {
         console.log(chalk.red('Error: Please provide a search query'));
-        console.log(chalk.gray('Usage: mcpkg search <query> [options]'));
+        console.log(chalk.gray('Usage: clicraft search <query> [options]'));
         return;
     }
 

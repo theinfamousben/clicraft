@@ -14,9 +14,9 @@ Authenticate with your Microsoft account to play Minecraft online.
 ## 📝 Synopsis
 
 ```bash
-mcpkg login [options]
-mcpkg status
-mcpkg logout
+clicraft login [options]
+clicraft status
+clicraft logout
 ```
 
 ## 📖 Description
@@ -25,9 +25,9 @@ The authentication commands manage your Microsoft account login for Minecraft. A
 
 ### Commands
 
-- **`mcpkg login`** - Login to your Microsoft account
-- **`mcpkg status`** - Check your current login status
-- **`mcpkg logout`** - Logout and clear authentication tokens
+- **`clicraft login`** - Login to your Microsoft account
+- **`clicraft status`** - Check your current login status
+- **`clicraft logout`** - Logout and clear authentication tokens
 
 ## 🎯 Options
 
@@ -47,22 +47,22 @@ No options available.
 
 ### Login to Microsoft
 ```bash
-mcpkg login
+clicraft login
 ```
 
 ### Check login status
 ```bash
-mcpkg status
+clicraft status
 ```
 
 ### Logout
 ```bash
-mcpkg logout
+clicraft logout
 ```
 
 ### Force re-login
 ```bash
-mcpkg login --force
+clicraft login --force
 ```
 Useful if your tokens are expired or you want to switch accounts.
 
@@ -71,7 +71,7 @@ Useful if your tokens are expired or you want to switch accounts.
 ### Step-by-Step
 
 ```bash
-$ mcpkg login
+$ clicraft login
 
 Opening browser for Microsoft authentication...
 
@@ -91,7 +91,7 @@ After logging in, paste the redirect URL here:
 ### Example Session
 
 ```bash
-$ mcpkg login
+$ clicraft login
 
 Opening browser for Microsoft authentication...
 
@@ -136,7 +136,7 @@ This file contains:
 ## 📊 Checking Status
 
 ```bash
-$ mcpkg status
+$ clicraft status
 
 Authentication Status:
 ✓ Logged in
@@ -154,12 +154,12 @@ Shows:
 ## 🚪 Logging Out
 
 ```bash
-$ mcpkg logout
+$ clicraft logout
 
 Logging out...
 ✓ Authentication tokens cleared
 
-You are now logged out. Use 'mcpkg login' to login again.
+You are now logged out. Use 'clicraft login' to login again.
 ```
 
 This removes all authentication data from `~/.mcpkg/auth.json`.
@@ -169,48 +169,48 @@ This removes all authentication data from `~/.mcpkg/auth.json`.
 ### First Time Setup
 ```bash
 # Login before first launch
-mcpkg login
+clicraft login
 
 # Then launch the game
 cd my-instance
-mcpkg launch
+clicraft launch
 ```
 
 ### Playing Online
 ```bash
 # Login required for multiplayer
-mcpkg login
+clicraft login
 
 # Launch and join servers
-mcpkg launch
+clicraft launch
 ```
 
 ### Offline Mode
 ```bash
 # No login needed for offline play
 cd my-instance
-mcpkg launch --offline
+clicraft launch --offline
 ```
 
 ### Switching Accounts
 ```bash
 # Logout of current account
-mcpkg logout
+clicraft logout
 
 # Login with different account
-mcpkg login
+clicraft login
 ```
 
 ### Checking Login Before Launch
 ```bash
 # Verify you're logged in
-mcpkg status
+clicraft status
 
 # If not logged in, login
-mcpkg login
+clicraft login
 
 # Then launch
-mcpkg launch
+clicraft launch
 ```
 
 ## 🔒 Security
@@ -218,14 +218,14 @@ mcpkg launch
 ### Best Practices
 
 1. **Keep Tokens Private**: Don't share `~/.mcpkg/auth.json`
-2. **Logout on Shared Systems**: Use `mcpkg logout` on shared computers
+2. **Logout on Shared Systems**: Use `clicraft logout` on shared computers
 3. **Regular Re-login**: Tokens expire, re-login when needed
 4. **Use 2FA**: Enable two-factor authentication on your Microsoft account
 
 ### Token Security
 
 - Tokens are stored locally on your machine
-- mcpkg never sends your credentials anywhere except Microsoft's official servers
+- clicraft never sends your credentials anywhere except Microsoft's official servers
 - Tokens are automatically refreshed when they expire
 - Old tokens are invalidated when you logout
 
@@ -253,7 +253,7 @@ This means the Microsoft account you logged in with doesn't own Minecraft:
 ### "Token expired"
 Tokens expire after some time:
 ```bash
-mcpkg login --force
+clicraft login --force
 ```
 This will refresh your authentication.
 
@@ -266,8 +266,8 @@ Authentication requires internet:
 ### "Already logged in"
 If you want to switch accounts:
 ```bash
-mcpkg logout
-mcpkg login
+clicraft logout
+clicraft login
 ```
 
 ## 🎮 Online vs Offline Mode
@@ -286,7 +286,7 @@ mcpkg login
 
 Launch offline:
 ```bash
-mcpkg launch --offline
+clicraft launch --offline
 ```
 
 ## 📱 Microsoft Account
@@ -299,20 +299,20 @@ mcpkg launch --offline
 ### Account Migration
 If you have an old Mojang account:
 1. Migrate it to Microsoft at [minecraft.net/migrate](https://www.minecraft.net/migrate)
-2. Then use `mcpkg login` with your Microsoft account
+2. Then use `clicraft login` with your Microsoft account
 
 ## 💡 Pro Tips
 
 1. **Login Once**: Tokens persist across sessions - no need to login every time
-2. **Check Status First**: Use `mcpkg status` before launching to verify login
+2. **Check Status First**: Use `clicraft status` before launching to verify login
 3. **Offline Testing**: Use `--offline` for testing mods without authentication
 4. **Multiple Instances**: One login works for all instances
-5. **Token Refresh**: mcpkg automatically refreshes tokens when needed
+5. **Token Refresh**: clicraft automatically refreshes tokens when needed
 
 ## 🔄 Token Management
 
 ### Automatic Refresh
-mcpkg automatically refreshes tokens when:
+clicraft automatically refreshes tokens when:
 - They're about to expire
 - You launch the game
 - You check status
@@ -320,14 +320,14 @@ mcpkg automatically refreshes tokens when:
 ### Manual Refresh
 Force a token refresh:
 ```bash
-mcpkg login --force
+clicraft login --force
 ```
 
 ## 📚 Related Commands
 
-- [`mcpkg launch`](launch.md) - Launch requires login for online play
-- [`mcpkg status`](login.md) - Check login status
-- [`mcpkg logout`](login.md) - Logout from account
+- [`clicraft launch`](launch.md) - Launch requires login for online play
+- [`clicraft status`](login.md) - Check login status
+- [`clicraft logout`](login.md) - Logout from account
 
 ## 🔗 External Resources
 
@@ -347,16 +347,16 @@ mcpkg login --force
 If you keep being asked to login:
 ```bash
 # Clear tokens and re-login
-mcpkg logout
+clicraft logout
 rm -rf ~/.mcpkg/auth.json
-mcpkg login
+clicraft login
 ```
 
 ### Different Account
 To use a different Microsoft account:
 ```bash
-mcpkg logout
-mcpkg login
+clicraft logout
+clicraft login
 # Use different account in browser
 ```
 

@@ -14,7 +14,7 @@ Install mods from Modrinth directly to your Minecraft instance.
 ## 📝 Synopsis
 
 ```bash
-mcpkg install <mod> [options]
+clicraft install <mod> [options]
 ```
 
 ## 📖 Description
@@ -46,37 +46,37 @@ The `install` command downloads and installs mods from Modrinth to your Minecraf
 ### Install from instance directory
 ```bash
 cd my-instance
-mcpkg install sodium
+clicraft install sodium
 ```
 
 ### Install with instance path
 ```bash
-mcpkg install sodium --instance ./my-instance
+clicraft install sodium --instance ./my-instance
 ```
 
 ### Force reinstall
 ```bash
-mcpkg install sodium --force
+clicraft install sodium --force
 ```
 Useful for reinstalling a mod or downgrading to a different version.
 
 ### Install using Modrinth ID
 ```bash
-mcpkg install AANobbMI
+clicraft install AANobbMI
 ```
-Use the project ID from `mcpkg search` results.
+Use the project ID from `clicraft search` results.
 
 ### Install multiple mods
 ```bash
 cd my-instance
-mcpkg install sodium
-mcpkg install lithium
-mcpkg install iris
+clicraft install sodium
+clicraft install lithium
+clicraft install iris
 ```
 
 ### Verbose installation
 ```bash
-mcpkg install sodium --verbose
+clicraft install sodium --verbose
 ```
 See detailed information about the download and installation process.
 
@@ -84,7 +84,7 @@ See detailed information about the download and installation process.
 
 ```bash
 $ cd my-fabric-instance
-$ mcpkg install sodium
+$ clicraft install sodium
 
 Installing sodium...
 ✓ Found mod: Sodium
@@ -130,39 +130,39 @@ instance-directory/
 ### Building a Performance Pack
 ```bash
 cd my-instance
-mcpkg install sodium      # Better FPS
-mcpkg install lithium     # Server optimization
-mcpkg install starlight   # Lighting engine
-mcpkg install ferritecore # Memory optimization
+clicraft install sodium      # Better FPS
+clicraft install lithium     # Server optimization
+clicraft install starlight   # Lighting engine
+clicraft install ferritecore # Memory optimization
 ```
 
 ### Adding Quality of Life Mods
 ```bash
 cd my-instance
-mcpkg install "just enough items"  # Recipe viewer
-mcpkg install "journeymap"         # Minimap
-mcpkg install "appleskin"          # Food info
+clicraft install "just enough items"  # Recipe viewer
+clicraft install "journeymap"         # Minimap
+clicraft install "appleskin"          # Food info
 ```
 
 ### Installing Shader Support
 ```bash
 cd my-instance
-mcpkg install sodium  # Required for Iris
-mcpkg install iris    # Shader loader
+clicraft install sodium  # Required for Iris
+clicraft install iris    # Shader loader
 ```
 
 ### Server Mods
 ```bash
 cd my-server
-mcpkg install lithium
-mcpkg install starlight
-mcpkg install "fabric api"
+clicraft install lithium
+clicraft install starlight
+clicraft install "fabric api"
 ```
 
 ## ⚠️ Important Notes
 
 ### Instance Detection
-mcpkg automatically detects your instance by looking for `mcconfig.json`:
+clicraft automatically detects your instance by looking for `mcconfig.json`:
 - If in instance directory, uses current directory
 - If using `--instance`, uses specified path
 - Must have a valid `mcconfig.json` file
@@ -181,8 +181,8 @@ Some mods require other mods to work:
 
 Install dependencies separately:
 ```bash
-mcpkg install sodium
-mcpkg install "sodium extra"  # Now it will work
+clicraft install sodium
+clicraft install "sodium extra"  # Now it will work
 ```
 
 ### Mod Conflicts
@@ -194,14 +194,14 @@ Research mod compatibility before installing.
 
 ## 🔍 Finding the Right Mod
 
-Use `mcpkg search` to find mods before installing:
+Use `clicraft search` to find mods before installing:
 
 ```bash
 # Search first
-mcpkg search optimization --version 1.21.1 --loader fabric
+clicraft search optimization --version 1.21.1 --loader fabric
 
 # Then install by name or ID
-mcpkg install sodium
+clicraft install sodium
 ```
 
 ## ⚠️ Common Issues
@@ -216,12 +216,12 @@ Make sure you're either:
 ls mcconfig.json
 
 # Or specify instance
-mcpkg install sodium --instance ./my-instance
+clicraft install sodium --instance ./my-instance
 ```
 
 ### "Mod not found"
 The mod name might be incorrect:
-- Use `mcpkg search <term>` to find the exact name
+- Use `clicraft search <term>` to find the exact name
 - Try using the Modrinth project ID instead
 - Check spelling and capitalization
 
@@ -234,7 +234,7 @@ The mod may not support your Minecraft version or loader:
 ### "Already installed"
 The mod is already in your instance:
 - Use `--force` to reinstall
-- Use `mcpkg upgrade` to update it
+- Use `clicraft upgrade` to update it
 - Check `mods/` directory
 
 ### Download Failures
@@ -247,15 +247,15 @@ If downloads fail:
 
 1. **Install Fabric API First**: Many Fabric mods require it
    ```bash
-   mcpkg install "fabric api"
+   clicraft install "fabric api"
    ```
 
 2. **Check Dependencies**: Read mod descriptions for required mods
 
 3. **Use Search First**: Find the exact mod name before installing
    ```bash
-   mcpkg search "just enough"
-   mcpkg install "just enough items"
+   clicraft search "just enough"
+   clicraft install "just enough items"
    ```
 
 4. **Backup First**: Before installing many mods, backup your instance
@@ -271,10 +271,10 @@ After installing, verify with:
 ls mods/
 
 # View instance info
-mcpkg info
+clicraft info
 
 # Check in-game
-mcpkg launch
+clicraft launch
 # Then check Mods menu in Minecraft
 ```
 
@@ -284,10 +284,10 @@ To update mods, use the `upgrade` command:
 
 ```bash
 # Update a specific mod
-mcpkg upgrade sodium
+clicraft upgrade sodium
 
 # Update all mods
-mcpkg upgrade
+clicraft upgrade
 ```
 
 ## 🗑️ Removing Mods
@@ -303,10 +303,10 @@ Or use a file manager to delete the mod file.
 
 ## 📚 Related Commands
 
-- [`mcpkg search`](search.md) - Find mods to install
-- [`mcpkg info`](info.md) - View installed mods
-- [`mcpkg upgrade`](upgrade.md) - Update installed mods
-- [`mcpkg create`](create.md) - Create an instance first
+- [`clicraft search`](search.md) - Find mods to install
+- [`clicraft info`](info.md) - View installed mods
+- [`clicraft upgrade`](upgrade.md) - Update installed mods
+- [`clicraft create`](create.md) - Create an instance first
 
 ## 🔗 See Also
 

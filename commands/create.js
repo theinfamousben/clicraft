@@ -11,7 +11,7 @@ import * as pkg from '../package.json' with { type: 'json' };
 const execAsync = promisify(exec);
 
 // User agent for API requests
-const USER_AGENT = 'mcpkg/0.1.0 (https://github.com/theinfamousben/mcpkg)';
+const USER_AGENT = 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)';
 
 // Download a file with progress indication
 async function downloadFile(url, destPath, description) {
@@ -525,11 +525,11 @@ function createClientLaunchScript(instancePath, versionData, versionId, mcVersio
         script = `@echo off
 cd /d "%~dp0"
 echo Starting ${versionId}...
-mcpkg launch --instance "%~dp0"
+clicraft launch --instance "%~dp0"
 if %ERRORLEVEL% neq 0 (
     echo.
-    echo If mcpkg is not installed globally, run:
-    echo   npx mcpkg launch --instance "%~dp0"
+    echo If clicraft is not installed globally, run:
+    echo   npx clicraft launch --instance "%~dp0"
     pause
 )
 `;
@@ -537,10 +537,10 @@ if %ERRORLEVEL% neq 0 (
         script = `#!/bin/bash
 cd "$(dirname "$0")"
 echo "Starting ${versionId}..."
-mcpkg launch --instance "$(pwd)" || {
+clicraft launch --instance "$(pwd)" || {
     echo ""
-    echo "If mcpkg is not installed globally, run:"
-    echo "  npx mcpkg launch --instance \\"$(pwd)\\""
+    echo "If clicraft is not installed globally, run:"
+    echo "  npx clicraft launch --instance \\"$(pwd)\\""
 }
 `;
     }

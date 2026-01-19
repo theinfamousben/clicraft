@@ -14,7 +14,7 @@ Launch your Minecraft instance directly from the command line.
 ## 📝 Synopsis
 
 ```bash
-mcpkg launch [options]
+clicraft launch [options]
 ```
 
 ## 📖 Description
@@ -41,29 +41,29 @@ The `launch` command starts your Minecraft instance with all the correct Java ar
 ### Launch from instance directory
 ```bash
 cd my-instance
-mcpkg launch
+clicraft launch
 ```
 
 ### Launch with instance path
 ```bash
-mcpkg launch --instance ./my-instance
+clicraft launch --instance ./my-instance
 ```
 
 ### Launch in offline mode
 ```bash
-mcpkg launch --offline
+clicraft launch --offline
 ```
 No authentication required - useful for testing or single-player.
 
 ### Verbose launch
 ```bash
-mcpkg launch --verbose
+clicraft launch --verbose
 ```
 See detailed Java command and debugging information.
 
 ### Launch specific instance
 ```bash
-mcpkg launch --instance ~/minecraft/modded-fabric
+clicraft launch --instance ~/minecraft/modded-fabric
 ```
 
 ## 🎮 Example Session
@@ -71,7 +71,7 @@ mcpkg launch --instance ~/minecraft/modded-fabric
 ### Online Mode (Default)
 ```bash
 $ cd my-instance
-$ mcpkg launch
+$ clicraft launch
 
 Preparing to launch Minecraft...
 ✓ Instance detected: my-modded-world
@@ -86,7 +86,7 @@ Launching Minecraft...
 
 ### Offline Mode
 ```bash
-$ mcpkg launch --offline
+$ clicraft launch --offline
 
 Preparing to launch Minecraft...
 ✓ Instance detected: my-instance
@@ -114,7 +114,7 @@ Launching Minecraft...
 
 With `--verbose`, you'll see:
 ```bash
-$ mcpkg launch --verbose
+$ clicraft launch --verbose
 
 Instance: ./my-instance
 Minecraft Version: 1.21.1
@@ -139,35 +139,35 @@ java -Xmx2G -Xms2G \
 ### Regular Gameplay
 ```bash
 # Login first (one-time)
-mcpkg login
+clicraft login
 
 # Launch whenever you want to play
 cd my-instance
-mcpkg launch
+clicraft launch
 ```
 
 ### Testing Mods Offline
 ```bash
 # Install mods
-mcpkg install sodium
-mcpkg install lithium
+clicraft install sodium
+clicraft install lithium
 
 # Test in offline mode
-mcpkg launch --offline
+clicraft launch --offline
 ```
 
 ### Multiple Instances
 ```bash
 # Launch different instances
-mcpkg launch --instance ./vanilla
-mcpkg launch --instance ./modded
-mcpkg launch --instance ./testing
+clicraft launch --instance ./vanilla
+clicraft launch --instance ./modded
+clicraft launch --instance ./testing
 ```
 
 ### Server Launch
 ```bash
 cd my-server-instance
-mcpkg launch
+clicraft launch
 
 # Server starts and runs in the terminal
 ```
@@ -175,8 +175,8 @@ mcpkg launch
 ### Development Testing
 ```bash
 # Quick offline testing
-mcpkg install my-mod --force
-mcpkg launch --offline --verbose
+clicraft install my-mod --force
+clicraft launch --offline --verbose
 ```
 
 ## 🖥️ System Requirements
@@ -244,7 +244,7 @@ Edit `mcconfig.json` to customize Java settings:
 ## 🌐 Online vs Offline
 
 ### Online Mode (Default)
-Requires `mcpkg login`:
+Requires `clicraft login`:
 - ✅ Multiplayer servers
 - ✅ Realms
 - ✅ Custom skins
@@ -286,19 +286,19 @@ Make sure you're in an instance directory or using `--instance`:
 ls mcconfig.json
 
 # Or specify instance
-mcpkg launch --instance ./my-instance
+clicraft launch --instance ./my-instance
 ```
 
 ### "Not logged in"
 Login required for online mode:
 ```bash
-mcpkg login
-mcpkg launch
+clicraft login
+clicraft launch
 ```
 
 Or use offline mode:
 ```bash
-mcpkg launch --offline
+clicraft launch --offline
 ```
 
 ### "Java not found"
@@ -338,7 +338,7 @@ cat logs/latest.log
 ### Starting a Server
 ```bash
 cd my-server-instance
-mcpkg launch
+clicraft launch
 
 # Server starts and shows:
 [Server] Starting Minecraft server on *:25565
@@ -356,7 +356,7 @@ Type commands in the terminal:
 ### Background Server
 Run server in background:
 ```bash
-nohup mcpkg launch > server.log 2>&1 &
+nohup clicraft launch > server.log 2>&1 &
 ```
 
 View logs:
@@ -373,7 +373,7 @@ kill $(pgrep -f "minecraft.*server")
 ## 💡 Pro Tips
 
 1. **Login Once**: Authentication persists, no need to login every launch
-2. **Check Status**: Use `mcpkg status` before launching
+2. **Check Status**: Use `clicraft status` before launching
 3. **Test Offline**: Use `--offline` for quick mod testing
 4. **Allocate Memory**: Give Minecraft enough RAM for smooth gameplay
 5. **Close Other Apps**: Close memory-heavy apps before launching
@@ -399,10 +399,10 @@ kill $(pgrep -f "minecraft.*server")
 
 ### Install Performance Mods
 ```bash
-mcpkg install sodium      # Rendering
-mcpkg install lithium     # General
-mcpkg install starlight   # Lighting
-mcpkg install ferritecore # Memory
+clicraft install sodium      # Rendering
+clicraft install lithium     # General
+clicraft install starlight   # Lighting
+clicraft install ferritecore # Memory
 ```
 
 ### Monitor Performance
@@ -410,10 +410,10 @@ Use `--verbose` to see Java command and diagnose issues.
 
 ## 📚 Related Commands
 
-- [`mcpkg create`](create.md) - Create an instance to launch
-- [`mcpkg login`](login.md) - Login for online play
-- [`mcpkg install`](install.md) - Install mods before launching
-- [`mcpkg info`](info.md) - View instance information
+- [`clicraft create`](create.md) - Create an instance to launch
+- [`clicraft login`](login.md) - Login for online play
+- [`clicraft install`](install.md) - Install mods before launching
+- [`clicraft info`](info.md) - View instance information
 
 ## 🔗 See Also
 

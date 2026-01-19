@@ -1,5 +1,5 @@
 {
-  "name": "mcpkg",
+  "name": "clicraft",
   "version": "0.2.1",
   "description": "A simple Minecraft Mod Package Manager written in Node.JS",
   "main": "index.js",
@@ -8,18 +8,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "mcpkg": "./index.js"
+    "clicraft": "./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theinfamousben/mcpkg.git"
+    "url": "git+https://github.com/theinfamousben/clicraft.git"
   },
   "author": "theinfamousben",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/theinfamousben/mcpkg/issues"
+    "url": "https://github.com/theinfamousben/clicraft/issues"
   },
-  "homepage": "https://github.com/theinfamousben/mcpkg#readme",
+  "homepage": "https://github.com/theinfamousben/clicraft#readme",
   "dependencies": {
     "chalk": "^5.6.2",
     "commander": "^14.0.2",

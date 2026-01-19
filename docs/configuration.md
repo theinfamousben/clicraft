@@ -2,17 +2,17 @@
 layout: default
 title: Configuration
 nav_order: 4
-description: "Configure mcpkg and customize your instances"
+description: "Configure CLIcraft and customize your instances"
 permalink: /configuration
 ---
 
 # Configuration Guide
 
-Learn how to configure mcpkg and customize your Minecraft instances.
+Learn how to configure CLIcraft and customize your Minecraft instances.
 
 ## 📋 Overview
 
-mcpkg uses configuration files to manage:
+CLIcraft uses configuration files to manage:
 - Instance settings (`mcconfig.json`)
 - Authentication data (`~/.mcpkg/auth.json`)
 - Future: Configuration templates (planned feature)
@@ -103,8 +103,8 @@ This file is shared across all instances on your system.
 
 - **Never share this file** - it contains your account credentials
 - **Keep it private** - set appropriate file permissions
-- **Automatic management** - mcpkg handles this file automatically
-- **Token refresh** - mcpkg refreshes tokens automatically
+- **Automatic management** - CLIcraft handles this file automatically
+- **Token refresh** - CLIcraft refreshes tokens automatically
 
 ### File Permissions
 
@@ -188,10 +188,10 @@ If changes don't take effect:
 
 ## 📚 Related Commands
 
-- [`mcpkg create`](commands/create.md) - Creates initial config
-- [`mcpkg info`](commands/info.md) - Shows current config
-- [`mcpkg launch`](commands/launch.md) - Uses config to launch
-- [`mcpkg upgrade`](commands/upgrade.md) - Updates version fields
+- [`clicraft create`](commands/create.md) - Creates initial config
+- [`clicraft info`](commands/info.md) - Shows current config
+- [`clicraft launch`](commands/launch.md) - Uses config to launch
+- [`clicraft upgrade`](commands/upgrade.md) - Updates version fields
 
 ## 🔗 See Also
 

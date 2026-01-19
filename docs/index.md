@@ -2,17 +2,17 @@
 layout: default
 title: Home
 nav_order: 1
-description: "mcpkg - A simple Minecraft Mod Package Manager"
+description: "CLIcraft - A simple Minecraft Mod Package Manager"
 permalink: /
 ---
 
-# mcpkg Documentation
+# CLIcraft Documentation
 
-Welcome to **mcpkg** - A simple, powerful Minecraft Mod Package Manager written in Node.js.
+Welcome to **CLIcraft** - A simple, powerful Minecraft Mod Package Manager written in Node.js.
 
-## 🎮 What is mcpkg?
+## 🎮 What is CLIcraft?
 
-mcpkg is a command-line tool that simplifies managing Minecraft instances and mods. Create instances with Fabric or Forge, search and install mods from Modrinth, and launch the game directly from your terminal.
+CLIcraft is a command-line tool that simplifies managing Minecraft instances and mods. Create instances with Fabric or Forge, search and install mods from Modrinth, and launch the game directly from your terminal.
 
 ## ✨ Key Features
 
@@ -28,23 +28,23 @@ mcpkg is a command-line tool that simplifies managing Minecraft instances and mo
 
 ```bash
 # Create a new instance
-mcpkg create
+clicraft create
 
 # Search for mods
-mcpkg search sodium
+clicraft search sodium
 
 # Install a mod
 cd my-instance
-mcpkg install sodium
+clicraft install sodium
 
 # Launch the game
-mcpkg launch
+clicraft launch
 ```
 
 ## 📖 Documentation
 
 ### Getting Started
-- [Installation](installation.md) - Install mcpkg on your system
+- [Installation](installation.md) - Install CLIcraft on your system
 - [Commands Overview](commands.md) - List of all available commands
 
 ### Commands
@@ -72,8 +72,8 @@ mcpkg launch
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please visit our [GitHub repository](https://github.com/theinfamousben/mcpkg) to open issues or submit pull requests.
+Contributions are welcome! Please visit our [GitHub repository](https://github.com/theinfamousben/clicraft) to open issues or submit pull requests.
 
 ## 📄 License
 
-ISC - See the [LICENSE](https://github.com/theinfamousben/mcpkg/blob/main/LICENSE) file for details.
+ISC - See the [LICENSE](https://github.com/theinfamousben/clicraft/blob/main/LICENSE) file for details.

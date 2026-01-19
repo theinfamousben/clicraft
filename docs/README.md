@@ -1,6 +1,6 @@
-# mcpkg Documentation
+# CLIcraft Documentation
 
-This directory contains the complete documentation for mcpkg - A Minecraft Mod Package Manager.
+This directory contains the complete documentation for CLIcraft - A Minecraft Mod Package Manager.
 
 ## 📚 Documentation Structure
 
@@ -38,7 +38,7 @@ Each documentation page includes:
 
 ### For New Users
 1. Start with [index.md](index.md) for an overview
-2. Follow [installation.md](installation.md) to install mcpkg
+2. Follow [installation.md](installation.md) to install CLIcraft
 3. Read [commands/create.md](commands/create.md) to create your first instance
 4. Explore other command documentation as needed
 
@@ -56,7 +56,7 @@ Each documentation page includes:
 
 ### On GitHub
 The documentation is written in Markdown and can be viewed directly on GitHub:
-https://github.com/theinfamousben/mcpkg/tree/main/docs
+https://github.com/theinfamousben/clicraft/tree/main/docs
 
 ### Locally
 View the documentation files with any Markdown viewer or text editor:
@@ -71,7 +71,7 @@ In the future, this documentation may be hosted on GitHub Pages for a better rea
 ## 📝 Documentation Style Guide
 
 The documentation follows these conventions:
-- **Commands** - Shown in code blocks with `mcpkg command`
+- **Commands** - Shown in code blocks with `clicraft command`
 - **Options** - Listed in tables with descriptions
 - **Examples** - Practical, real-world usage scenarios
 - **File paths** - Shown with proper directory structure
@@ -103,17 +103,17 @@ Total documentation: **~3,500 lines**
 
 ## 🔗 External Resources
 
-- [GitHub Repository](https://github.com/theinfamousben/mcpkg)
+- [GitHub Repository](https://github.com/theinfamousben/clicraft)
 - [Modrinth](https://modrinth.com) - Mod hosting platform
 - [Minecraft](https://www.minecraft.net) - Official Minecraft website
 
 ## 🆘 Need Help?
 
 If you can't find what you're looking for in the documentation:
-1. Check the [GitHub Issues](https://github.com/theinfamousben/mcpkg/issues)
+1. Check the [GitHub Issues](https://github.com/theinfamousben/clicraft/issues)
 2. Open a new issue with your question
-3. Visit the [Discussions](https://github.com/theinfamousben/mcpkg/discussions)
+3. Visit the [Discussions](https://github.com/theinfamousben/clicraft/discussions)
 
 ## 📄 License
 
-This documentation is part of the mcpkg project and is licensed under the ISC license.
+This documentation is part of the CLIcraft project and is licensed under the ISC license.

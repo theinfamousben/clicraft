@@ -412,7 +412,7 @@ export async function authStatus(options) {
     const auth = loadAuth();
     if (!auth) {
         console.log(chalk.yellow('Not logged in.'));
-        console.log(chalk.gray('Use "mcpkg login" to authenticate.'));
+        console.log(chalk.gray('Use "clicraft login" to authenticate.'));
         return;
     }
 
