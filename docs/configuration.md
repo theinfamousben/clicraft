@@ -1,3 +1,11 @@
+---
+layout: default
+title: Configuration
+nav_order: 4
+description: "Configure mcpkg and customize your instances"
+permalink: /configuration
+---
+
 # Configuration Guide
 
 Learn how to configure mcpkg and customize your Minecraft instances.

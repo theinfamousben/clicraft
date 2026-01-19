@@ -1,3 +1,11 @@
+---
+layout: default
+title: Installation
+nav_order: 2
+description: "Install mcpkg on your system"
+permalink: /installation
+---
+
 # Installation
 
 This guide will help you install mcpkg on your system.

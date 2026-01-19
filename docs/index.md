@@ -1,3 +1,11 @@
+---
+layout: default
+title: Home
+nav_order: 1
+description: "mcpkg - A simple Minecraft Mod Package Manager"
+permalink: /
+---
+
 # mcpkg Documentation
 
 Welcome to **mcpkg** - A simple, powerful Minecraft Mod Package Manager written in Node.js.

@@ -1,3 +1,12 @@
+---
+layout: default
+title: upgrade
+parent: Commands
+nav_order: 7
+description: "Update mods and versions"
+permalink: /commands/upgrade
+---
+
 # upgrade Command
 
 Update your mods, Minecraft version, or mod loader to the latest versions.

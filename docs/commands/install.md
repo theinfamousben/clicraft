@@ -1,3 +1,12 @@
+---
+layout: default
+title: install
+parent: Commands
+nav_order: 3
+description: "Install mods to your instance"
+permalink: /commands/install
+---
+
 # install Command
 
 Install mods from Modrinth directly to your Minecraft instance.

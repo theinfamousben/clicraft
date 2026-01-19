@@ -1,3 +1,12 @@
+---
+layout: default
+title: launch
+parent: Commands
+nav_order: 5
+description: "Launch your Minecraft instance"
+permalink: /commands/launch
+---
+
 # launch Command
 
 Launch your Minecraft instance directly from the command line.

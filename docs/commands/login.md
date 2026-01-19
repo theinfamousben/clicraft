@@ -1,3 +1,12 @@
+---
+layout: default
+title: login
+parent: Commands
+nav_order: 4
+description: "Authenticate with Microsoft account"
+permalink: /commands/login
+---
+
 # login Command
 
 Authenticate with your Microsoft account to play Minecraft online.

@@ -1,3 +1,12 @@
+---
+layout: default
+title: info
+parent: Commands
+nav_order: 6
+description: "View instance information"
+permalink: /commands/info
+---
+
 # info Command
 
 View detailed information about your Minecraft instance.

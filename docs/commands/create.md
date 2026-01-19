@@ -1,3 +1,12 @@
+---
+layout: default
+title: create
+parent: Commands
+nav_order: 1
+description: "Create a new Minecraft instance"
+permalink: /commands/create
+---
+
 # create Command
 
 Create a new Minecraft instance with your choice of mod loader (Fabric or Forge).

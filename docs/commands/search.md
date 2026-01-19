@@ -1,3 +1,12 @@
+---
+layout: default
+title: search
+parent: Commands
+nav_order: 2
+description: "Search for mods on Modrinth"
+permalink: /commands/search
+---
+
 # search Command
 
 Search for Minecraft mods on Modrinth with powerful filtering options.

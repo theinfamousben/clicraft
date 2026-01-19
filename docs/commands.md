@@ -1,3 +1,12 @@
+---
+layout: default
+title: Commands
+nav_order: 3
+has_children: true
+description: "Complete command reference"
+permalink: /commands
+---
+
 # Commands Overview
 
 mcpkg provides a comprehensive set of commands to manage your Minecraft instances and mods. This page provides a quick reference to all available commands.
