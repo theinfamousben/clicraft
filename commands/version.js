@@ -1,18 +1,18 @@
 import chalk from 'chalk';
-import * as pkg from '../package.json' with { type: "json" };
+import pkg from '../package.json' with { type: "json" };
 
 const art = 
-    "                      _         \n" + 
-    "                     | |        \n" +
-    " _ __ ___   ___ _ __ | | ____ _ \n" +
-    "| '_ ` _ \\ / __| '_ \\| |/ / _` |\n" +
-    "| | | | | | (__| |_) |   < (_| |\n" +
-    "|_| |_| |_|\\___| .__/|_|\\_\\__, |\n" +
-    "               | |         __/ |\n" +
-    "               |_|        |___/ "
+    "   _____ _      _____                __ _   \n" + 
+    "  / ____| |    |_   _|              / _| |  \n" +
+    " | |    | |      | |  ___ _ __ __ _| |_| |_ \n" +
+    " | |    | |      | | / __| '__/ _` |  _| __|\n" +
+    " | |____| |____ _| || (__| | | (_| | | | |_ \n" +
+    "  \\_____|______|_____\\___|_|  \\__,_|_|  \\__|\n"
 ;
 
-console.log(`
+export function version() {
+    console.log(`
     ${chalk.white(art)}\n
     ${chalk.white('Version:')} ${chalk.gray(pkg.version)}
 `);
+}
