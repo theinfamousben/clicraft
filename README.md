@@ -1,7 +1,12 @@
-# mcpkg
+# CLIcraft
 ## [READ THE DOCS](https://mcpkg.bsstudios.org)
+**CLIcraft is under rename to avoid confusion with the other mcpkg.**
 
-A simple Minecraft Mod Package Manager written in Node.js. Create and manage Minecraft instances with Fabric or Forge mod loaders, search and install mods from Modrinth, and launch the game directly from the command line.
+
+A simple Minecraft Mod Package Manager and launcher written in Node.js. Create and manage Minecraft instances with Fabric or Forge mod loaders, search and install mods from Modrinth, and launch the game directly from the command line.
+
+## Why CLIcraft?
+Unlike other PMs or Launchers, CLIcraft can do both! Simply type a few commands and you're playing fabric or forge minecraft.
 
 ## Features
 
