@@ -14,6 +14,7 @@ A simple Minecraft Mod Package Manager written in Node.js. Create and manage Min
 
 ## Installation
 
+### Cloning from Source
 ```bash
 # Clone the repository
 git clone https://github.com/theinfamousben/mcpkg.git
@@ -25,6 +26,9 @@ npm install
 # Link globally (optional, for using 'mcpkg' command anywhere)
 npm link
 ```
+### Install NPM Package
+**npm package coming soon!**
+
 
 ## Requirements
 
