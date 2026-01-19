@@ -1,5 +1,5 @@
 # CLIcraft
-## [READ THE DOCS](https://clicraft.bsstudios.org)
+## [READ THE DOCS](https://benjamin.bsstudios.org/clicraft)
 
 
 A simple Minecraft Mod Package Manager and launcher written in Node.js. Create and manage Minecraft instances with Fabric or Forge mod loaders, search and install mods from Modrinth, and launch the game directly from the command line.
