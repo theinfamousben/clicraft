@@ -7,8 +7,13 @@ import { login, logout, authStatus } from './commands/auth.js';
 import { launchInstance } from './commands/launch.js';
 import { instanceInfo } from './commands/info.js';
 import { upgrade } from './commands/upgrade.js';
+import { version } from './commands/version.js';
 
 import {program} from 'commander'; 
+
+program
+    .option('-v, --version', 'Show the curent version')
+    .action(version)
 
 program
     .command('search <query>')
@@ -18,7 +23,6 @@ program
     .option('--loader <loader>', 'Filter by mod loader (fabric, forge, quilt, neoforge)')
     .option('--verbose', 'Enable verbose output')
     .action(searchMods);
-
 
 program
     .command('create')
