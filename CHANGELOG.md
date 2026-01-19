@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2026-01-19
+
+- **Fixed Bugs**
+  - Fixed bug in `mcpkg --version` where I forgot to put the exports
+  - Fixed bug from package.json where importing made a default object
+
 ## [0.2.1] - 2026-01-18
 
 ### Added

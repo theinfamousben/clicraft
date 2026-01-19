@@ -4,7 +4,7 @@ import path from 'path';
 import * as pkg from '../package.json' with { type: 'json' };
 
 // Current mcconfig version
-const CONFIG_VERSION = pkg.version;
+const CONFIG_VERSION = pkg.default.version;
 
 // Load mcconfig.json
 function loadConfig(instancePath) {

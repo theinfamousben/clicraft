@@ -677,7 +677,7 @@ export async function createInstance(options) {
 
         // Step 8: Create mcconfig.json
         const config = {
-            configVersion: pkg.version,
+            configVersion: pkg.default.version,
             name: instanceName.trim(),
             type: instanceType.toLowerCase(),
             modLoader: modLoader.toLowerCase(),
