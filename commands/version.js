@@ -12,7 +12,11 @@ const art =
     "               |_|        |___/ "
 ;
 
-console.log(`
+const output = (`
     ${chalk.white(art)}\n
-    ${chalk.white('Version:')} ${chalk.gray(pkg.version)}
+    ${chalk.white('Version:')} ${chalk.gray(pkg.default.version)}
 `);
+
+export function version() {
+    console.log(output);
+}

@@ -6,7 +6,7 @@ import { pipeline } from 'stream/promises';
 import { Readable } from 'stream';
 import * as pkg from '../package.json' with { type: 'json' };
 
-const CONFIG_VERSION = pkg.version;
+const CONFIG_VERSION = pkg.default.version;
 
 const MODRINTH_API = 'https://api.modrinth.com/v2';
 const PAGE_SIZE = 10;
