@@ -3,9 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import readline from 'readline';
+import { getConfigDir } from '../helpers/config.js';
 
 // Config directory for storing auth tokens
-const CONFIG_DIR = path.join(os.homedir(), '.mcpkg');
+const CONFIG_DIR = getConfigDir();
 const AUTH_FILE = path.join(CONFIG_DIR, 'auth.json');
 
 // Using the legacy live.com OAuth with the special desktop redirect URI

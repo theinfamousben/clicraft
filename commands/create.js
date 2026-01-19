@@ -6,12 +6,13 @@ import { pipeline } from 'stream/promises';
 import { Readable } from 'stream';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import * as pkg from '../package.json' with { type: 'json' };
+import version from '../helpers/getv.js';
+import { writeGameSettings, loadDefaultGameSettings } from '../helpers/config.js';
 
 const execAsync = promisify(exec);
 
 // User agent for API requests
-const USER_AGENT = 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)';
+const USER_AGENT = `clicraft/${version} (https://github.com/theinfamousben/clicraft)`;
 
 // Download a file with progress indication
 async function downloadFile(url, destPath, description) {
@@ -319,9 +320,7 @@ async function downloadAssets(versionData, instancePath) {
         }
         
         downloaded++;
-        if (downloaded % 100 === 0) {
-            process.stdout.write(`\r${chalk.gray(`   Assets: ${downloaded}/${objects.length}`)}`);
-        }
+        process.stdout.write(`\r${chalk.gray(`   Assets: ${downloaded}/${objects.length}`)}`);
     }
     process.stdout.write(`\r${chalk.gray(`   Assets: ${downloaded}/${objects.length}`)}\n`);
 }
@@ -577,7 +576,222 @@ java -Xmx2G -Xms1G -jar ${serverJar} nogui
     }
 }
 
+// Load mcconfig.json from current directory
+function loadConfig(dirPath) {
+    const configPath = path.join(dirPath, 'mcconfig.json');
+    
+    if (!fs.existsSync(configPath)) {
+        return null;
+    }
+
+    const content = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(content);
+}
+
+// Save mcconfig.json
+function saveConfig(dirPath, config) {
+    const configPath = path.join(dirPath, 'mcconfig.json');
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+}
+
+// Download a mod from Modrinth by project ID
+async function downloadMod(projectId, mcVersion, loader, modsPath) {
+    const MODRINTH_API = 'https://api.modrinth.com/v2';
+    
+    // Get project info
+    const projectResponse = await fetch(`${MODRINTH_API}/project/${projectId}`, {
+        headers: { 'User-Agent': USER_AGENT }
+    });
+    
+    if (!projectResponse.ok) {
+        return null;
+    }
+    
+    const project = await projectResponse.json();
+    
+    // Get compatible versions
+    const params = new URLSearchParams();
+    params.set('game_versions', JSON.stringify([mcVersion]));
+    params.set('loaders', JSON.stringify([loader]));
+    
+    const versionsResponse = await fetch(`${MODRINTH_API}/project/${projectId}/version?${params}`, {
+        headers: { 'User-Agent': USER_AGENT }
+    });
+    
+    if (!versionsResponse.ok) {
+        return null;
+    }
+    
+    const versions = await versionsResponse.json();
+    if (versions.length === 0) {
+        return null;
+    }
+    
+    // Use the latest compatible version
+    const modVersion = versions[0];
+    const file = modVersion.files.find(f => f.primary) || modVersion.files[0];
+    
+    if (!file) {
+        return null;
+    }
+    
+    // Download the file
+    const destPath = path.join(modsPath, file.filename);
+    await downloadFile(file.url, destPath, project.title);
+    
+    return {
+        projectId: project.id,
+        slug: project.slug,
+        name: project.title,
+        versionId: modVersion.id,
+        versionNumber: modVersion.version_number,
+        fileName: file.filename,
+        installedAt: new Date().toISOString()
+    };
+}
+
+// Create instance from existing mcconfig.json
+async function createFromConfig(existingConfig, options) {
+    console.log(chalk.cyan(`\n🎮 Creating instance from mcconfig.json\n`));
+    console.log(chalk.gray(`   Name: ${existingConfig.name}`));
+    console.log(chalk.gray(`   Type: ${existingConfig.type}`));
+    console.log(chalk.gray(`   Mod Loader: ${existingConfig.modLoader}`));
+    console.log(chalk.gray(`   Minecraft: ${existingConfig.minecraftVersion}`));
+    console.log(chalk.gray(`   Loader Version: ${existingConfig.loaderVersion}`));
+    if (existingConfig.mods && existingConfig.mods.length > 0) {
+        console.log(chalk.gray(`   Mods: ${existingConfig.mods.length}`));
+    }
+
+    // Ask for confirmation
+    const { confirm } = await inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirm',
+            message: 'Create instance from this configuration?',
+            default: true
+        }
+    ]);
+
+    if (!confirm) {
+        console.log(chalk.yellow('\nInstance creation cancelled.'));
+        return;
+    }
+
+    // Ask for instance name (default to config name)
+    const { instanceName } = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'instanceName',
+            message: 'Instance Name:',
+            default: existingConfig.name,
+            validate: (input) => {
+                if (!input.trim()) return 'Instance name is required';
+                if (fs.existsSync(input.trim())) return 'A folder with this name already exists';
+                return true;
+            }
+        }
+    ]);
+
+    // Create instance folder
+    const instancePath = path.resolve(instanceName.trim());
+    fs.mkdirSync(instancePath, { recursive: true });
+    fs.mkdirSync(path.join(instancePath, 'mods'), { recursive: true });
+
+    const isClient = existingConfig.type === 'client';
+    const isFabric = existingConfig.modLoader === 'fabric';
+    const mcVersion = existingConfig.minecraftVersion;
+    const loaderVersion = existingConfig.loaderVersion;
+
+    let versionId;
+    if (isFabric) {
+        if (isClient) {
+            versionId = await installFabricClient(instancePath, mcVersion, loaderVersion);
+        } else {
+            await installFabricServer(instancePath, mcVersion, loaderVersion);
+            versionId = `fabric-server-${mcVersion}`;
+        }
+    } else {
+        if (isClient) {
+            versionId = await installForgeClient(instancePath, mcVersion, loaderVersion);
+        } else {
+            await installForgeServer(instancePath, mcVersion, loaderVersion);
+            versionId = `forge-server-${mcVersion}`;
+        }
+    }
+
+    // Create new config for this instance
+    const newConfig = {
+        configVersion: version,
+        name: instanceName.trim(),
+        type: existingConfig.type,
+        modLoader: existingConfig.modLoader,
+        minecraftVersion: mcVersion,
+        loaderVersion: loaderVersion,
+        versionId: versionId,
+        createdAt: new Date().toISOString(),
+        mods: []
+    };
+
+    // Install mods from the config
+    if (existingConfig.mods && existingConfig.mods.length > 0) {
+        console.log(chalk.cyan('\n📦 Installing mods from configuration...\n'));
+        const modsPath = path.join(instancePath, 'mods');
+
+        for (const mod of existingConfig.mods) {
+            console.log(chalk.gray(`   Installing ${mod.name}...`));
+            try {
+                const installedMod = await downloadMod(
+                    mod.projectId,
+                    mcVersion,
+                    existingConfig.modLoader,
+                    modsPath
+                );
+                
+                if (installedMod) {
+                    newConfig.mods.push(installedMod);
+                    console.log(chalk.green(`   ✓ ${mod.name} installed`));
+                } else {
+                    console.log(chalk.yellow(`   ⚠ Could not find compatible version for ${mod.name}`));
+                }
+            } catch (err) {
+                console.log(chalk.yellow(`   ⚠ Failed to install ${mod.name}: ${err.message}`));
+            }
+        }
+    }
+
+    // Apply game settings from the config (client only)
+    if (isClient && existingConfig.gameSettings && Object.keys(existingConfig.gameSettings).length > 0) {
+        console.log(chalk.cyan('\n⚙️  Applying game settings...'));
+        writeGameSettings(instancePath, existingConfig.gameSettings);
+        newConfig.gameSettings = existingConfig.gameSettings;
+        console.log(chalk.gray(`   Applied ${Object.keys(existingConfig.gameSettings).length} settings`));
+    }
+
+    // Save config
+    saveConfig(instancePath, newConfig);
+
+    console.log(chalk.green(`\n✅ Instance "${instanceName}" created successfully!`));
+    console.log(chalk.gray(`   Location: ${instancePath}`));
+    
+    if (newConfig.mods.length > 0) {
+        console.log(chalk.gray(`   Mods installed: ${newConfig.mods.length}/${existingConfig.mods.length}`));
+    }
+    
+    if (isClient) {
+        console.log(chalk.gray(`   Use this folder as game directory in your Minecraft launcher`));
+    } else {
+        console.log(chalk.gray(`   Start the server with: ./start.sh (or start.bat on Windows)`));
+    }
+}
+
 export async function createInstance(options) {
+    // Check if mcconfig.json exists in the current working directory
+    const existingConfig = loadConfig(process.cwd());
+    if (existingConfig) {
+        console.log(chalk.cyan('\n📋 Found mcconfig.json in current directory'));
+        return await createFromConfig(existingConfig, options);
+    }
+
     console.log(chalk.cyan('\n🎮 Create a new Minecraft instance\n'));
 
     try {
@@ -677,7 +891,7 @@ export async function createInstance(options) {
 
         // Step 8: Create mcconfig.json
         const config = {
-            configVersion: pkg.default.version,
+            configVersion: version,
             name: instanceName.trim(),
             type: instanceType.toLowerCase(),
             modLoader: modLoader.toLowerCase(),
@@ -690,6 +904,16 @@ export async function createInstance(options) {
 
         const configPath = path.join(instancePath, 'mcconfig.json');
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+        // Step 9: Apply default game settings (client only)
+        if (isClient) {
+            const defaultGameSettings = loadDefaultGameSettings();
+            if (defaultGameSettings && Object.keys(defaultGameSettings).length > 0) {
+                console.log(chalk.cyan('\n⚙️  Applying default game settings...'));
+                writeGameSettings(instancePath, defaultGameSettings);
+                console.log(chalk.gray(`   Applied ${Object.keys(defaultGameSettings).length} settings`));
+            }
+        }
 
         console.log(chalk.green(`\n✅ Instance "${instanceName}" created successfully!`));
         console.log(chalk.gray(`   Location: ${instancePath}`));

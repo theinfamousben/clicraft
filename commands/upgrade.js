@@ -4,9 +4,10 @@ import path from 'path';
 import inquirer from 'inquirer';
 import { pipeline } from 'stream/promises';
 import { Readable } from 'stream';
-import * as pkg from '../package.json' with { type: 'json' };
+import version from '../helpers/getv.js';
+import * as v from '../helpers/versions.js';
 
-const CONFIG_VERSION = pkg.default.version;
+const CONFIG_VERSION = version;
 
 const MODRINTH_API = 'https://api.modrinth.com/v2';
 const PAGE_SIZE = 10;
@@ -30,7 +31,7 @@ async function fetchJson(url) {
 async function downloadFile(url, destPath) {
     const response = await fetch(url, {
         headers: {
-            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
+            'User-Agent': `clicraft/${CONFIG_VERSION} (https://github.com/theinfamousben/clicraft)`
         }
     });
 
@@ -362,27 +363,37 @@ async function upgradeLoader(instancePath, config, options) {
 
 // Upgrade config version
 async function upgradeConfig(instancePath, config, options) {
-    if (config.configVersion && config.configVersion >= CONFIG_VERSION) {
+    // -1 = no version
+    // -2 = invalid version
+    const configVersionInt = v.enumerate(config.configVersion) ?? -1;
+    const currentVersionInt = v.enumerate(CONFIG_VERSION);
+
+    if (config.configVersion && configVersionInt >= currentVersionInt) {
         console.log(chalk.green('✓ Config is already up to date.'));
         return;
     }
 
     console.log(chalk.cyan('\n🔄 Upgrading config format...\n'));
 
-    const oldVersion = config.configVersion || 0;
 
     // Apply migrations based on version
-    if (oldVersion < 1) {
+    if (configVersionInt === -1) {
         // Migration to v1: add configVersion field
-        config.configVersion = 1;
+        config.configVersion = CONFIG_VERSION;
         console.log(chalk.gray('  + Added configVersion field'));
+    }
+
+    if (configVersionInt === -2) {
+        // Handle invalid version case
+        config.configVersion = CONFIG_VERSION;
+        console.log(chalk.gray('  + Set configVersion to current version due to invalid previous version'));
     }
 
     // Future migrations would go here:
     // if (oldVersion < 2) { ... }
 
     saveConfig(instancePath, config);
-    console.log(chalk.green(`\n✅ Config upgraded from v${oldVersion} to v${CONFIG_VERSION}`));
+    console.log(chalk.green(`\n✅ Config upgraded from v${config.configVersion} to v${CONFIG_VERSION}`));
 }
 
 // Main upgrade command

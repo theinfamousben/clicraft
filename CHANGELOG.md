@@ -2,10 +2,56 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2026-01-19
+
+### Added
+
+- **Config Command** (`clicraft config`)
+  - New command to manage CLI settings and game settings
+  - `config show` - Display CLI settings (Java path, memory, mod source)
+  - `config set <key> <value>` - Modify CLI settings
+  - `config ignore` - Show game settings ignore list
+  - `config ignore-add <pattern>` - Add pattern to ignore list (supports wildcards)
+  - `config ignore-remove <pattern>` - Remove pattern from ignore list
+  - `config defaults` - Show default game settings for new instances
+  - `config defaults-set <key> <value>` - Set a default game setting
+  - `config defaults-remove <key>` - Remove a default game setting
+  - `config defaults-clear` - Clear all default game settings
+  - `config capture` - Capture game settings from options.txt to mcconfig.json
+  - `config game-settings` - Show saved game settings in mcconfig
+  - `config clear-game-settings` - Remove game settings from mcconfig
+
+- **Global Configuration Directory** (`~/.clicraft/`)
+  - Centralized config directory for CLI-wide settings
+  - `settings.json` - CLI settings (Java path, memory, mod source, etc.)
+  - `game-settings-ignore.json` - Patterns for settings to exclude when capturing
+  - `default-game-settings.json` - Default Minecraft settings applied to new instances
+  - `auth.json` - Authentication tokens (migrated from ~/.mcpkg/)
+
+- **Game Settings in mcconfig.json**
+  - New `gameSettings` field to store Minecraft options
+  - Capture settings from options.txt with customizable ignore list
+  - Automatically apply game settings when creating from config
+
+- **Create from Existing Config** (`clicraft create` with mcconfig.json)
+  - Detects mcconfig.json in current directory
+  - Creates new instance from existing configuration
+  - Installs same Minecraft version, mod loader, and loader version
+  - Automatically installs all mods from the config
+  - Applies game settings if present
+
+- **Added `--mods` option to `clicraft info`** 
+  - Shows only installed mods instead of the entire instance info
+
+### Changed
+
+- Migrated auth storage from `~/.mcpkg/` to `~/.clicraft/`
+- Improved mod installation with better error handling
+
 ## [0.2.2] - 2026-01-19
 
 - **Fixed Bugs**
-  - Fixed bug in `mcpkg --version` where I forgot to put the exports
+  - Fixed bug in `clicraft --version` where I forgot to put the exports
   - Fixed bug from package.json where importing made a default object
 
 ## [0.2.1] - 2026-01-18

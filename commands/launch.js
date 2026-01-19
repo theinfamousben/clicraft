@@ -4,6 +4,8 @@ import path from 'path';
 import { spawn } from 'child_process';
 import os from 'os';
 import { loadAuth, refreshAuth } from './auth.js';
+import { captureGameSettings } from '../commands/config.js';
+import { loadSettings } from '../helpers/config.js';
 
 // Load mcconfig.json
 function loadConfig(instancePath) {
@@ -304,6 +306,11 @@ export async function launchInstance(options) {
         });
 
         minecraft.on('close', (code) => {
+            const settings = loadSettings();
+            if (settings.autoSaveToConfig){
+                captureGameSettings({ instance: instancePath, verbose: options.verbose }, settings.autoSaveToConfig );
+            }
+
             if (code === 0) {
                 console.log(chalk.green('\nMinecraft closed normally.'));
             } else {

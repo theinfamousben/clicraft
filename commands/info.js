@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import * as pkg from '../package.json' with { type: 'json' };
+import version from '../helpers/getv.js';
 
 // Current mcconfig version
-const CONFIG_VERSION = pkg.default.version;
+const CONFIG_VERSION = version;
 
 // Load mcconfig.json
 function loadConfig(instancePath) {
@@ -89,6 +89,22 @@ export async function instanceInfo(options) {
         console.log(chalk.gray('Make sure you are in a Minecraft instance directory or use --instance <path>'));
         return;
     }
+
+    if (options.mods) {
+        const installedMods = config.mods || [];
+
+        if (installedMods.length > 0) {
+            console.log(chalk.cyan('\n📦 Installed Mods\n'));
+            for (const mod of installedMods) {
+                console.log(chalk.gray(`    - ${mod.name} (${mod.fileName}) [${mod.versionNumber}]`));
+            }
+        } else {
+            console.log(chalk.yellow('\nNo mods are currently installed in this instance.\n'));
+        }
+
+        return;
+    }
+
 
     console.log(chalk.cyan('\n📦 Instance Information\n'));
 

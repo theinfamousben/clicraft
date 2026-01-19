@@ -40,6 +40,13 @@ Commands for managing your Microsoft account authentication.
 | `logout` | Logout from your Microsoft account |
 | `status` | Check your current login status |
 
+### Configuration
+Commands for managing CLI and game settings.
+
+| Command | Description |
+|---------|-------------|
+| [`config`](commands/config.md) | Manage CLI settings and game settings |
+
 ## 🔍 Quick Command Reference
 
 ### Create a new instance
@@ -111,6 +118,28 @@ clicraft upgrade [mod] [options]
 - `-f, --force` - Force upgrade
 - `--verbose` - Enable verbose output
 
+### Manage settings
+```bash
+clicraft config [action] [args...] [options]
+```
+**Actions:**
+- `show` - Show CLI settings (default)
+- `set <key> <value>` - Set a CLI setting
+- `ignore` - Show game settings ignore list
+- `ignore-add <pattern>` - Add pattern to ignore list
+- `ignore-remove <pattern>` - Remove pattern from ignore list
+- `defaults` - Show default game settings for new instances
+- `defaults-set <key> <value>` - Set a default game setting
+- `defaults-remove <key>` - Remove a default game setting
+- `defaults-clear` - Clear all default game settings
+- `capture` - Capture game settings from options.txt
+- `game-settings` - Show saved game settings
+- `clear-game-settings` - Clear saved game settings
+
+**Options:**
+- `-i, --instance <path>` - Path to instance directory
+- `--verbose` - Enable verbose output
+
 ## 💡 Common Workflows
 
 ### Setting up a new modded Minecraft instance
@@ -164,6 +193,26 @@ clicraft launch --instance ./instance2
 clicraft info --instance ./instance3
 ```
 
+### Sharing a modpack configuration
+
+```bash
+# Set up your instance with mods and settings
+cd my-instance
+clicraft install sodium
+clicraft install lithium
+# ... configure game settings in Minecraft ...
+
+# Capture game settings
+clicraft config capture
+
+# Share your mcconfig.json
+# Others can create the same setup:
+mkdir new-instance && cd new-instance
+cp /path/to/shared/mcconfig.json .
+clicraft create
+# CLIcraft will install everything from the config!
+```
+
 ## 🎓 Learning More
 
 Each command has detailed documentation with examples and options:
@@ -175,6 +224,7 @@ Each command has detailed documentation with examples and options:
 - [**launch**](commands/launch.md) - Start the game
 - [**info**](commands/info.md) - Instance details
 - [**upgrade**](commands/upgrade.md) - Update mods and loaders
+- [**config**](commands/config.md) - Manage settings
 
 ## 🔧 Global Options
 

@@ -29,6 +29,19 @@ The `create` command guides you through an interactive process to set up a new M
 6. Set up the directory structure
 7. Generate configuration files
 
+### Creating from Existing Config
+
+If you run `clicraft create` in a directory containing an `mcconfig.json` file, CLIcraft will automatically:
+
+1. Detect the existing configuration
+2. Display the config details for confirmation
+3. Prompt for a new instance name
+4. Create the instance with the same Minecraft version, mod loader, and loader version
+5. Install all mods from the configuration
+6. Apply game settings (if present in the config)
+
+This is perfect for sharing modpack configurations or replicating setups across machines.
+
 ## 🎯 Options
 
 | Option | Description |
@@ -183,6 +196,28 @@ clicraft create
 clicraft create  # vanilla-survival
 clicraft create  # tech-mods
 clicraft create  # creative-building
+```
+
+### Create from Shared Config
+```bash
+# Someone shared their mcconfig.json with you
+mkdir my-new-instance
+cd my-new-instance
+cp ~/Downloads/mcconfig.json .
+
+# Create instance from the config
+clicraft create
+# CLIcraft detects the config and offers to create from it
+```
+
+### Clone an Existing Instance
+```bash
+# Copy just the config (not the whole instance)
+cp my-instance/mcconfig.json ~/new-instance-config/
+cd ~/new-instance-config/
+
+# Create a fresh instance with same mods and settings
+clicraft create
 ```
 
 ## ⚠️ Common Issues
