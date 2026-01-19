@@ -17,7 +17,7 @@ const PREV_PAGE = '__PREV_PAGE__';
 async function fetchJson(url) {
     const response = await fetch(url, {
         headers: {
-            'User-Agent': `mcpkg/${CONFIG_VERSION} (https://github.com/theinfamousben/mcpkg)`
+            'User-Agent': `clicraft/${CONFIG_VERSION} (https://github.com/theinfamousben/clicraft)`
         }
     });
     if (!response.ok) {
@@ -30,7 +30,7 @@ async function fetchJson(url) {
 async function downloadFile(url, destPath) {
     const response = await fetch(url, {
         headers: {
-            'User-Agent': 'mcpkg/0.1.0 (https://github.com/theinfamousben/mcpkg)'
+            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
         }
     });
 

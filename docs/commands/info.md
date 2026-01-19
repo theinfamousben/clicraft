@@ -14,7 +14,7 @@ View detailed information about your Minecraft instance.
 ## 📝 Synopsis
 
 ```bash
-mcpkg info [options]
+clicraft info [options]
 ```
 
 ## 📖 Description
@@ -42,22 +42,22 @@ This is useful for checking what's installed, troubleshooting issues, or getting
 ### View basic info
 ```bash
 cd my-instance
-mcpkg info
+clicraft info
 ```
 
 ### View detailed info
 ```bash
-mcpkg info --verbose
+clicraft info --verbose
 ```
 
 ### Check specific instance
 ```bash
-mcpkg info --instance ./my-modded-world
+clicraft info --instance ./my-modded-world
 ```
 
 ### Quick instance check
 ```bash
-mcpkg info --instance ~/minecraft/server
+clicraft info --instance ~/minecraft/server
 ```
 
 ## 🎮 Example Output
@@ -65,7 +65,7 @@ mcpkg info --instance ~/minecraft/server
 ### Basic Mode
 ```bash
 $ cd my-instance
-$ mcpkg info
+$ clicraft info
 
 Instance: my-modded-world
 Type: Client
@@ -93,7 +93,7 @@ World Saves (2):
 
 ### Verbose Mode
 ```bash
-$ mcpkg info --verbose
+$ clicraft info --verbose
 
 ════════════════════════════════════════
          Instance Information
@@ -226,37 +226,37 @@ Lists installed resource packs with:
 ### Check Installed Mods
 ```bash
 cd my-instance
-mcpkg info | grep -A 20 "Installed Mods"
+clicraft info | grep -A 20 "Installed Mods"
 ```
 
 ### Verify Instance Configuration
 ```bash
-mcpkg info --verbose | grep -A 5 "Instance Information"
+clicraft info --verbose | grep -A 5 "Instance Information"
 ```
 
 ### Check Storage Usage
 ```bash
-mcpkg info | grep -A 10 "Storage Usage"
+clicraft info | grep -A 10 "Storage Usage"
 ```
 
 ### List All Worlds
 ```bash
-mcpkg info | grep -A 20 "World Saves"
+clicraft info | grep -A 20 "World Saves"
 ```
 
 ### Compare Multiple Instances
 ```bash
-mcpkg info --instance ./instance1 > inst1.txt
-mcpkg info --instance ./instance2 > inst2.txt
+clicraft info --instance ./instance1 > inst1.txt
+clicraft info --instance ./instance2 > inst2.txt
 diff inst1.txt inst2.txt
 ```
 
 ### Pre-Launch Check
 ```bash
 # Check everything is set up correctly
-mcpkg info --verbose
-mcpkg status
-mcpkg launch
+clicraft info --verbose
+clicraft status
+clicraft launch
 ```
 
 ## 📊 Interpreting Output
@@ -286,27 +286,27 @@ If world saves are large (>1 GB):
 ### Missing Mods
 If expected mods don't appear:
 ```bash
-mcpkg info
+clicraft info
 # Check mod list
 
 # Reinstall if missing
-mcpkg install missing-mod
+clicraft install missing-mod
 ```
 
 ### Wrong Version
 Check versions match:
 ```bash
-mcpkg info --verbose
+clicraft info --verbose
 # Verify Minecraft and loader versions
 
 # Update if needed
-mcpkg upgrade
+clicraft upgrade
 ```
 
 ### High Storage Usage
 Identify large files:
 ```bash
-mcpkg info --verbose
+clicraft info --verbose
 # Check storage breakdown
 
 # Clean up old worlds or logs
@@ -318,7 +318,7 @@ rm -rf logs/*.log.gz
 ### Before Reporting Issues
 Always include output of:
 ```bash
-mcpkg info --verbose > instance-info.txt
+clicraft info --verbose > instance-info.txt
 ```
 
 ## 📁 Directory Inspection
@@ -364,7 +364,7 @@ The info command shows current state:
 - Existing world saves
 - Current configuration
 
-Run `mcpkg info` after:
+Run `clicraft info` after:
 - Installing/removing mods
 - Playing and creating worlds
 - Changing configuration
@@ -378,7 +378,7 @@ Ensure you're in an instance directory:
 ls mcconfig.json
 
 # Or specify path
-mcpkg info --instance ./my-instance
+clicraft info --instance ./my-instance
 ```
 
 ### "Cannot read mods"
@@ -407,11 +407,11 @@ ls -la mods/
 
 ## 💡 Pro Tips
 
-1. **Regular Checks**: Run `mcpkg info` periodically to monitor your instance
+1. **Regular Checks**: Run `clicraft info` periodically to monitor your instance
 2. **Before Updates**: Check current state before upgrading
 3. **Disk Space**: Monitor storage usage to avoid filling up disk
 4. **Verbose Mode**: Use `--verbose` for complete details
-5. **Backup Reference**: Save `mcpkg info --verbose` output before major changes
+5. **Backup Reference**: Save `clicraft info --verbose` output before major changes
 6. **Mod Lists**: Use info to create mod lists for sharing
 7. **Performance**: Large mod counts = more RAM needed
 
@@ -419,10 +419,10 @@ ls -la mods/
 
 Export your mod list:
 ```bash
-mcpkg info > modlist.txt
+clicraft info > modlist.txt
 
 # Or just the mods section
-mcpkg info | grep -A 100 "Installed Mods" > mods.txt
+clicraft info | grep -A 100 "Installed Mods" > mods.txt
 ```
 
 Share with friends or for documentation.
@@ -433,9 +433,9 @@ Use in scripts:
 ```bash
 #!/bin/bash
 # Check if instance is ready
-if mcpkg info --instance "$INSTANCE" | grep -q "Installed Mods"; then
+if clicraft info --instance "$INSTANCE" | grep -q "Installed Mods"; then
     echo "Instance is valid"
-    mcpkg launch --instance "$INSTANCE"
+    clicraft launch --instance "$INSTANCE"
 else
     echo "Instance has issues"
     exit 1
@@ -444,10 +444,10 @@ fi
 
 ## 📚 Related Commands
 
-- [`mcpkg create`](create.md) - Create the instance to inspect
-- [`mcpkg install`](install.md) - Install mods (shown in info)
-- [`mcpkg upgrade`](upgrade.md) - Update versions (check with info)
-- [`mcpkg launch`](launch.md) - Launch after verifying with info
+- [`clicraft create`](create.md) - Create the instance to inspect
+- [`clicraft install`](install.md) - Install mods (shown in info)
+- [`clicraft upgrade`](upgrade.md) - Update versions (check with info)
+- [`clicraft launch`](launch.md) - Launch after verifying with info
 
 ## 🔗 See Also
 

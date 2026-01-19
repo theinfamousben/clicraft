@@ -1,11 +1,11 @@
-title: mcpkg Documentation
+title: CLIcraft Documentation
 description: A simple Minecraft Mod Package Manager written in Node.js
 remote_theme: just-the-docs/just-the-docs
 color_scheme: dark
 
 # GitHub repository
-repository: theinfamousben/mcpkg
-url: https://theinfamousben.github.io/mcpkg
+repository: theinfamousben/clicraft
+url: https://theinfamousben.github.io/clicraft
 
 # Enable search
 search_enabled: true
@@ -37,7 +37,7 @@ nav_sort: case_insensitive
 # Aux links
 aux_links:
   "GitHub Repository":
-    - "https://github.com/theinfamousben/mcpkg"
+    - "https://github.com/theinfamousben/clicraft"
 
 # Footer content
 footer_content: "Copyright &copy; 2024 theinfamousben. Distributed under the ISC license."

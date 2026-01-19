@@ -162,7 +162,7 @@ export async function launchInstance(options) {
         if (!options.offline) {
             auth = await refreshAuth();
             if (!auth) {
-                console.log(chalk.yellow('Not logged in. Use "mcpkg login" to authenticate.'));
+                console.log(chalk.yellow('Not logged in. Use "clicraft login" to authenticate.'));
                 console.log(chalk.gray('Or use --offline to play offline (if available).'));
                 return;
             }
@@ -238,7 +238,7 @@ export async function launchInstance(options) {
             'assets_root': path.join(instancePath, 'assets'),
             'assets_index_name': versionData.assets || versionData.assetIndex?.id || config.minecraftVersion,
             'natives_directory': nativesPath,
-            'launcher_name': 'mcpkg',
+            'launcher_name': 'clicraft',
             'launcher_version': '0.1.0',
             'classpath': classpath,
             'clientid': '',

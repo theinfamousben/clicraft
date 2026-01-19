@@ -14,7 +14,7 @@ Search for Minecraft mods on Modrinth with powerful filtering options.
 ## 📝 Synopsis
 
 ```bash
-mcpkg search <query> [options]
+clicraft search <query> [options]
 ```
 
 ## 📖 Description
@@ -48,37 +48,37 @@ Modrinth is a popular open-source mod hosting platform with a large collection o
 
 ### Basic search
 ```bash
-mcpkg search sodium
+clicraft search sodium
 ```
 Searches for mods matching "sodium" and displays up to 10 results.
 
 ### Search with version filter
 ```bash
-mcpkg search shader --version 1.21.1
+clicraft search shader --version 1.21.1
 ```
 Find shader mods compatible with Minecraft 1.21.1.
 
 ### Search with loader filter
 ```bash
-mcpkg search optimization --loader fabric
+clicraft search optimization --loader fabric
 ```
 Find optimization mods for the Fabric mod loader.
 
 ### Combined filters
 ```bash
-mcpkg search "performance" --version 1.20.1 --loader fabric --limit 20
+clicraft search "performance" --version 1.20.1 --loader fabric --limit 20
 ```
 Find up to 20 performance mods for Fabric on Minecraft 1.20.1.
 
 ### Multi-word search
 ```bash
-mcpkg search "world generation"
+clicraft search "world generation"
 ```
 Search for mods related to world generation (use quotes for multi-word queries).
 
 ### Limit results
 ```bash
-mcpkg search minimap --limit 5
+clicraft search minimap --limit 5
 ```
 Show only the top 5 results for minimap mods.
 
@@ -117,7 +117,7 @@ Each result shows:
 ## 🎮 Example Session
 
 ```bash
-$ mcpkg search sodium --version 1.21.1 --loader fabric
+$ clicraft search sodium --version 1.21.1 --loader fabric
 
 Searching Modrinth for "sodium"...
 
@@ -144,29 +144,29 @@ Found 3 mods matching "sodium"
    Updated: 2024-01-10
    ID: Bh37bMuy
 
-To install a mod, use: mcpkg install <mod-name-or-id>
+To install a mod, use: clicraft install <mod-name-or-id>
 ```
 
 ## 🎯 Use Cases
 
 ### Finding Popular Optimization Mods
 ```bash
-mcpkg search optimization --limit 10 --loader fabric
+clicraft search optimization --limit 10 --loader fabric
 ```
 
 ### Searching for Specific Mod
 ```bash
-mcpkg search "just enough items"
+clicraft search "just enough items"
 ```
 
 ### Discovering New Mods
 ```bash
-mcpkg search decoration --version 1.20.1 --limit 25
+clicraft search decoration --version 1.20.1 --limit 25
 ```
 
 ### Checking Mod Availability
 ```bash
-mcpkg search "iris shaders" --version 1.21.1 --loader fabric
+clicraft search "iris shaders" --version 1.21.1 --loader fabric
 ```
 
 ## 🔍 Search Tips
@@ -181,13 +181,13 @@ Instead of searching "better", try:
 ### Filter by Version
 Always include `--version` when searching for mods for a specific Minecraft version:
 ```bash
-mcpkg search minimap --version 1.20.1
+clicraft search minimap --version 1.20.1
 ```
 
 ### Filter by Loader
 If you know your instance's mod loader, filter by it:
 ```bash
-mcpkg search sodium --loader fabric
+clicraft search sodium --loader fabric
 ```
 
 ### Adjust Result Limits
@@ -197,9 +197,9 @@ mcpkg search sodium --loader fabric
 ### Exact Mod Names
 For well-known mods, use their exact name:
 ```bash
-mcpkg search "optifine"
-mcpkg search "sodium"
-mcpkg search "lithium"
+clicraft search "optifine"
+clicraft search "sodium"
+clicraft search "lithium"
 ```
 
 ## ⚠️ Common Issues
@@ -233,9 +233,9 @@ If you get too many results:
 
 ## 📚 Related Commands
 
-- [`mcpkg install`](install.md) - Install a mod from search results
-- [`mcpkg info`](info.md) - View installed mods in your instance
-- [`mcpkg upgrade`](upgrade.md) - Update installed mods
+- [`clicraft install`](install.md) - Install a mod from search results
+- [`clicraft info`](info.md) - View installed mods in your instance
+- [`clicraft upgrade`](upgrade.md) - Update installed mods
 
 ## 🔗 Installing from Search Results
 
@@ -243,10 +243,10 @@ After finding a mod with `search`, install it using either:
 
 ```bash
 # Using mod name
-mcpkg install sodium
+clicraft install sodium
 
 # Using Modrinth ID
-mcpkg install AANobbMI
+clicraft install AANobbMI
 ```
 
 ## 📖 API Information

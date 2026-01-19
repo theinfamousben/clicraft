@@ -9,7 +9,7 @@ permalink: /commands
 
 # Commands Overview
 
-mcpkg provides a comprehensive set of commands to manage your Minecraft instances and mods. This page provides a quick reference to all available commands.
+CLIcraft provides a comprehensive set of commands to manage your Minecraft instances and mods. This page provides a quick reference to all available commands.
 
 ## 📚 Command Categories
 
@@ -44,13 +44,13 @@ Commands for managing your Microsoft account authentication.
 
 ### Create a new instance
 ```bash
-mcpkg create
+clicraft create
 ```
 Interactive prompts will guide you through instance configuration.
 
 ### Search for mods
 ```bash
-mcpkg search <query> [options]
+clicraft search <query> [options]
 ```
 **Options:**
 - `-l, --limit <number>` - Number of results (default: 10)
@@ -60,7 +60,7 @@ mcpkg search <query> [options]
 
 ### Install a mod
 ```bash
-mcpkg install <mod> [options]
+clicraft install <mod> [options]
 ```
 **Options:**
 - `-i, --instance <path>` - Path to instance directory
@@ -69,7 +69,7 @@ mcpkg install <mod> [options]
 
 ### Login to Microsoft
 ```bash
-mcpkg login [options]
+clicraft login [options]
 ```
 **Options:**
 - `-f, --force` - Force re-login
@@ -77,17 +77,17 @@ mcpkg login [options]
 
 ### Check login status
 ```bash
-mcpkg status
+clicraft status
 ```
 
 ### Logout
 ```bash
-mcpkg logout
+clicraft logout
 ```
 
 ### Launch the game
 ```bash
-mcpkg launch [options]
+clicraft launch [options]
 ```
 **Options:**
 - `-i, --instance <path>` - Path to instance directory
@@ -96,7 +96,7 @@ mcpkg launch [options]
 
 ### View instance info
 ```bash
-mcpkg info [options]
+clicraft info [options]
 ```
 **Options:**
 - `-i, --instance <path>` - Path to instance directory
@@ -104,7 +104,7 @@ mcpkg info [options]
 
 ### Upgrade mods or loader
 ```bash
-mcpkg upgrade [mod] [options]
+clicraft upgrade [mod] [options]
 ```
 **Options:**
 - `-i, --instance <path>` - Path to instance directory
@@ -117,24 +117,24 @@ mcpkg upgrade [mod] [options]
 
 ```bash
 # 1. Create a new instance
-mcpkg create
+clicraft create
 
 # 2. Navigate to instance directory
 cd my-instance
 
 # 3. Login to Microsoft (for online play)
-mcpkg login
+clicraft login
 
 # 4. Search for mods
-mcpkg search sodium
+clicraft search sodium
 
 # 5. Install mods
-mcpkg install sodium
-mcpkg install lithium
-mcpkg install iris
+clicraft install sodium
+clicraft install lithium
+clicraft install iris
 
 # 6. Launch the game
-mcpkg launch
+clicraft launch
 ```
 
 ### Managing an existing instance
@@ -142,26 +142,26 @@ mcpkg launch
 ```bash
 # Check instance information
 cd my-instance
-mcpkg info --verbose
+clicraft info --verbose
 
 # Update mods
-mcpkg upgrade
+clicraft upgrade
 
 # Launch the game
-mcpkg launch
+clicraft launch
 ```
 
 ### Working with multiple instances
 
 ```bash
 # Install mod to specific instance
-mcpkg install sodium --instance ./instance1
+clicraft install sodium --instance ./instance1
 
 # Launch specific instance
-mcpkg launch --instance ./instance2
+clicraft launch --instance ./instance2
 
 # View info for specific instance
-mcpkg info --instance ./instance3
+clicraft info --instance ./instance3
 ```
 
 ## 🎓 Learning More
@@ -185,15 +185,15 @@ Most commands support these common options:
 
 Example:
 ```bash
-mcpkg install --help
+clicraft install --help
 ```
 
 ## 🆘 Getting Help
 
 For additional help:
 
-- Use `mcpkg <command> --help` for command-specific help
-- Visit the [GitHub repository](https://github.com/theinfamousben/mcpkg) for issues and discussions
+- Use `clicraft <command> --help` for command-specific help
+- Visit the [GitHub repository](https://github.com/theinfamousben/clicraft) for issues and discussions
 - Check the [configuration guide](configuration.md) for advanced settings
 
 ---

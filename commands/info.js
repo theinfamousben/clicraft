@@ -182,7 +182,7 @@ export async function instanceInfo(options) {
     if (!config.configVersion || config.configVersion < CONFIG_VERSION) {
         console.log();
         console.log(chalk.yellow('⚠️  This instance uses an older config format.'));
-        console.log(chalk.gray('   Run "mcpkg upgrade" to update to the latest format.'));
+        console.log(chalk.gray('   Run "clicraft upgrade" to update to the latest format.'));
     }
 
     console.log();

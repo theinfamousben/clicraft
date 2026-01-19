@@ -1,6 +1,5 @@
 # CLIcraft
-## [READ THE DOCS](https://mcpkg.bsstudios.org)
-**CLIcraft is under rename to avoid confusion with the other mcpkg.**
+## [READ THE DOCS](https://clicraft.bsstudios.org)
 
 
 A simple Minecraft Mod Package Manager and launcher written in Node.js. Create and manage Minecraft instances with Fabric or Forge mod loaders, search and install mods from Modrinth, and launch the game directly from the command line.
@@ -23,13 +22,13 @@ Unlike other PMs or Launchers, CLIcraft can do both! Simply type a few commands 
 ### Cloning from Source
 ```bash
 # Clone the repository
-git clone https://github.com/theinfamousben/mcpkg.git
-cd mcpkg
+git clone https://github.com/theinfamousben/clicraft.git
+cd clicraft
 
 # Install dependencies
 npm install
 
-# Link globally (optional, for using 'mcpkg' command anywhere)
+# Link globally (optional, for using 'clicraft' command anywhere)
 npm link
 ```
 ### Install NPM Package
@@ -53,4 +52,4 @@ ISC
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/theinfamousben/mcpkg).
+Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/theinfamousben/clicraft).

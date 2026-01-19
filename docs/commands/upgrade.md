@@ -14,7 +14,7 @@ Update your mods, Minecraft version, or mod loader to the latest versions.
 ## 📝 Synopsis
 
 ```bash
-mcpkg upgrade [mod] [options]
+clicraft upgrade [mod] [options]
 ```
 
 ## 📖 Description
@@ -49,37 +49,37 @@ If no mod is specified, shows an interactive upgrade menu.
 ### Interactive upgrade menu
 ```bash
 cd my-instance
-mcpkg upgrade
+clicraft upgrade
 ```
 
 ### Upgrade specific mod
 ```bash
-mcpkg upgrade sodium
+clicraft upgrade sodium
 ```
 
 ### Upgrade with instance path
 ```bash
-mcpkg upgrade --instance ./my-instance
+clicraft upgrade --instance ./my-instance
 ```
 
 ### Force upgrade
 ```bash
-mcpkg upgrade sodium --force
+clicraft upgrade sodium --force
 ```
 Forces upgrade even if the mod is already at the latest version.
 
 ### Verbose upgrade
 ```bash
-mcpkg upgrade --verbose
+clicraft upgrade --verbose
 ```
 See detailed information about version checks and downloads.
 
 ## 🎮 Interactive Upgrade Menu
 
-When you run `mcpkg upgrade` without arguments, you'll see:
+When you run `clicraft upgrade` without arguments, you'll see:
 
 ```bash
-$ mcpkg upgrade
+$ clicraft upgrade
 
 What would you like to upgrade?
 
@@ -149,7 +149,7 @@ Available:
 ### Upgrade All Mods
 ```bash
 $ cd my-instance
-$ mcpkg upgrade
+$ clicraft upgrade
 
 What would you like to upgrade? All mods
 
@@ -177,7 +177,7 @@ Successfully upgraded 3 mods!
 
 ### Upgrade Specific Mod
 ```bash
-$ mcpkg upgrade sodium
+$ clicraft upgrade sodium
 
 Checking for Sodium updates...
 
@@ -202,7 +202,7 @@ New version installed: sodium-fabric-0.6.0.jar
 
 ### No Updates Available
 ```bash
-$ mcpkg upgrade
+$ clicraft upgrade
 
 Checking for mod updates...
 
@@ -242,39 +242,39 @@ Ensures updates are compatible with:
 ```bash
 # Check for updates regularly
 cd my-instance
-mcpkg upgrade
+clicraft upgrade
 # Select "All mods"
 ```
 
 ### After Minecraft Update
 ```bash
 # Upgrade Minecraft first
-mcpkg upgrade
+clicraft upgrade
 # Select "Minecraft version"
 
 # Then update mods for new version
-mcpkg upgrade
+clicraft upgrade
 # Select "All mods"
 ```
 
 ### Fix Mod Issues
 ```bash
 # Force reinstall problematic mod
-mcpkg upgrade sodium --force
+clicraft upgrade sodium --force
 ```
 
 ### Keep Loader Updated
 ```bash
 # Update Fabric/Forge
-mcpkg upgrade
+clicraft upgrade
 # Select "Mod loader"
 ```
 
 ### Selective Updates
 ```bash
 # Update only specific mods
-mcpkg upgrade sodium
-mcpkg upgrade lithium
+clicraft upgrade sodium
+clicraft upgrade lithium
 # Leave other mods as-is
 ```
 
@@ -291,10 +291,10 @@ Mods typically use semantic versioning: `MAJOR.MINOR.PATCH`
 
 ```bash
 # Check compatibility before upgrading
-mcpkg info --verbose
+clicraft info --verbose
 # Note Minecraft and loader versions
 
-mcpkg upgrade
+clicraft upgrade
 # Upgrades respect compatibility
 ```
 
@@ -309,7 +309,7 @@ tar -czf my-instance-backup.tar.gz my-instance/
 
 # Then upgrade
 cd my-instance
-mcpkg upgrade
+clicraft upgrade
 ```
 
 Or backup just your worlds:
@@ -341,10 +341,10 @@ Network or Modrinth issues:
 The mod isn't in your instance:
 ```bash
 # Check installed mods
-mcpkg info
+clicraft info
 
 # Install it first
-mcpkg install sodium
+clicraft install sodium
 ```
 
 ### Broken After Upgrade
@@ -358,15 +358,15 @@ tar -xzf my-instance-backup.tar.gz
 # Or reinstall problematic mod
 cd my-instance
 rm mods/problematic-mod*.jar
-mcpkg install problematic-mod
+clicraft install problematic-mod
 ```
 
 ## 💡 Best Practices
 
 ### 1. Check Before Upgrading
 ```bash
-mcpkg info
-mcpkg upgrade  # Just to see what's available
+clicraft info
+clicraft upgrade  # Just to see what's available
 # Exit without upgrading to review
 ```
 
@@ -380,22 +380,22 @@ Review what changed before upgrading:
 Don't upgrade everything at once:
 ```bash
 # Upgrade one mod
-mcpkg upgrade sodium
+clicraft upgrade sodium
 
 # Test the game
-mcpkg launch
+clicraft launch
 
 # If OK, upgrade another
-mcpkg upgrade lithium
+clicraft upgrade lithium
 ```
 
 ### 4. Test After Upgrades
 ```bash
 # After upgrading
-mcpkg upgrade
+clicraft upgrade
 
 # Test launch
-mcpkg launch --offline
+clicraft launch --offline
 
 # Check everything works
 # Then play normally
@@ -405,7 +405,7 @@ mcpkg launch --offline
 Update your mod loader regularly:
 ```bash
 # Every few weeks
-mcpkg upgrade
+clicraft upgrade
 # Select "Mod loader"
 ```
 
@@ -419,7 +419,7 @@ rm mods/sodium-*.jar
 
 # Install older version
 # (manually download from Modrinth)
-# or wait for mcpkg downgrade support
+# or wait for clicraft downgrade support
 ```
 
 ## 📊 Update Frequency
@@ -438,17 +438,17 @@ Upgrading Minecraft version can break mods:
 
 ```bash
 # Before upgrading Minecraft
-mcpkg info --verbose > pre-upgrade-info.txt
+clicraft info --verbose > pre-upgrade-info.txt
 
 # Upgrade Minecraft
-mcpkg upgrade
+clicraft upgrade
 # Select "Minecraft version"
 
 # Test each mod
-mcpkg launch --offline
+clicraft launch --offline
 
 # Some mods may not work - reinstall
-mcpkg upgrade  # To get compatible versions
+clicraft upgrade  # To get compatible versions
 ```
 
 ### Rolling Back
@@ -466,10 +466,10 @@ Then reinstall mods for old version.
 
 ## 📚 Related Commands
 
-- [`mcpkg install`](install.md) - Install mods before upgrading
-- [`mcpkg info`](info.md) - Check current versions
-- [`mcpkg search`](search.md) - Find mods to upgrade to
-- [`mcpkg create`](create.md) - Instance with specific versions
+- [`clicraft install`](install.md) - Install mods before upgrading
+- [`clicraft info`](info.md) - Check current versions
+- [`clicraft search`](search.md) - Find mods to upgrade to
+- [`clicraft create`](create.md) - Instance with specific versions
 
 ## 🔍 Version Checking
 
@@ -477,10 +477,10 @@ Check versions without upgrading:
 
 ```bash
 # Current versions
-mcpkg info
+clicraft info
 
 # Available versions (via search)
-mcpkg search sodium --version 1.21.1
+clicraft search sodium --version 1.21.1
 ```
 
 ## 🆘 Troubleshooting
@@ -493,7 +493,7 @@ If upgrade hangs:
 
 ### Partial Upgrade
 If some mods upgrade but others fail:
-- Check `mcpkg info` to see what upgraded
+- Check `clicraft info` to see what upgraded
 - Try upgrading failed mods individually
 - Use `--verbose` to see errors
 

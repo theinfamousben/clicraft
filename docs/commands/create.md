@@ -14,7 +14,7 @@ Create a new Minecraft instance with your choice of mod loader (Fabric or Forge)
 ## 📝 Synopsis
 
 ```bash
-mcpkg create [options]
+clicraft create [options]
 ```
 
 ## 📖 Description
@@ -37,7 +37,7 @@ The `create` command guides you through an interactive process to set up a new M
 
 ## 💡 Interactive Prompts
 
-When you run `mcpkg create`, you'll be prompted for:
+When you run `clicraft create`, you'll be prompted for:
 
 ### 1. Instance Name
 The name for your instance directory. This will be used as the folder name.
@@ -87,14 +87,14 @@ my-instance/
 
 ### Basic usage
 ```bash
-mcpkg create
+clicraft create
 ```
 
 Then follow the interactive prompts.
 
 ### Verbose output
 ```bash
-mcpkg create --verbose
+clicraft create --verbose
 ```
 
 See detailed progress as files are downloaded and configured.
@@ -102,7 +102,7 @@ See detailed progress as files are downloaded and configured.
 ## 🎮 Example Session
 
 ```bash
-$ mcpkg create
+$ clicraft create
 
 ? Enter instance name: my-modded-world
 ? Select instance type: Client
@@ -122,9 +122,9 @@ Instance created successfully at: ./my-modded-world
 
 Next steps:
   cd my-modded-world
-  mcpkg login              # Login to Microsoft account
-  mcpkg install <mod>      # Install mods
-  mcpkg launch             # Launch the game
+  clicraft login              # Login to Microsoft account
+  clicraft install <mod>      # Install mods
+  clicraft launch             # Launch the game
 ```
 
 ## 🔍 What Happens Behind the Scenes
@@ -160,7 +160,7 @@ You can manually edit this file to customize Java settings and other configurati
 ### Development Environment
 ```bash
 # Create a clean testing environment
-mcpkg create
+clicraft create
 # Name: mod-testing
 # Type: Client
 # Loader: Fabric
@@ -170,7 +170,7 @@ mcpkg create
 ### Server Setup
 ```bash
 # Create a multiplayer server
-mcpkg create
+clicraft create
 # Name: survival-server
 # Type: Server
 # Loader: Forge
@@ -180,9 +180,9 @@ mcpkg create
 ### Multiple Instances
 ```bash
 # Create separate instances for different mod packs
-mcpkg create  # vanilla-survival
-mcpkg create  # tech-mods
-mcpkg create  # creative-building
+clicraft create  # vanilla-survival
+clicraft create  # tech-mods
+clicraft create  # creative-building
 ```
 
 ## ⚠️ Common Issues
@@ -225,10 +225,10 @@ ls -la
 ## 📚 Related Commands
 
 After creating an instance:
-- [`mcpkg install`](install.md) - Install mods to your new instance
-- [`mcpkg login`](login.md) - Login for online play
-- [`mcpkg launch`](launch.md) - Start your instance
-- [`mcpkg info`](info.md) - View instance details
+- [`clicraft install`](install.md) - Install mods to your new instance
+- [`clicraft login`](login.md) - Login for online play
+- [`clicraft launch`](launch.md) - Start your instance
+- [`clicraft info`](info.md) - View instance details
 
 ## 🔗 See Also
 
