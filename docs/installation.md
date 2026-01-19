@@ -26,7 +26,7 @@ java --version
 
 ## 📦 Installation Methods
 
-### Method 1: NPM Package (Recommended)
+### Method 1: NPM Package (Coming Soon!)
 
 **Coming Soon!** The npm package will be available soon. Once released, you'll be able to install globally with:
 
