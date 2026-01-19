@@ -1,5 +1,5 @@
 # mcpkg
-## [READ THE DOCS](mcpkg.bsstudios.org)
+## [READ THE DOCS](https://mcpkg.bsstudios.org)
 
 A simple Minecraft Mod Package Manager written in Node.js. Create and manage Minecraft instances with Fabric or Forge mod loaders, search and install mods from Modrinth, and launch the game directly from the command line.
 
