@@ -37,9 +37,14 @@ Commands for managing your Microsoft account authentication.
 
 | Command | Description |
 |---------|-------------|
-| [`login`](commands/login.md) | Login to your Microsoft account |
-| `logout` | Logout from your Microsoft account |
-| `status` | Check your current login status |
+| [`auth`](commands/auth.md) | Manage Minecraft accounts (login, logout, switch, status) |
+
+**Actions:**
+- `clicraft auth login` - Add a new account
+- `clicraft auth logout [account]` - Remove an account
+- `clicraft auth switch [account]` - Switch between accounts
+- `clicraft auth status` - View all account statuses
+- `clicraft auth list` - List saved accounts
 
 ### Configuration
 Commands for managing CLI and game settings.
@@ -86,23 +91,20 @@ clicraft uninstall [mod] [options]
 
 If no mod is specified, shows interactive multi-select.
 
-### Login to Microsoft
+### Authentication
 ```bash
-clicraft login [options]
+clicraft auth [action] [args...]
 ```
+**Actions:**
+- `login` - Add a new Microsoft account
+- `logout [account]` - Remove an account (interactive if no account specified)
+- `switch [account]` - Switch to a different account
+- `status [account]` - Show account status(es)
+- `list` - List all saved accounts
+
 **Options:**
-- `-f, --force` - Force re-login
+- `-f, --force` - Skip confirmation prompts
 - `--verbose` - Enable verbose output
-
-### Check login status
-```bash
-clicraft status
-```
-
-### Logout
-```bash
-clicraft logout
-```
 
 ### Launch the game
 ```bash
