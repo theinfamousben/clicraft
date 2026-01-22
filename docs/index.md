@@ -59,6 +59,9 @@ clicraft launch
 ### Configuration
 - [Configuration Guide](configuration.md) - Instance and authentication configuration
 
+### Contributing
+- [Contributing Guide](contributing.md) - How to contribute to CLIcraft
+
 ## 🎯 Requirements
 
 - **Node.js** 18 or higher
@@ -72,7 +75,7 @@ clicraft launch
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please visit our [GitHub repository](https://github.com/theinfamousben/clicraft) to open issues or submit pull requests.
+Contributions are welcome! Please read our [Contributing Guide](https://github.com/theinfamousben/clicraft/blob/main/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes. You can also visit our [GitHub repository](https://github.com/theinfamousben/clicraft) to open issues or submit pull requests.
 
 ## 📄 License
 

@@ -52,4 +52,4 @@ ISC
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/theinfamousben/clicraft).
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) to learn how to get started. You can also open an issue or submit a pull request on [GitHub](https://github.com/theinfamousben/clicraft).
