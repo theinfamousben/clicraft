@@ -3,6 +3,7 @@
 import { createInstance } from './commands/create.js';
 import { searchMods } from './commands/search.js';
 import { installMod } from './commands/install.js';
+import { uninstallMod } from './commands/uninstall.js';
 import { login, logout, authStatus } from './commands/auth.js';
 import { launchInstance } from './commands/launch.js';
 import { instanceInfo } from './commands/info.js';
@@ -38,6 +39,14 @@ program
     .option('-f, --force', 'Force reinstall/update if already installed')
     .option('--verbose', 'Enable verbose output')
     .action(installMod);
+
+program
+    .command('uninstall [mod]')
+    .description('Uninstall a mod from the current Minecraft instance')
+    .option('-i, --instance <path>', 'Path to the instance directory')
+    .option('-f, --force', 'Skip confirmation prompt')
+    .option('--verbose', 'Enable verbose output')
+    .action(uninstallMod);
 
 program
     .command('login')

@@ -141,8 +141,24 @@ function parseArguments(args, variables) {
 }
 
 export async function launchInstance(options) {
+    const settings = loadSettings();
     const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
     
+    if (settings.autoLoadConfigOnLaunch) {
+        // Load game settings from mcconfig.json and apply to options.txt
+        const config = loadConfig(instancePath);
+        const optionsTxtPath = path.join(instancePath, 'options.txt');
+        if (config && config.gameSettings) {
+            const gameSettings = config.gameSettings;
+            // Write to options.txt
+            const { writeGameSettings } = await import('../helpers/config.js');
+            writeGameSettings(instancePath, gameSettings);
+            if (options.verbose) {
+                console.log(chalk.gray('Applied saved game settings to options.txt'));
+            }
+        }
+    }
+
     // Load instance config
     const config = loadConfig(instancePath);
     if (!config) {
@@ -306,7 +322,6 @@ export async function launchInstance(options) {
         });
 
         minecraft.on('close', (code) => {
-            const settings = loadSettings();
             if (settings.autoSaveToConfig){
                 captureGameSettings({ instance: instancePath, verbose: options.verbose }, settings.autoSaveToConfig );
             }

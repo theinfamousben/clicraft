@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2026-01-22
+
+### Added
+
+- **Uninstall Command** (`clicraft uninstall`)
+  - Remove mods from your Minecraft instance
+  - Interactive multi-select when no mod specified
+  - Confirmation prompt before deletion (skip with `--force`)
+  - Removes mod file and updates mcconfig.json
+
 ## [0.3.0] - 2026-01-19
 
 ### Added

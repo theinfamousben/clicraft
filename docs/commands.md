@@ -29,6 +29,7 @@ Commands for finding, installing, and managing mods.
 |---------|-------------|
 | [`search`](commands/search.md) | Search for mods on Modrinth |
 | [`install`](commands/install.md) | Install a mod to your instance |
+| [`uninstall`](commands/uninstall.md) | Remove a mod from your instance |
 | [`upgrade`](commands/upgrade.md) | Upgrade mods, Minecraft version, or mod loader |
 
 ### Authentication
@@ -73,6 +74,17 @@ clicraft install <mod> [options]
 - `-i, --instance <path>` - Path to instance directory
 - `-f, --force` - Force reinstall if already installed
 - `--verbose` - Enable verbose output
+
+### Uninstall a mod
+```bash
+clicraft uninstall [mod] [options]
+```
+**Options:**
+- `-i, --instance <path>` - Path to instance directory
+- `-f, --force` - Skip confirmation prompt
+- `--verbose` - Enable verbose output
+
+If no mod is specified, shows interactive multi-select.
 
 ### Login to Microsoft
 ```bash
@@ -220,6 +232,7 @@ Each command has detailed documentation with examples and options:
 - [**create**](commands/create.md) - Create instances
 - [**search**](commands/search.md) - Find mods
 - [**install**](commands/install.md) - Add mods to instances
+- [**uninstall**](commands/uninstall.md) - Remove mods from instances
 - [**login**](commands/login.md) - Authentication
 - [**launch**](commands/launch.md) - Start the game
 - [**info**](commands/info.md) - Instance details
