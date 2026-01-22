@@ -105,10 +105,6 @@ Need help getting started?
 - Review the [Commands Documentation](commands.md)
 - Ask questions in [GitHub Issues](https://github.com/theinfamousben/clicraft/issues)
 
-## 🎯 Good First Issues
-
-New to the project? Look for issues labeled [`good first issue`](https://github.com/theinfamousben/clicraft/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) - these are great for getting started!
-
 ## 📜 License
 
 By contributing to CLIcraft, you agree that your contributions will be licensed under the ISC License.
