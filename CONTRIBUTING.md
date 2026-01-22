@@ -169,7 +169,7 @@ We welcome various types of contributions:
 ### JavaScript Style
 
 - Use **ES6+ syntax** (arrow functions, const/let, template literals, etc.)
-- Use **2 spaces** for indentation
+- Use **4 spaces** for indentation
 - Use **descriptive variable names**
 - Add **comments** for complex logic
 - Follow existing code style in the project
@@ -181,6 +181,7 @@ We welcome various types of contributions:
 - **Async/await**: Prefer async/await over callbacks or raw promises
 - **Modularity**: Keep functions small and focused on a single task
 - **Validation**: Validate user input before processing
+- **Prettier**: Code styling should automatically applied by prettier (i think)
 
 ### Example Code Style
 
@@ -188,26 +189,26 @@ We welcome various types of contributions:
 import chalk from 'chalk';
 
 async function searchMods(query, options = {}) {
-  try {
-    // Validate input
-    if (!query || query.trim() === '') {
-      console.error(chalk.red('Error: Search query cannot be empty'));
-      return;
-    }
+    try {
+        // Validate input
+        if (!query || query.trim() === '') {
+            console.error(chalk.red('Error: Search query cannot be empty'));
+            return;
+        }
 
-    // Perform search
-    const results = await fetchFromModrinth(query, options);
+        // Perform search
+        const results = await fetchFromModrinth(query, options);
     
-    // Display results
-    if (results.length === 0) {
-      console.log(chalk.yellow('No mods found matching your query'));
-      return;
-    }
+        // Display results
+        if (results.length === 0) {
+            console.log(chalk.yellow('No mods found matching your query'));
+            return;
+        }
 
-    displayResults(results);
-  } catch (error) {
-    console.error(chalk.red(`Search failed: ${error.message}`));
-  }
+        displayResults(results);
+    } catch (error) {
+        console.error(chalk.red(`Search failed: ${error.message}`));
+    }
 }
 ```
 
