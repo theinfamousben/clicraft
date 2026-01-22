@@ -1,96 +1,14 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import { pipeline } from 'stream/promises';
-import { Readable } from 'stream';
-
-const MODRINTH_API = 'https://api.modrinth.com/v2';
-
-// Get project info from Modrinth
-async function getProject(slugOrId) {
-    const response = await fetch(`${MODRINTH_API}/project/${slugOrId}`, {
-        headers: {
-            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
-        }
-    });
-
-    if (!response.ok) {
-        if (response.status === 404) {
-            return null;
-        }
-        throw new Error(`Modrinth API error: ${response.status} ${response.statusText}`);
-    }
-
-    return await response.json();
-}
-
-// Get project versions from Modrinth
-async function getProjectVersions(slugOrId, mcVersion, loader) {
-    const params = new URLSearchParams();
-    if (mcVersion) {
-        params.set('game_versions', JSON.stringify([mcVersion]));
-    }
-    if (loader) {
-        params.set('loaders', JSON.stringify([loader]));
-    }
-
-    const response = await fetch(`${MODRINTH_API}/project/${slugOrId}/version?${params}`, {
-        headers: {
-            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(`Modrinth API error: ${response.status} ${response.statusText}`);
-    }
-
-    return await response.json();
-}
-
-// Download a file
-async function downloadFile(url, destPath) {
-    const response = await fetch(url, {
-        headers: {
-            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(`Download failed: ${response.status} ${response.statusText}`);
-    }
-
-    const fileStream = fs.createWriteStream(destPath);
-    await pipeline(Readable.fromWeb(response.body), fileStream);
-}
-
-// Load mcconfig.json from current directory or specified path
-function loadConfig(instancePath) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    
-    if (!fs.existsSync(configPath)) {
-        return null;
-    }
-
-    const content = fs.readFileSync(configPath, 'utf-8');
-    return JSON.parse(content);
-}
-
-// Save mcconfig.json
-function saveConfig(instancePath, config) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-}
+import { downloadFile, loadConfig, saveConfig, getInstancePath, requireConfig } from '../helpers/utils.js';
+import { getProject, getProjectVersions } from '../helpers/modrinth.js';
 
 export async function installMod(modSlug, options) {
-    const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
+    const instancePath = getInstancePath(options);
     
-    // Load instance config
-    const config = loadConfig(instancePath);
-    if (!config) {
-        console.log(chalk.red('Error: No mcconfig.json found.'));
-        console.log(chalk.gray('Make sure you are in a Minecraft instance directory or use --instance <path>'));
-        return;
-    }
+    const config = requireConfig(instancePath);
+    if (!config) return;
 
     console.log(chalk.cyan(`\n📦 Installing "${modSlug}" to ${config.name}...\n`));
 
@@ -117,7 +35,7 @@ export async function installMod(modSlug, options) {
         if (versions.length === 0) {
             console.log(chalk.red(`\nNo compatible version found for ${config.modLoader} on Minecraft ${config.minecraftVersion}`));
             
-            // Try to find any versions to show what's available
+            // Show available versions
             const allVersions = await getProjectVersions(modSlug);
             if (allVersions.length > 0) {
                 const loaders = [...new Set(allVersions.flatMap(v => v.loaders))];
@@ -145,7 +63,7 @@ export async function installMod(modSlug, options) {
             return;
         }
 
-        // Create mods folder if it doesn't exist
+        // Create mods folder if needed
         const modsPath = path.join(instancePath, 'mods');
         if (!fs.existsSync(modsPath)) {
             fs.mkdirSync(modsPath, { recursive: true });
@@ -164,7 +82,7 @@ export async function installMod(modSlug, options) {
         // Download the mod
         const destPath = path.join(modsPath, file.filename);
         console.log(chalk.gray(`Downloading ${file.filename}...`));
-        await downloadFile(file.url, destPath);
+        await downloadFile(file.url, destPath, null, false);
 
         // Update config
         config.mods.push({
@@ -183,7 +101,7 @@ export async function installMod(modSlug, options) {
         console.log(chalk.gray(`   File: mods/${file.filename}`));
 
         // Show dependencies if any
-        if (version.dependencies && version.dependencies.length > 0) {
+        if (version.dependencies?.length > 0) {
             const requiredDeps = version.dependencies.filter(d => d.dependency_type === 'required');
             if (requiredDeps.length > 0) {
                 console.log(chalk.yellow(`\n⚠️  This mod has ${requiredDeps.length} required dependencies:`));

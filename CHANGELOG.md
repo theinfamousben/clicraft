@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.2] - 2026-01-22
+
+### Changed
+
+- **Major Codebase Refactoring**
+  - Created centralized helper modules for shared functionality
+  - `helpers/constants.js` - Centralized API URLs, user agent, pagination settings
+  - `helpers/utils.js` - Core utilities: fetchJson, downloadFile, loadConfig, saveConfig, paginatedSelect, mavenToPath
+  - `helpers/modrinth.js` - Modrinth API functions: getProject, getProjectVersions, searchMods, downloadMod, findMod
+  - `helpers/minecraft.js` - Minecraft/Fabric/Forge API: version fetching, library/asset downloads
+  - Eliminated 7+ duplicate function patterns across command files
+  - Reduced code duplication and improved maintainability
+  - All commands now use shared imports instead of local implementations
+
 ## [0.3.1] - 2026-01-22
 
 ### Added

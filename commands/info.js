@@ -1,98 +1,24 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import version from '../helpers/getv.js';
-
-// Current mcconfig version
-const CONFIG_VERSION = version;
-
-// Load mcconfig.json
-function loadConfig(instancePath) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    if (!fs.existsSync(configPath)) {
-        return null;
-    }
-    return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-}
-
-// Format bytes to human readable
-function formatBytes(bytes) {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-// Get directory size
-function getDirSize(dirPath) {
-    if (!fs.existsSync(dirPath)) return 0;
-    
-    let size = 0;
-    const files = fs.readdirSync(dirPath, { withFileTypes: true });
-    
-    for (const file of files) {
-        const filePath = path.join(dirPath, file.name);
-        if (file.isDirectory()) {
-            size += getDirSize(filePath);
-        } else {
-            try {
-                size += fs.statSync(filePath).size;
-            } catch {
-                // Skip files we can't read
-            }
-        }
-    }
-    
-    return size;
-}
-
-// Count files in directory
-function countFiles(dirPath, extension = null) {
-    if (!fs.existsSync(dirPath)) return 0;
-    
-    let count = 0;
-    const files = fs.readdirSync(dirPath, { withFileTypes: true });
-    
-    for (const file of files) {
-        const filePath = path.join(dirPath, file.name);
-        if (file.isDirectory()) {
-            count += countFiles(filePath, extension);
-        } else if (!extension || file.name.endsWith(extension)) {
-            count++;
-        }
-    }
-    
-    return count;
-}
-
-// Format date
-function formatDate(isoString) {
-    if (!isoString) return 'Unknown';
-    const date = new Date(isoString);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
+import { 
+    loadConfig, 
+    getInstancePath, 
+    requireConfig, 
+    formatBytes, 
+    formatDate, 
+    getDirSize 
+} from '../helpers/utils.js';
 
 export async function instanceInfo(options) {
-    const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
+    const instancePath = getInstancePath(options);
     
-    // Load instance config
-    const config = loadConfig(instancePath);
-    if (!config) {
-        console.log(chalk.red('Error: No mcconfig.json found.'));
-        console.log(chalk.gray('Make sure you are in a Minecraft instance directory or use --instance <path>'));
-        return;
-    }
+    const config = requireConfig(instancePath);
+    if (!config) return;
 
+    // Mods-only mode
     if (options.mods) {
         const installedMods = config.mods || [];
-
         if (installedMods.length > 0) {
             console.log(chalk.cyan('\n📦 Installed Mods\n'));
             for (const mod of installedMods) {
@@ -101,10 +27,8 @@ export async function instanceInfo(options) {
         } else {
             console.log(chalk.yellow('\nNo mods are currently installed in this instance.\n'));
         }
-
         return;
     }
-
 
     console.log(chalk.cyan('\n📦 Instance Information\n'));
 
@@ -123,7 +47,6 @@ export async function instanceInfo(options) {
         console.log(chalk.white('  Config Version:  ') + chalk.yellow('legacy (no version)'));
     }
 
-    // Location
     console.log(chalk.white('  Location:        ') + chalk.gray(instancePath));
 
     // Mods info
@@ -151,11 +74,9 @@ export async function instanceInfo(options) {
     const directories = [
         { name: 'Libraries', path: 'libraries' },
         { name: 'Assets', path: 'assets' },
-        { name: 'Versions', path: 'versions' },
         { name: 'Mods', path: 'mods' },
-        { name: 'Saves', path: 'saves' },
-        { name: 'Resource Packs', path: 'resourcepacks' },
-        { name: 'Logs', path: 'logs' }
+        { name: 'Versions', path: 'versions' },
+        { name: 'Saves', path: 'saves' }
     ];
 
     let totalSize = 0;
@@ -163,45 +84,30 @@ export async function instanceInfo(options) {
         const dirPath = path.join(instancePath, dir.path);
         const size = getDirSize(dirPath);
         totalSize += size;
-        
-        if (size > 0 || options.verbose) {
-            const sizeStr = size > 0 ? formatBytes(size) : chalk.gray('empty');
-            console.log(chalk.white(`  ${dir.name.padEnd(16)} `) + sizeStr);
+        if (size > 0) {
+            console.log(chalk.white(`  ${dir.name}:`.padEnd(16)) + chalk.gray(formatBytes(size)));
         }
     }
-
-    console.log(chalk.white('  ────────────────────'));
-    console.log(chalk.white('  Total:           ') + chalk.yellow(formatBytes(totalSize)));
+    console.log(chalk.white('  Total:'.padEnd(16)) + chalk.yellow(formatBytes(totalSize)));
 
     // World saves
     const savesPath = path.join(instancePath, 'saves');
     if (fs.existsSync(savesPath)) {
         const saves = fs.readdirSync(savesPath, { withFileTypes: true })
             .filter(d => d.isDirectory());
-        
         if (saves.length > 0) {
             console.log();
-            console.log(chalk.cyan('🌍 World Saves'));
-            console.log(chalk.white('  Worlds:          ') + chalk.yellow(saves.length));
-            
+            console.log(chalk.cyan('🌍 Worlds'));
+            console.log(chalk.white('  Save Count:      ') + chalk.yellow(saves.length));
             if (options.verbose) {
                 for (const save of saves) {
-                    const savePath = path.join(savesPath, save.name);
-                    const size = getDirSize(savePath);
-                    console.log(chalk.gray(`    - ${save.name} (${formatBytes(size)})`));
+                    console.log(chalk.gray(`    - ${save.name}`));
                 }
             }
         }
     }
 
-    // Config version warning
-    if (!config.configVersion || config.configVersion < CONFIG_VERSION) {
-        console.log();
-        console.log(chalk.yellow('⚠️  This instance uses an older config format.'));
-        console.log(chalk.gray('   Run "clicraft upgrade" to update to the latest format.'));
-    }
-
     console.log();
 }
 
-export default { instanceInfo, CONFIG_VERSION };
+export default { instanceInfo };

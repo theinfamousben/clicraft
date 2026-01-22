@@ -2,117 +2,22 @@ import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 import inquirer from 'inquirer';
-import { pipeline } from 'stream/promises';
-import { Readable } from 'stream';
 import version from '../helpers/getv.js';
 import * as v from '../helpers/versions.js';
+import { 
+    fetchJson, 
+    downloadFile, 
+    loadConfig, 
+    saveConfig, 
+    getInstancePath, 
+    requireConfig, 
+    paginatedSelect,
+    mavenToPath
+} from '../helpers/utils.js';
+import { getProjectVersions } from '../helpers/modrinth.js';
+import { MOJANG_VERSION_MANIFEST, FABRIC_META, FABRIC_MAVEN } from '../helpers/constants.js';
 
 const CONFIG_VERSION = version;
-
-const MODRINTH_API = 'https://api.modrinth.com/v2';
-const PAGE_SIZE = 10;
-const NEXT_PAGE = '__NEXT_PAGE__';
-const PREV_PAGE = '__PREV_PAGE__';
-
-// Fetch JSON helper
-async function fetchJson(url) {
-    const response = await fetch(url, {
-        headers: {
-            'User-Agent': `clicraft/${CONFIG_VERSION} (https://github.com/theinfamousben/clicraft)`
-        }
-    });
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    return await response.json();
-}
-
-// Download a file
-async function downloadFile(url, destPath) {
-    const response = await fetch(url, {
-        headers: {
-            'User-Agent': `clicraft/${CONFIG_VERSION} (https://github.com/theinfamousben/clicraft)`
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(`Download failed: ${response.status} ${response.statusText}`);
-    }
-
-    const fileStream = fs.createWriteStream(destPath);
-    await pipeline(Readable.fromWeb(response.body), fileStream);
-}
-
-// Load mcconfig.json
-function loadConfig(instancePath) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    if (!fs.existsSync(configPath)) {
-        return null;
-    }
-    return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-}
-
-// Save mcconfig.json
-function saveConfig(instancePath, config) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-}
-
-// Paginated select helper
-async function paginatedSelect(message, allChoices, getChoiceDisplay = (c) => c) {
-    let currentPage = 0;
-    const totalPages = Math.ceil(allChoices.length / PAGE_SIZE);
-
-    while (true) {
-        const startIdx = currentPage * PAGE_SIZE;
-        const endIdx = Math.min(startIdx + PAGE_SIZE, allChoices.length);
-        const pageChoices = allChoices.slice(startIdx, endIdx);
-
-        const choices = pageChoices.map((choice) => ({
-            name: typeof choice === 'object' && choice.name ? choice.name : getChoiceDisplay(choice),
-            value: typeof choice === 'object' && choice.value !== undefined ? choice.value : choice
-        }));
-
-        if (currentPage > 0) {
-            choices.push({ name: chalk.cyan('← Previous page'), value: PREV_PAGE });
-        }
-        if (currentPage < totalPages - 1) {
-            choices.push({ name: chalk.cyan('→ Next page'), value: NEXT_PAGE });
-        }
-
-        const pageInfo = totalPages > 1 ? ` (page ${currentPage + 1}/${totalPages})` : '';
-        
-        const { selection } = await inquirer.prompt([{
-            type: 'rawlist',
-            name: 'selection',
-            message: `${message}${pageInfo}`,
-            choices: choices
-        }]);
-
-        if (selection === NEXT_PAGE) {
-            currentPage++;
-            continue;
-        } else if (selection === PREV_PAGE) {
-            currentPage--;
-            continue;
-        }
-
-        return selection;
-    }
-}
-
-// Get project versions from Modrinth
-async function getProjectVersions(slugOrId, mcVersion, loader) {
-    const params = new URLSearchParams();
-    if (mcVersion) {
-        params.set('game_versions', JSON.stringify([mcVersion]));
-    }
-    if (loader) {
-        params.set('loaders', JSON.stringify([loader]));
-    }
-
-    return await fetchJson(`${MODRINTH_API}/project/${slugOrId}/version?${params}`);
-}
 
 // Update a single mod
 async function updateMod(instancePath, config, mod, options) {
@@ -149,7 +54,7 @@ async function updateMod(instancePath, config, mod, options) {
         // Download new file
         const destPath = path.join(modsPath, file.filename);
         console.log(chalk.gray(`  Downloading ${file.filename}...`));
-        await downloadFile(file.url, destPath);
+        await downloadFile(file.url, destPath, null, false);
 
         // Update mod entry
         mod.versionId = latestVersion.id;
@@ -222,17 +127,14 @@ async function upgradeMinecraft(instancePath, config, options) {
     console.log(chalk.cyan('\n🎮 Upgrade Minecraft Version\n'));
     console.log(chalk.gray(`Current version: ${config.minecraftVersion}`));
 
-    // Fetch available versions
     console.log(chalk.gray('Fetching available versions...'));
-    const manifest = await fetchJson('https://launchermeta.mojang.com/mc/game/version_manifest.json');
+    const manifest = await fetchJson(MOJANG_VERSION_MANIFEST);
     
     const releaseVersions = manifest.versions
         .filter(v => v.type === 'release')
         .map(v => v.id);
 
     const currentIndex = releaseVersions.indexOf(config.minecraftVersion);
-    
-    // Show versions newer than current
     const newerVersions = currentIndex > 0 ? releaseVersions.slice(0, currentIndex) : [];
     
     if (newerVersions.length === 0) {
@@ -244,7 +146,6 @@ async function upgradeMinecraft(instancePath, config, options) {
 
     const newVersion = await paginatedSelect('Select new Minecraft version:', newerVersions);
 
-    // Confirm
     const { confirm } = await inquirer.prompt([{
         type: 'confirm',
         name: 'confirm',
@@ -264,7 +165,6 @@ async function upgradeMinecraft(instancePath, config, options) {
     console.log();
     console.log(chalk.red('This feature is not yet fully implemented.'));
     console.log(chalk.gray('For now, create a new instance with the desired version.'));
-    console.log(chalk.gray('You can manually copy your mods, saves, and resource packs.'));
 }
 
 // Upgrade mod loader version
@@ -274,7 +174,7 @@ async function upgradeLoader(instancePath, config, options) {
 
     if (config.modLoader === 'fabric') {
         console.log(chalk.gray('Fetching Fabric loader versions...'));
-        const loaderVersions = await fetchJson('https://meta.fabricmc.net/v2/versions/loader');
+        const loaderVersions = await fetchJson(`${FABRIC_META}/versions/loader`);
         const stableVersions = loaderVersions.filter(v => v.stable).map(v => v.version);
 
         const currentIndex = stableVersions.indexOf(config.loaderVersion);
@@ -295,18 +195,15 @@ async function upgradeLoader(instancePath, config, options) {
             return;
         }
 
-        // Update config
         const oldVersionId = config.versionId;
         config.loaderVersion = newVersion;
         config.versionId = `fabric-loader-${newVersion}-${config.minecraftVersion}`;
 
-        // Download new Fabric profile
         console.log(chalk.gray('\nFetching new Fabric profile...'));
         const fabricProfile = await fetchJson(
-            `https://meta.fabricmc.net/v2/versions/loader/${config.minecraftVersion}/${newVersion}/profile/json`
+            `${FABRIC_META}/versions/loader/${config.minecraftVersion}/${newVersion}/profile/json`
         );
 
-        // Save new version JSON
         const versionsPath = path.join(instancePath, 'versions');
         const newVersionPath = path.join(versionsPath, config.versionId);
         fs.mkdirSync(newVersionPath, { recursive: true });
@@ -315,33 +212,27 @@ async function upgradeLoader(instancePath, config, options) {
             JSON.stringify(fabricProfile, null, 2)
         );
 
-        // Download any new Fabric libraries
         console.log(chalk.gray('Checking for new libraries...'));
         const librariesPath = path.join(instancePath, 'libraries');
         
         for (const lib of fabricProfile.libraries) {
-            const parts = lib.name.split(':');
-            if (parts.length < 3) continue;
+            const relativePath = mavenToPath(lib.name);
+            if (!relativePath) continue;
             
-            const [group, artifact, version] = parts;
-            const classifier = parts.length > 3 ? `-${parts[3]}` : '';
-            const groupPath = group.replace(/\./g, '/');
-            const relativePath = `${groupPath}/${artifact}/${version}/${artifact}-${version}${classifier}.jar`;
             const libPath = path.join(librariesPath, relativePath);
 
             if (!fs.existsSync(libPath)) {
-                const url = (lib.url || 'https://maven.fabricmc.net/') + relativePath;
-                console.log(chalk.gray(`  Downloading ${artifact}...`));
+                const url = (lib.url || FABRIC_MAVEN + '/') + relativePath;
+                console.log(chalk.gray(`  Downloading ${lib.name.split(':')[1]}...`));
                 fs.mkdirSync(path.dirname(libPath), { recursive: true });
                 try {
-                    await downloadFile(url, libPath);
+                    await downloadFile(url, libPath, null, false);
                 } catch (err) {
-                    console.log(chalk.yellow(`  Warning: Failed to download ${artifact}`));
+                    console.log(chalk.yellow(`  Warning: Failed to download`));
                 }
             }
         }
 
-        // Remove old version folder if different
         if (oldVersionId !== config.versionId) {
             const oldVersionPath = path.join(versionsPath, oldVersionId);
             if (fs.existsSync(oldVersionPath)) {
@@ -350,7 +241,6 @@ async function upgradeLoader(instancePath, config, options) {
         }
 
         saveConfig(instancePath, config);
-
         console.log(chalk.green(`\n✅ Upgraded Fabric loader to ${newVersion}`));
 
     } else if (config.modLoader === 'forge') {
@@ -363,8 +253,6 @@ async function upgradeLoader(instancePath, config, options) {
 
 // Upgrade config version
 async function upgradeConfig(instancePath, config, options) {
-    // -1 = no version
-    // -2 = invalid version
     const configVersionInt = v.enumerate(config.configVersion) ?? -1;
     const currentVersionInt = v.enumerate(CONFIG_VERSION);
 
@@ -374,53 +262,39 @@ async function upgradeConfig(instancePath, config, options) {
     }
 
     if (configVersionInt > currentVersionInt) {
-        console.log(chalk.yellow('Config Version is than CLIcraft version. Please update CLIcraft. If the issue persists, please check mcconfig.json'));
+        console.log(chalk.yellow('Config version is newer than CLIcraft. Please update CLIcraft.'));
         return;
     }
 
     console.log(chalk.cyan('\n🔄 Upgrading config format...\n'));
 
-
-    // Apply migrations based on version
     if (configVersionInt === -1) {
-        // Migration to v1: add configVersion field
         config.configVersion = CONFIG_VERSION;
         console.log(chalk.gray('  + Added configVersion field'));
     }
 
     if (configVersionInt === -2) {
-        // Handle invalid version case
         config.configVersion = CONFIG_VERSION;
-        console.log(chalk.gray('  + Set configVersion to current version due to invalid previous version'));
+        console.log(chalk.gray('  + Set configVersion to current version'));
     }
 
-    // Future migrations would go here:
-    // if (oldVersion < 2) { ... }
-
     saveConfig(instancePath, config);
-    console.log(chalk.green(`\n✅ Config upgraded from v${config.configVersion} to v${CONFIG_VERSION}`));
+    console.log(chalk.green(`\n✅ Config upgraded to v${CONFIG_VERSION}`));
 }
 
 // Main upgrade command
 export async function upgrade(modName, options) {
-    const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
+    const instancePath = getInstancePath(options);
     
-    // Load instance config
-    const config = loadConfig(instancePath);
-    if (!config) {
-        console.log(chalk.red('Error: No mcconfig.json found.'));
-        console.log(chalk.gray('Make sure you are in a Minecraft instance directory or use --instance <path>'));
-        return;
-    }
+    const config = requireConfig(instancePath);
+    if (!config) return;
 
     try {
-        // If a mod name is provided, upgrade just that mod
         if (modName) {
             await upgradeSingleMod(instancePath, config, modName, options);
             return;
         }
 
-        // Otherwise, show upgrade menu
         console.log(chalk.cyan(`\n🔄 Upgrade ${config.name}\n`));
 
         const { upgradeType } = await inquirer.prompt([{

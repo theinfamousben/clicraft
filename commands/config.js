@@ -12,21 +12,13 @@ import {
     saveDefaultGameSettings,
     extractGameSettings
 } from '../helpers/config.js';
-
-// Load mcconfig.json
-function loadInstanceConfig(instancePath) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    if (!fs.existsSync(configPath)) {
-        return null;
-    }
-    return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-}
-
-// Save mcconfig.json
-function saveInstanceConfig(instancePath, config) {
-    const configPath = path.join(instancePath, 'mcconfig.json');
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-}
+import { 
+    loadConfig, 
+    saveConfig, 
+    getInstancePath, 
+    requireConfig,
+    parseValue
+} from '../helpers/utils.js';
 
 // Show current CLI settings
 async function showSettings() {
@@ -57,16 +49,7 @@ async function editSetting(key, value) {
         return;
     }
     
-    // Parse value
-    let parsedValue = value;
-    if (value === 'null' || value === 'auto') {
-        parsedValue = null;
-    } else if (value === 'true') {
-        parsedValue = true;
-    } else if (value === 'false') {
-        parsedValue = false;
-    }
-    
+    let parsedValue = value === 'null' || value === 'auto' ? null : parseValue(value);
     settings[key] = parsedValue;
     saveSettings(settings);
     
@@ -123,10 +106,9 @@ async function removeFromIgnoreList(pattern) {
 
 // Capture game settings from an instance's options.txt
 export async function captureGameSettings(options, autoSaveToConfig = false) {
-    const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
+    const instancePath = getInstancePath(options);
     
-    // Load instance config
-    const config = loadInstanceConfig(instancePath);
+    const config = loadConfig(instancePath);
     if (!config) {
         console.log(chalk.red('Error: No mcconfig.json found.'));
         console.log(chalk.gray('Make sure you are in a Minecraft instance directory or use --instance <path>'));
@@ -147,7 +129,10 @@ export async function captureGameSettings(options, autoSaveToConfig = false) {
         return;
     }
     
-    console.log(chalk.cyan(`\n⚙️  Captured ${Object.keys(gameSettings).length} game settings\n ${autoSaveToConfig ? chalk.gray('(auto-saved to mcconfig.json)\nDisable this by setting autoSaveToConfig to false in ~/.clicraft/settings.json') : ''}\n`));
+    const message = autoSaveToConfig 
+        ? chalk.gray('(auto-saved to mcconfig.json)\nDisable this by setting autoSaveToConfig to false in ~/.clicraft/settings.json')
+        : '';
+    console.log(chalk.cyan(`\n⚙️  Captured ${Object.keys(gameSettings).length} game settings\n ${message}\n`));
     
     if (options.verbose) {
         for (const [key, value] of Object.entries(gameSettings)) {
@@ -156,17 +141,13 @@ export async function captureGameSettings(options, autoSaveToConfig = false) {
         console.log('');
     }
     
-    // Ask for confirmation
-
     if (!autoSaveToConfig) {
-        const { confirm } = await inquirer.prompt([
-            {
-                type: 'confirm',
-                name: 'confirm',
-                message: 'Save these settings to mcconfig.json?',
-                default: true
-            }
-        ]);
+        const { confirm } = await inquirer.prompt([{
+            type: 'confirm',
+            name: 'confirm',
+            message: 'Save these settings to mcconfig.json?',
+            default: true
+        }]);
 
         if (!confirm) {
             console.log(chalk.yellow('\nCancelled.'));
@@ -174,9 +155,8 @@ export async function captureGameSettings(options, autoSaveToConfig = false) {
         }
     }
     
-    
     config.gameSettings = gameSettings;
-    saveInstanceConfig(instancePath, config);
+    saveConfig(instancePath, config);
     
     console.log(chalk.green(`\n✓ Saved ${Object.keys(gameSettings).length} game settings to mcconfig.json`));
     console.log(chalk.gray('   These settings will be applied when creating an instance from this config'));
@@ -184,9 +164,9 @@ export async function captureGameSettings(options, autoSaveToConfig = false) {
 
 // Show game settings from mcconfig
 async function showGameSettings(options) {
-    const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
+    const instancePath = getInstancePath(options);
     
-    const config = loadInstanceConfig(instancePath);
+    const config = loadConfig(instancePath);
     if (!config) {
         console.log(chalk.red('Error: No mcconfig.json found.'));
         return;
@@ -208,9 +188,9 @@ async function showGameSettings(options) {
 
 // Clear game settings from mcconfig
 async function clearGameSettings(options) {
-    const instancePath = options.instance ? path.resolve(options.instance) : process.cwd();
+    const instancePath = getInstancePath(options);
     
-    const config = loadInstanceConfig(instancePath);
+    const config = loadConfig(instancePath);
     if (!config) {
         console.log(chalk.red('Error: No mcconfig.json found.'));
         return;
@@ -223,7 +203,7 @@ async function clearGameSettings(options) {
     
     const count = Object.keys(config.gameSettings).length;
     delete config.gameSettings;
-    saveInstanceConfig(instancePath, config);
+    saveConfig(instancePath, config);
     
     console.log(chalk.green(`\n✓ Cleared ${count} game settings from mcconfig.json`));
 }
@@ -253,21 +233,10 @@ async function showDefaultGameSettings() {
 // Set a default game setting
 async function setDefaultGameSetting(key, value) {
     const defaults = loadDefaultGameSettings();
-    
-    // Parse value
-    let parsedValue = value;
-    if (value === 'true') {
-        parsedValue = true;
-    } else if (value === 'false') {
-        parsedValue = false;
-    } else if (!isNaN(value) && value !== '') {
-        parsedValue = parseFloat(value);
-    }
-    
-    defaults[key] = parsedValue;
+    defaults[key] = parseValue(value);
     saveDefaultGameSettings(defaults);
     
-    console.log(chalk.green(`\n✓ Set default ${key} = ${parsedValue}`));
+    console.log(chalk.green(`\n✓ Set default ${key} = ${defaults[key]}`));
     console.log(chalk.gray('   This will be applied to all new instances'));
 }
 
