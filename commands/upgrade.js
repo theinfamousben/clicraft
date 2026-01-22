@@ -368,8 +368,13 @@ async function upgradeConfig(instancePath, config, options) {
     const configVersionInt = v.enumerate(config.configVersion) ?? -1;
     const currentVersionInt = v.enumerate(CONFIG_VERSION);
 
-    if (config.configVersion && configVersionInt >= currentVersionInt) {
+    if (configVersionInt === currentVersionInt) {
         console.log(chalk.green('✓ Config is already up to date.'));
+        return;
+    }
+
+    if (configVersionInt > currentVersionInt) {
+        console.log(chalk.yellow('Config Version is than CLIcraft version. Please update CLIcraft. If the issue persists, please check mcconfig.json'));
         return;
     }
 
