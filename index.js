@@ -4,7 +4,7 @@ import { createInstance } from './commands/create.js';
 import { searchMods } from './commands/search.js';
 import { installMod } from './commands/install.js';
 import { uninstallMod } from './commands/uninstall.js';
-import { login, logout, authStatus } from './commands/auth.js';
+import { authCommand } from './commands/auth.js';
 import { launchInstance } from './commands/launch.js';
 import { instanceInfo } from './commands/info.js';
 import { upgrade } from './commands/upgrade.js';
@@ -49,21 +49,11 @@ program
     .action(uninstallMod);
 
 program
-    .command('login')
-    .description('Login to your Minecraft account (Microsoft)')
-    .option('-f, --force', 'Force re-login even if already logged in')
+    .command('auth [action] [args...]')
+    .description('Manage Minecraft accounts (login, logout, switch, status)')
+    .option('-f, --force', 'Skip confirmation prompts')
     .option('--verbose', 'Enable verbose output')
-    .action(login);
-
-program
-    .command('logout')
-    .description('Logout from your Minecraft account')
-    .action(logout);
-
-program
-    .command('status')
-    .description('Show current login status')
-    .action(authStatus);
+    .action(authCommand);
 
 program
     .command('launch')

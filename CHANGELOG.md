@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2026-01-22
+
+### Added
+
+- **Multi-Account Authentication** (`clicraft auth`)
+  - Support for multiple Microsoft/Minecraft accounts
+  - New unified `clicraft auth` command with subcommands:
+    - `auth login` - Add a new account or update existing
+    - `auth logout [account]` - Remove an account (interactive selection if multiple)
+    - `auth switch [account]` - Switch between saved accounts
+    - `auth status [account]` - Show all accounts or specific account details
+    - `auth list` - List all saved accounts
+  - Accounts stored in `~/.clicraft/auth/accounts.json`
+  - Active account highlighted with `▶` marker in status
+  - Token status (valid/expired) shown for each account
+  - Automatic migration from legacy `auth.json` format
+
+### Changed
+
+- **Auth Commands Restructured**
+  - Replaced standalone `login`, `logout`, `status` commands with `auth` subcommand
+  - Backward compatible `loadAuth()` and `refreshAuth()` exports maintained
+
+### Deprecated
+
+- Old `clicraft login`, `clicraft logout`, `clicraft status` commands are now under `clicraft auth`
+
 ## [0.3.2] - 2026-01-22
 
 ### Changed
