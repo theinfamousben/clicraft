@@ -1,53 +1,6 @@
 import chalk from 'chalk';
-
-const MODRINTH_API = 'https://api.modrinth.com/v2';
-
-// Search for mods on Modrinth
-async function searchModrinth(query, options = {}) {
-    const params = new URLSearchParams({
-        query: query,
-        limit: options.limit || 10,
-        facets: JSON.stringify([
-            ['project_type:mod']
-        ])
-    });
-
-    // Add version filter if specified
-    if (options.version) {
-        const facets = JSON.parse(params.get('facets'));
-        facets.push([`versions:${options.version}`]);
-        params.set('facets', JSON.stringify(facets));
-    }
-
-    // Add loader filter if specified
-    if (options.loader) {
-        const facets = JSON.parse(params.get('facets'));
-        facets.push([`categories:${options.loader}`]);
-        params.set('facets', JSON.stringify(facets));
-    }
-
-    const response = await fetch(`${MODRINTH_API}/search?${params}`, {
-        headers: {
-            'User-Agent': 'clicraft/0.1.0 (https://github.com/theinfamousben/clicraft)'
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(`Modrinth API error: ${response.status} ${response.statusText}`);
-    }
-
-    return await response.json();
-}
-
-// Format download count for display
-function formatDownloads(count) {
-    if (count >= 1000000) {
-        return (count / 1000000).toFixed(1) + 'M';
-    } else if (count >= 1000) {
-        return (count / 1000).toFixed(1) + 'K';
-    }
-    return count.toString();
-}
+import { searchMods as searchModrinth } from '../helpers/modrinth.js';
+import { formatDownloads } from '../helpers/utils.js';
 
 export async function searchMods(query, options) {
     if (!query) {
@@ -74,7 +27,9 @@ export async function searchMods(query, options) {
 
         results.hits.forEach((mod, index) => {
             const downloads = formatDownloads(mod.downloads);
-            const loaders = mod.categories?.filter(c => ['fabric', 'forge', 'quilt', 'neoforge'].includes(c)).join(', ') || 'Unknown';
+            const loaders = mod.categories?.filter(c => 
+                ['fabric', 'forge', 'quilt', 'neoforge'].includes(c)
+            ).join(', ') || 'Unknown';
             
             console.log(chalk.bold.white(`${index + 1}. ${mod.title}`));
             console.log(chalk.gray(`   Slug: ${chalk.cyan(mod.slug)}`));
