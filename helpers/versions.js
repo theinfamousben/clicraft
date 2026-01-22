@@ -8,7 +8,7 @@ const versions = [
 
 
 function enumerate(version) {
-    return versions.indexOf(version) ?? -1;
+    return versions.indexOf(version) ?? -2;
 }
 
 function denumerate(index) {
