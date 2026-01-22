@@ -23,7 +23,8 @@ const DEFAULT_SETTINGS = {
 
     checkUpdates: true,
     autoSaveToConfig: true,
-    settingsVersion: '0.3.0'
+    autoLoadConfigOnLaunch: true,
+    settingsVersion: '0.3.0',
 };
 
 // Default game settings to apply to new instances
