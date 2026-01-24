@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - 2026-01-24
+
+**Emergency Patch**
+
+### Changed
+- **Fixed `post-command.js`**
+
 ## [0.4.1] - 2026-01-24
 
 ### Added
@@ -11,7 +18,7 @@ All notable changes to this project will be documented in this file.
   - Install globally with `npm install -g @bobschlowinskii/clicraft`
 - **Added Auto-update checking**
   - *disable by setting `checkUpdates` to false in `~/.clicraft/settings/`*
-  
+
 ## [0.4.0] - 2026-01-22
 
 ### Added
