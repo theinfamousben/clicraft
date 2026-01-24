@@ -19,6 +19,10 @@ All notable changes to this project will be documented in this file.
   - Token status (valid/expired) shown for each account
   - Automatic migration from legacy `auth.json` format
 
+- **Published to npm**
+  - Package available as `@bobschlowinskii/clicraft`
+  - Install globally with `npm install -g @bobschlowinskii/clicraft`
+
 ### Changed
 
 - **Auth Commands Restructured**
