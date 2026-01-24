@@ -27,6 +27,9 @@ CLIcraft is a command-line tool that simplifies managing Minecraft instances and
 ## 🚀 Quick Start
 
 ```bash
+# Install CLIcraft
+npm install -g @bobschlowinskii/clicraft
+
 # Create a new instance
 clicraft create
 
@@ -51,7 +54,7 @@ clicraft launch
 - [`create`](commands/create.md) - Create a new Minecraft instance
 - [`search`](commands/search.md) - Search for mods on Modrinth
 - [`install`](commands/install.md) - Install mods to your instance
-- [`login`](commands/login.md) - Authenticate with Microsoft account
+- [`auth`](commands/auth.md) - Manage Microsoft accounts (login, logout, switch)
 - [`launch`](commands/launch.md) - Launch your Minecraft instance
 - [`info`](commands/info.md) - View instance information
 - [`upgrade`](commands/upgrade.md) - Upgrade mods and loaders

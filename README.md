@@ -19,7 +19,12 @@ Unlike other PMs or Launchers, CLIcraft can do both! Simply type a few commands 
 
 ## Installation
 
-### Cloning from Source
+### NPM Package (Recommended)
+```bash
+npm install -g @bobschlowinskii/clicraft
+```
+
+### From Source
 ```bash
 # Clone the repository
 git clone https://github.com/theinfamousben/clicraft.git
@@ -31,8 +36,6 @@ npm install
 # Link globally (optional, for using 'clicraft' command anywhere)
 npm link
 ```
-### Install NPM Package
-**npm package coming soon!**
 
 
 ## Requirements

@@ -1,5 +1,5 @@
 {
-  "name": "clicraft",
+  "name": "@bobschlowinskii/clicraft",
   "version": "0.4.0",
   "description": "A simple Minecraft Mod Package Manager written in Node.JS",
   "main": "index.js",

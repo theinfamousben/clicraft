@@ -26,17 +26,19 @@ java --version
 
 ## 📦 Installation Methods
 
-### Method 1: NPM Package (Coming Soon!)
+### Method 1: NPM Package (Recommended)
 
-**Coming Soon!** The npm package will be available soon. Once released, you'll be able to install globally with:
+Install CLIcraft globally via npm:
 
 ```bash
-npm install -g clicraft
+npm install -g @bobschlowinskii/clicraft
 ```
+
+This is the easiest and recommended way to install CLIcraft.
 
 ### Method 2: Clone from Source
 
-This is currently the recommended way to install CLIcraft:
+Alternatively, you can install from source:
 
 ```bash
 # Clone the repository
@@ -70,7 +72,8 @@ This should display the current version of CLIcraft.
 
 CLIcraft stores configuration files in the following locations:
 
-- **Authentication tokens**: `~/.mcpkg/auth.json`
+- **CLI settings**: `~/.clicraft/settings.json`
+- **Authentication accounts**: `~/.clicraft/auth/accounts.json`
 - **Instance configuration**: `mcconfig.json` (in each instance directory)
 
 These files are created automatically when you use CLIcraft for the first time.
@@ -85,10 +88,10 @@ git pull origin main
 npm install
 ```
 
-### If installed via npm (when available):
+### If installed via npm:
 
 ```bash
-npm update -g clicraft
+npm update -g @bobschlowinskii/clicraft
 ```
 
 ## 🗑️ Uninstalling
@@ -101,10 +104,10 @@ npm unlink clicraft
 
 Then delete the cloned repository folder.
 
-### If installed via npm (when available):
+### If installed via npm:
 
 ```bash
-npm uninstall -g clicraft
+npm uninstall -g @bobschlowinskii/clicraft
 ```
 
 To also remove configuration files:
