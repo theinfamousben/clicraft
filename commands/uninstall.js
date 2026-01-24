@@ -4,6 +4,7 @@ import path from 'path';
 import inquirer from 'inquirer';
 import { loadConfig, saveConfig, getInstancePath, requireConfig } from '../helpers/utils.js';
 import { findMod } from '../helpers/modrinth.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 export async function uninstallMod(modSlug, options) {
     const instancePath = getInstancePath(options);
@@ -89,6 +90,8 @@ async function uninstallSingleMod(instancePath, config, modSlug, options) {
             console.error(error);
         }
     }
+
+    callPostCommandActions();
 }
 
 export default { uninstallMod };

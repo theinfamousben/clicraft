@@ -12,9 +12,9 @@ Unlike other PMs or Launchers, CLIcraft can do both! Simply type a few commands 
 - 🎮 **Create Instances** - Set up new Minecraft client or server instances with Fabric or Forge
 - 🔍 **Search Mods** - Find mods on Modrinth with filters for version, loader, and more
 - 📦 **Install Mods** - Download and install mods directly to your instance
-- � **Upgrade** - Update mods, mod loader, or Minecraft version
+- ⬆️ **Upgrade** - Update mods, mod loader, or Minecraft version
 - ℹ️ **Instance Info** - View detailed information about your instances
-- �🔐 **Microsoft Login** - Authenticate with your Microsoft account to play online
+- 🔐 **Microsoft Login** - Authenticate with your Microsoft account to play online
 - 🚀 **Launch Game** - Start Minecraft directly from the terminal
 
 ## Installation

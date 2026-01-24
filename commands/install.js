@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { downloadFile, loadConfig, saveConfig, getInstancePath, requireConfig } from '../helpers/utils.js';
 import { getProject, getProjectVersions } from '../helpers/modrinth.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 export async function installMod(modSlug, options) {
     const instancePath = getInstancePath(options);
@@ -125,6 +126,8 @@ export async function installMod(modSlug, options) {
             console.error(error);
         }
     }
+
+    callPostCommandActions();
 }
 
 export default { installMod };

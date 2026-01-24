@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { searchMods as searchModrinth } from '../helpers/modrinth.js';
 import { formatDownloads } from '../helpers/utils.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 export async function searchMods(query, options) {
     if (!query) {
@@ -45,6 +46,8 @@ export async function searchMods(query, options) {
             console.error(error);
         }
     }
+
+    callPostCommandActions();
 }
 
 export default { searchMods };

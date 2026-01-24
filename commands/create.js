@@ -27,6 +27,7 @@ import {
     downloadAssets
 } from '../helpers/minecraft.js';
 import { FORGE_MAVEN } from '../helpers/constants.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 const execAsync = promisify(exec);
 
@@ -529,6 +530,8 @@ export async function createInstance(options) {
             console.error(error);
         }
     }
+
+    callPostCommandActions();
 }
 
 export default { createInstance };

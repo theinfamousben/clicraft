@@ -16,6 +16,7 @@ import {
 } from '../helpers/utils.js';
 import { getProjectVersions } from '../helpers/modrinth.js';
 import { MOJANG_VERSION_MANIFEST, FABRIC_META, FABRIC_MAVEN } from '../helpers/constants.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 const CONFIG_VERSION = version;
 
@@ -338,6 +339,8 @@ export async function upgrade(modName, options) {
             console.error(error);
         }
     }
+
+    callPostCommandActions();
 }
 
 export default { upgrade };

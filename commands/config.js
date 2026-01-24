@@ -19,6 +19,7 @@ import {
     requireConfig,
     parseValue
 } from '../helpers/utils.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 // Show current CLI settings
 async function showSettings() {
@@ -351,6 +352,8 @@ export async function configCommand(action, args, options) {
             console.log(chalk.gray('   clear-game-settings   - Clear saved game settings'));
             break;
     }
+
+    callPostCommandActions();
 }
 
 export default { configCommand };

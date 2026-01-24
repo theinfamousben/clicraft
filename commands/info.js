@@ -9,6 +9,7 @@ import {
     formatDate, 
     getDirSize 
 } from '../helpers/utils.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 export async function instanceInfo(options) {
     const instancePath = getInstancePath(options);
@@ -108,6 +109,8 @@ export async function instanceInfo(options) {
     }
 
     console.log();
+
+    callPostCommandActions();
 }
 
 export default { instanceInfo };

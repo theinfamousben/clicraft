@@ -16,6 +16,7 @@ import {
     performAuthentication,
     refreshAccountAuth
 } from '../helpers/auth/microsoft.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 // Migrate from legacy auth.json on first run
 migrateFromLegacy();
@@ -412,6 +413,8 @@ export async function authCommand(action, args, options) {
             await status(action, options);
             break;
     }
+
+    callPostCommandActions();
 }
 
 // Legacy exports for backward compatibility

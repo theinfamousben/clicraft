@@ -11,6 +11,7 @@ import {
     requireConfig, 
     mavenToPath 
 } from '../helpers/utils.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 // Find Java executable
 function findJava() {
@@ -291,6 +292,8 @@ export async function launchInstance(options) {
             console.error(error);
         }
     }
+
+    callPostCommandActions();
 }
 
 export default { launchInstance };

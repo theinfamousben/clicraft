@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2026-01-24
+
+### Added
+
+- **Published to npm**
+  - Package available as `@bobschlowinskii/clicraft`
+  - Install globally with `npm install -g @bobschlowinskii/clicraft`
+- **Added Auto-update checking**
+  - *disable by setting `checkUpdates` to false in `~/.clicraft/settings/`*
+  
 ## [0.4.0] - 2026-01-22
 
 ### Added
@@ -19,9 +29,6 @@ All notable changes to this project will be documented in this file.
   - Token status (valid/expired) shown for each account
   - Automatic migration from legacy `auth.json` format
 
-- **Published to npm**
-  - Package available as `@bobschlowinskii/clicraft`
-  - Install globally with `npm install -g @bobschlowinskii/clicraft`
 
 ### Changed
 

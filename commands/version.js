@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import version from '../helpers/getv.js';
+import { callPostCommandActions } from '../helpers/post-command.js';
 
 const art = "\n" +
     "   _____ _      _____                __ _   \n" +
@@ -18,4 +19,6 @@ const output = (`
 
 export function showVersion() {
     console.log(output);
+
+    callPostCommandActions();
 }
