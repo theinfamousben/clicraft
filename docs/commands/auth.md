@@ -11,7 +11,7 @@ permalink: /commands/auth
 
 Manage your Microsoft/Minecraft accounts. CLIcraft supports multiple accounts with easy switching between them.
 
-## 📝 Synopsis
+## Usage
 
 ```bash
 clicraft auth [action] [args...] [options]
@@ -359,11 +359,6 @@ If you used an older version of CLIcraft, your existing auth is automatically mi
 - Old file: `~/.clicraft/auth.json`
 - New location: `~/.clicraft/auth/accounts.json`
 - A backup is created at `~/.clicraft/auth.json.backup`
-
-## 📚 Related Commands
-
-- [`clicraft launch`](launch.md) - Launch requires login for online play
-- [`clicraft config`](config.md) - CLI configuration
 
 ## 🔗 External Resources
 

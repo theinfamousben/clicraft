@@ -71,8 +71,8 @@ clicraft config set checkUpdates auto #sets to true
 |-----|-------------|----------------|--------|
 | `checkUpdates` | whether to check for updates | `true, false` | `true` |
 | `autoSaveToConfig` | whether to automatically save minecraft settings to mcconfig.json | `true, false` | `true` |
+| `autoLoadConfigOnLaunch` | whether to automatically load minecraft settings from mcconfig.json | `true, false` | `true` |
 
-*Do NOT change settingsVersion, unless you want to mess around and fix my bugs ;)*
 
 ### `ignore`
 

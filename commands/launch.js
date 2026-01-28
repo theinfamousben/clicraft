@@ -175,7 +175,7 @@ export async function launchInstance(aliasOrOptions, options) {
         if (!opts?.offline) {
             auth = await refreshAuth();
             if (!auth) {
-                console.log(chalk.yellow('Not logged in. Use "clicraft login" to authenticate.'));
+                console.log(chalk.yellow('Not logged in. Use "clicraft auth login" to authenticate.'));
                 console.log(chalk.gray('Or use --offline to play offline (if available).'));
                 return;
             }
