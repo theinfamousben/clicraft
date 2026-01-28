@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import version from '../helpers/getv.js';
-import { writeGameSettings, loadDefaultGameSettings } from '../helpers/config.js';
+import { writeGameSettings, loadDefaultGameSettings, saveAlias } from '../helpers/config.js';
 import { 
     fetchJson, 
     downloadFile, 
@@ -299,6 +299,54 @@ async function installModLoader(instancePath, type, loader, mcVersion, loaderVer
 }
 
 // ============================================
+// Alias Prompt
+// ============================================
+
+/**
+ * Prompt the user to create an alias for the instance
+ * @param {string} instancePath - Path to the instance
+ * @param {string} defaultName - Default alias name (instance name)
+ */
+async function promptForAlias(instancePath, defaultName) {
+    try {
+        const { createAlias } = await inquirer.prompt([{
+            type: 'confirm',
+            name: 'createAlias',
+            message: 'Would you like to create an alias for this instance?',
+            default: true
+        }]);
+
+        if (!createAlias) {
+            return;
+        }
+
+        const { aliasName } = await inquirer.prompt([{
+            type: 'input',
+            name: 'aliasName',
+            message: 'Alias name:',
+            default: defaultName.toLowerCase().replace(/\s+/g, '-'),
+            validate: (input) => {
+                if (!input.trim()) return 'Alias name is required';
+                if (/\s/.test(input)) return 'Alias name cannot contain spaces';
+                return true;
+            }
+        }]);
+
+        saveAlias(aliasName.trim(), instancePath);
+        console.log(chalk.green(`\n✅ Alias "${aliasName}" created!`));
+        console.log(chalk.gray(`   Launch with: clicraft launch ${aliasName}`));
+    } catch (error) {
+        if (error.name === 'ExitPromptError') {
+            // User cancelled, that's fine
+            return;
+        }
+        // Don't fail instance creation just because alias prompt failed
+        console.log(chalk.yellow('\nCould not create alias. You can add one later with:'));
+        console.log(chalk.gray(`   clicraft alias add <name> "${instancePath}"`));
+    }
+}
+
+// ============================================
 // Create from Config
 // ============================================
 
@@ -408,6 +456,9 @@ async function createFromConfig(existingConfig, options) {
     } else {
         console.log(chalk.gray(`   Start the server with: ./start.sh (or start.bat on Windows)`));
     }
+
+    // Ask for alias
+    await promptForAlias(instancePath, instanceName.trim());
 }
 
 // ============================================
@@ -519,6 +570,9 @@ export async function createInstance(options) {
         } else {
             console.log(chalk.gray(`   Start the server with: ./start.sh (or start.bat on Windows)`));
         }
+
+        // Ask for alias
+        await promptForAlias(instancePath, instanceName.trim());
 
     } catch (error) {
         if (error.name === 'ExitPromptError') {

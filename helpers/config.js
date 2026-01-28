@@ -254,5 +254,90 @@ export default {
     parseOptionsTxt,
     generateOptionsTxt,
     extractGameSettings,
-    writeGameSettings
+    writeGameSettings,
+    loadAliases,
+    saveAlias,
+    removeAlias,
+    getAliasByName,
+    getAliasByPath
 };
+
+// ============================================
+// Alias Management
+// ============================================
+
+/**
+ * Load aliases from ~/.clicraft/aliases.json
+ * @returns {object} - Object mapping alias names to instance paths
+ */
+export function loadAliases() {
+    const configDir = getConfigDir();
+    const aliasPath = path.join(configDir, 'aliases.json');
+    
+    if (!fs.existsSync(aliasPath)) {
+        return {};
+    }
+    
+    try {
+        const content = fs.readFileSync(aliasPath, 'utf-8');
+        return JSON.parse(content);
+    } catch {
+        return {};
+    }
+}
+
+/**
+ * Save all aliases to ~/.clicraft/aliases.json
+ * @param {object} aliases - Object mapping alias names to instance paths
+ */
+function saveAliases(aliases) {
+    const configDir = getConfigDir();
+    const aliasPath = path.join(configDir, 'aliases.json');
+    fs.writeFileSync(aliasPath, JSON.stringify(aliases, null, 2));
+}
+
+/**
+ * Add or update an alias
+ * @param {string} name - Alias name
+ * @param {string} instancePath - Path to the instance
+ */
+export function saveAlias(name, instancePath) {
+    const aliases = loadAliases();
+    aliases[name] = instancePath;
+    saveAliases(aliases);
+}
+
+/**
+ * Remove an alias by name
+ * @param {string} name - Alias name to remove
+ */
+export function removeAlias(name) {
+    const aliases = loadAliases();
+    delete aliases[name];
+    saveAliases(aliases);
+}
+
+/**
+ * Get an alias by name
+ * @param {string} name - Alias name
+ * @returns {string|null} - Instance path or null if not found
+ */
+export function getAliasByName(name) {
+    const aliases = loadAliases();
+    return aliases[name] || null;
+}
+
+/**
+ * Get an alias by its path
+ * @param {string} instancePath - Path to search for
+ * @returns {{name: string, path: string}|null} - Alias entry or null if not found
+ */
+export function getAliasByPath(instancePath) {
+    const aliases = loadAliases();
+    for (const [name, aliasPath] of Object.entries(aliases)) {
+        if (aliasPath === instancePath) {
+            return { name, path: aliasPath };
+        }
+    }
+    return null;
+}

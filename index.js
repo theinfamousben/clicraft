@@ -10,6 +10,7 @@ import { instanceInfo } from './commands/info.js';
 import { upgrade } from './commands/upgrade.js';
 import { showVersion } from './commands/version.js';
 import { configCommand } from './commands/config.js';
+import { aliasCommand } from './commands/alias.js';
 
 import {program} from 'commander'; 
 
@@ -56,12 +57,18 @@ program
     .action(authCommand);
 
 program
-    .command('launch')
-    .description('Launch the Minecraft instance')
+    .command('launch [alias]')
+    .description('Launch the Minecraft instance (by alias, path, or current directory)')
     .option('-i, --instance <path>', 'Path to the instance directory')
     .option('--offline', 'Launch in offline mode')
     .option('--verbose', 'Enable verbose output')
     .action(launchInstance);
+
+program
+    .command('alias [action] [args...]')
+    .description('Manage instance aliases (add, remove, list)')
+    .option('--verbose', 'Enable verbose output')
+    .action(aliasCommand);
 
 program
     .command('info')
