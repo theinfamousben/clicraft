@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.3] - 2026-01-28
+
+### Added
+
+- **Launch by Alias `clicraft alias`**
+  - Add alias `clicraft alias add [name] [path]`
+  - remove alias `clicraft alias remove [name]`
+  - list aliases `clicraft alias`
+
 ## [0.4.2] - 2026-01-24
 
 **Emergency Patch**

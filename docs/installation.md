@@ -42,7 +42,7 @@ Alternatively, you can install from source:
 
 ```bash
 # Clone the repository
-git clone https://github.com/theinfamousben/clicraft.git
+git clone -b live https://github.com/theinfamousben/clicraft.git
 cd clicraft
 
 # Install dependencies

@@ -4,7 +4,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 import { refreshAuth } from './auth.js';
 import { captureGameSettings } from '../commands/config.js';
-import { loadSettings, writeGameSettings } from '../helpers/config.js';
+import { loadSettings, writeGameSettings, getAliasByName } from '../helpers/config.js';
 import { 
     loadConfig, 
     getInstancePath, 
@@ -114,16 +114,46 @@ function parseArguments(args, variables) {
     return result;
 }
 
-export async function launchInstance(options) {
+export async function launchInstance(aliasOrOptions, options) {
+    // Handle both old style (just options) and new style (alias, options)
+    let alias = null;
+    let opts = options;
+    
+    if (typeof aliasOrOptions === 'string') {
+        alias = aliasOrOptions;
+    } else if (typeof aliasOrOptions === 'object') {
+        opts = aliasOrOptions;
+    }
+    
     const settings = loadSettings();
-    const instancePath = getInstancePath(options);
+    
+    // Resolve instance path from alias, --instance flag, or current directory
+    let instancePath;
+    if (alias) {
+        const aliasPath = getAliasByName(alias);
+        if (aliasPath) {
+            instancePath = aliasPath;
+            console.log(chalk.gray(`Using alias "${alias}" → ${instancePath}`));
+        } else {
+            // Check if it's actually a path
+            if (fs.existsSync(alias)) {
+                instancePath = path.resolve(alias);
+            } else {
+                console.log(chalk.red(`Error: Unknown alias "${alias}"`));
+                console.log(chalk.gray('Use "clicraft alias list" to see available aliases.'));
+                return;
+            }
+        }
+    } else {
+        instancePath = getInstancePath(opts);
+    }
     
     // Apply saved game settings if enabled
     if (settings.autoLoadConfigOnLaunch) {
         const config = loadConfig(instancePath);
         if (config?.gameSettings) {
             writeGameSettings(instancePath, config.gameSettings);
-            if (options.verbose) {
+            if (opts?.verbose) {
                 console.log(chalk.gray('Applied saved game settings to options.txt'));
             }
         }
@@ -142,7 +172,7 @@ export async function launchInstance(options) {
     try {
         // Get authentication
         let auth = null;
-        if (!options.offline) {
+        if (!opts?.offline) {
             auth = await refreshAuth();
             if (!auth) {
                 console.log(chalk.yellow('Not logged in. Use "clicraft login" to authenticate.'));
@@ -256,7 +286,7 @@ export async function launchInstance(options) {
         console.log(chalk.gray(`Game directory: ${instancePath}`));
         console.log();
 
-        if (options.verbose) {
+        if (opts?.verbose) {
             console.log(chalk.gray('Full command:'));
             console.log(chalk.gray(`${java} ${fullArgs.join(' ')}`));
             console.log();
@@ -276,7 +306,7 @@ export async function launchInstance(options) {
 
         minecraft.on('close', (code) => {
             if (settings.autoSaveToConfig) {
-                captureGameSettings({ instance: instancePath, verbose: options.verbose }, settings.autoSaveToConfig);
+                captureGameSettings({ instance: instancePath, verbose: opts?.verbose }, settings.autoSaveToConfig);
             }
 
             if (code === 0) {
@@ -288,7 +318,7 @@ export async function launchInstance(options) {
 
     } catch (error) {
         console.error(chalk.red('Error launching Minecraft:'), error.message);
-        if (options.verbose) {
+        if (opts?.verbose) {
             console.error(error);
         }
     }

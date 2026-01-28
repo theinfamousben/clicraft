@@ -21,6 +21,7 @@ Commands for creating and managing Minecraft instances.
 | [`create`](commands/create.md) | Create a new Minecraft instance with Fabric or Forge |
 | [`info`](commands/info.md) | View detailed information about an instance |
 | [`launch`](commands/launch.md) | Launch a Minecraft instance |
+| [`alias`](commands/alias.md) | Manage instance aliases for quick launching |
 
 ### Mod Management
 Commands for finding, installing, and managing mods.
