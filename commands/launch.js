@@ -255,10 +255,8 @@ export async function launchInstance(aliasOrOptions, options) {
         };
 
         // Build JVM arguments
-        const jvmArgs = [
+        let jvmArgs = [
             `-Djava.library.path=${nativesPath}`,
-            '-Xmx2G',
-            '-Xms512M',
             '-XX:+UnlockExperimentalVMOptions',
             '-XX:+UseG1GC',
             '-XX:G1NewSizePercent=20',
@@ -267,6 +265,8 @@ export async function launchInstance(aliasOrOptions, options) {
             '-XX:G1HeapRegionSize=32M',
             '-cp', classpath
         ];
+
+        jvmArgs = [...jvmArgs, ...settings.jvmArgs];
 
         const mainClass = versionData.mainClass;
 

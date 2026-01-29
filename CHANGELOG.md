@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.4] - [TBA]
+
+### Added
+
+- **Added config entry for custom JVM args**
+- **Cleaned up the Docs**
+
 ## [0.4.3] - 2026-01-28
 
 ### Added
