@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.5] - 2026-01-31
+
+### Added
+- **Added `force` option to `create` command**
+  - Overwrites existing instance if folder already exists in path
+  - call with `--force` or `-f`
+- **Added `path` option to `create` command**
+  - Specifies a path other than the working directory to install the instance
+  - call with `--path` or `-p`
+- **Multi-mod installation support**
+  - Install multiple mods in a single command: `clicraft install mod1 mod2 mod3`
+  - Shows installation summary when installing multiple mods
+  - Tracks success/failure count for batch installations
+
 ## [0.4.4] - 2026-01-29
 
 ### Added

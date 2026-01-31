@@ -47,6 +47,8 @@ This is perfect for sharing modpack configurations or replicating setups across 
 | Option | Description |
 |--------|-------------|
 | `--verbose` | Enable verbose output to see detailed progress |
+| `--force, -f` | Overwrites existing instance folder if necessary |
+| `--path, -p <path>` | Specifies path in which to install instance |
 
 ## 💡 Interactive Prompts
 

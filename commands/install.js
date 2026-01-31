@@ -5,11 +5,40 @@ import { downloadFile, loadConfig, saveConfig, getInstancePath, requireConfig } 
 import { getProject, getProjectVersions } from '../helpers/modrinth.js';
 import { callPostCommandActions } from '../helpers/post-command.js';
 
-export async function installMod(modSlug, options) {
+export async function installMod(modSlugs, options) {
     const instancePath = getInstancePath(options);
     
     const config = requireConfig(instancePath);
     if (!config) return;
+
+    // Handle multiple mods
+    const slugs = Array.isArray(modSlugs) ? modSlugs : [modSlugs];
+    
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const modSlug of slugs) {
+        const success = await installSingleMod(modSlug, instancePath, config, options);
+        if (success) {
+            successCount++;
+        } else {
+            failCount++;
+        }
+    }
+
+    // Show summary if multiple mods were requested
+    if (slugs.length > 1) {
+        console.log(chalk.cyan('\n📊 Installation Summary:'));
+        console.log(chalk.green(`   ✅ ${successCount} mod(s) installed successfully`));
+        if (failCount > 0) {
+            console.log(chalk.red(`   ❌ ${failCount} mod(s) failed to install`));
+        }
+    }
+
+    callPostCommandActions();
+}
+
+async function installSingleMod(modSlug, instancePath, config, options) {
 
     console.log(chalk.cyan(`\n📦 Installing "${modSlug}" to ${config.name}...\n`));
 
@@ -19,12 +48,12 @@ export async function installMod(modSlug, options) {
         if (!project) {
             console.log(chalk.red(`Error: Mod "${modSlug}" not found on Modrinth.`));
             console.log(chalk.gray('Use "clicraft search <query>" to find available mods.'));
-            return;
+            return false;
         }
 
         if (project.project_type !== 'mod') {
             console.log(chalk.red(`Error: "${modSlug}" is a ${project.project_type}, not a mod.`));
-            return;
+            return false;
         }
 
         console.log(chalk.gray(`Found: ${project.title}`));
@@ -44,7 +73,7 @@ export async function installMod(modSlug, options) {
                 console.log(chalk.gray(`\nAvailable loaders: ${loaders.join(', ')}`));
                 console.log(chalk.gray(`Recent game versions: ${gameVersions.join(', ')}`));
             }
-            return;
+            return false;
         }
 
         // Use the latest compatible version
@@ -53,7 +82,7 @@ export async function installMod(modSlug, options) {
 
         if (!file) {
             console.log(chalk.red('Error: No downloadable file found for this version.'));
-            return;
+            return false;
         }
 
         // Check if already installed
@@ -61,7 +90,7 @@ export async function installMod(modSlug, options) {
         if (existingMod && !options.force) {
             console.log(chalk.yellow(`\n⚠️  ${project.title} is already installed (version ${existingMod.versionNumber})`));
             console.log(chalk.gray('Use --force to reinstall or update.'));
-            return;
+            return false;
         }
 
         // Create mods folder if needed
@@ -104,30 +133,52 @@ export async function installMod(modSlug, options) {
         // Show dependencies if any
         if (version.dependencies?.length > 0) {
             const requiredDeps = version.dependencies.filter(d => d.dependency_type === 'required');
-            if (requiredDeps.length > 0) {
-                console.log(chalk.yellow(`\n⚠️  This mod has ${requiredDeps.length} required dependencies:`));
-                for (const dep of requiredDeps) {
-                    if (dep.project_id) {
-                        const depProject = await getProject(dep.project_id);
-                        if (depProject) {
-                            const isInstalled = config.mods.some(m => m.projectId === dep.project_id);
-                            const status = isInstalled ? chalk.green('✓') : chalk.red('✗');
-                            console.log(chalk.gray(`   ${status} ${depProject.title} (${depProject.slug})`));
-                        }
+            let totalDeps = [];
+            let notInstalledDeps = [];
+            
+            for (const dep of requiredDeps) {
+                if (dep.project_id) {
+                    const depProject = await getProject(dep.project_id);
+                    if (depProject) {
+                        const isInstalled = config.mods.some(m => m.projectId === dep.project_id);
+                        // const status = isInstalled ? chalk.green('✓') : chalk.red('✗');
+                        totalDeps.push({ project: depProject, title: depProject.title, slug: depProject.slug, installed: isInstalled });
                     }
                 }
+            }
+
+            for (const dep of totalDeps) {
+                if (!dep.installed) {
+                    notInstalledDeps.push(dep); 
+                }
+            }
+            
+            if (notInstalledDeps.length > 0) {
+                console.log(chalk.yellow(`\n⚠️  This mod has ${notInstalledDeps.length} dependencies which are not installed:`));
+                totalDeps.forEach(dep => {
+                    if(dep.installed)
+                        console.log(chalk.green(`   - ${dep.title} (${dep.slug})`));
+                    if(!dep.installed)
+                        console.log(chalk.yellow(`   - ${dep.title} (${dep.slug})`));
+                });
                 console.log(chalk.gray('\nInstall dependencies with: clicraft install <slug>'));
             }
+
+            if (notInstalledDeps.length === 0) {
+                console.log(chalk.green('\n✅  All dependencies are already installed.'));
+                
+            }
         }
+
+        return true;
 
     } catch (error) {
         console.error(chalk.red('Error installing mod:'), error.message);
         if (options.verbose) {
             console.error(error);
         }
+        return false;
     }
-
-    callPostCommandActions();
 }
 
 export default { installMod };

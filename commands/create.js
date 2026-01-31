@@ -482,7 +482,7 @@ export async function createInstance(options) {
             message: 'Instance Name:',
             validate: (input) => {
                 if (!input.trim()) return 'Instance name is required';
-                if (fs.existsSync(input.trim())) return 'A folder with this name already exists';
+                if (fs.existsSync(input.trim()) && !options.force) return 'A folder with this name already exists';
                 return true;
             }
         }]);
@@ -526,7 +526,16 @@ export async function createInstance(options) {
             loaderVersion = await paginatedSelect('Forge Version:', forgeChoices);
         }
 
-        const instancePath = path.resolve(instanceName.trim());
+        const instancePath = options.path
+            ? path.resolve(options.path) + path.resolve(instanceName.trim())
+            : path.resolve(instanceName.trim())
+        ;
+        if (fs.existsSync(instancePath) && !options.force) {
+            console.log(chalk.red(`A folder already exists at ${instancePath}. Use --force to overwrite.`));
+            return;
+        } else if (fs.existsSync(instancePath) && options.force) {
+            fs.rmSync(instancePath, { recursive: true, force: true });
+        }
         fs.mkdirSync(instancePath, { recursive: true });
         fs.mkdirSync(path.join(instancePath, 'mods'), { recursive: true });
 

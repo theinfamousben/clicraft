@@ -14,12 +14,12 @@ Install mods from Modrinth directly to your Minecraft instance.
 ## 📝 Synopsis
 
 ```bash
-clicraft install <mod> [options]
+clicraft install <mods...> [options]
 ```
 
 ## 📖 Description
 
-The `install` command downloads and installs mods from Modrinth to your Minecraft instance. It automatically:
+The `install` command downloads and installs one or more mods from Modrinth to your Minecraft instance. It automatically:
 
 1. Searches for the mod on Modrinth
 2. Finds the correct version for your Minecraft version and loader
@@ -31,7 +31,7 @@ The `install` command downloads and installs mods from Modrinth to your Minecraf
 
 | Argument | Description | Required |
 |----------|-------------|----------|
-| `<mod>` | Mod name or Modrinth project ID | Yes |
+| `<mods...>` | One or more mod names or Modrinth project IDs | Yes (at least one) |
 
 ## 🎯 Options
 
@@ -69,9 +69,13 @@ Use the project ID from `clicraft search` results.
 ### Install multiple mods
 ```bash
 cd my-instance
-clicraft install sodium
-clicraft install lithium
-clicraft install iris
+clicraft install sodium lithium iris
+```
+
+When installing multiple mods, you'll see a summary at the end:
+```
+📊 Installation Summary:
+   ✅ 3 mod(s) installed successfully
 ```
 
 ### Verbose installation
@@ -130,33 +134,25 @@ instance-directory/
 ### Building a Performance Pack
 ```bash
 cd my-instance
-clicraft install sodium      # Better FPS
-clicraft install lithium     # Server optimization
-clicraft install starlight   # Lighting engine
-clicraft install ferritecore # Memory optimization
+clicraft install sodium lithium starlight ferritecore
 ```
 
 ### Adding Quality of Life Mods
 ```bash
 cd my-instance
-clicraft install "just enough items"  # Recipe viewer
-clicraft install "journeymap"         # Minimap
-clicraft install "appleskin"          # Food info
+clicraft install jei journeymap appleskin
 ```
 
 ### Installing Shader Support
 ```bash
 cd my-instance
-clicraft install sodium  # Required for Iris
-clicraft install iris    # Shader loader
+clicraft install sodium iris
 ```
 
 ### Server Mods
 ```bash
 cd my-server
-clicraft install lithium
-clicraft install starlight
-clicraft install "fabric api"
+clicraft install lithium starlight fabric-api
 ```
 
 ## ⚠️ Important Notes

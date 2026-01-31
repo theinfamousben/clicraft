@@ -31,11 +31,13 @@ program
     .command('create')
     .description('Create a new Minecraft instance')
     .option('--verbose', 'Enable verbose output')
+    .option('-f, --force', 'Overwrite existing instance if it exists')
+    .option('-p, --path <path>', 'Path to create the instance in')
     .action(createInstance);
 
 program
-    .command('install <mod>')
-    .description('Install a mod to the current Minecraft instance')
+    .command('install <mods...>')
+    .description('Install one or more mods to the current Minecraft instance')
     .option('-i, --instance <path>', 'Path to the instance directory')
     .option('-f, --force', 'Force reinstall/update if already installed')
     .option('--verbose', 'Enable verbose output')
