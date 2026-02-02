@@ -14,16 +14,6 @@ Welcome to **CLIcraft** - A simple, powerful Minecraft Mod Package Manager writt
 
 CLIcraft is a command-line tool that simplifies managing Minecraft instances and mods. Create instances with Fabric or Forge, search and install mods from Modrinth, and launch the game directly from your terminal.
 
-## ✨ Key Features
-
-- **🎮 Create Instances** - Set up new Minecraft client or server instances with Fabric or Forge
-- **🔍 Search Mods** - Find mods on Modrinth with filters for version, loader, and more
-- **📦 Install Mods** - Download and install mods directly to your instance
-- **🔄 Upgrade** - Update mods, mod loader, or Minecraft version
-- **ℹ️ Instance Info** - View detailed information about your instances
-- **🔐 Microsoft Login** - Authenticate with your Microsoft account to play online
-- **🚀 Launch Game** - Start Minecraft directly from the terminal
-
 ## 🚀 Quick Start
 
 ```bash
@@ -49,21 +39,7 @@ clicraft launch
 ### Getting Started
 - [Installation](installation.md) - Install CLIcraft on your system
 - [Commands Overview](commands.md) - List of all available commands
-
-### Commands
-- [`create`](commands/create.md) - Create a new Minecraft instance
-- [`search`](commands/search.md) - Search for mods on Modrinth
-- [`install`](commands/install.md) - Install mods to your instance
-- [`auth`](commands/auth.md) - Manage Microsoft accounts (login, logout, switch)
-- [`launch`](commands/launch.md) - Launch your Minecraft instance
-- [`info`](commands/info.md) - View instance information
-- [`upgrade`](commands/upgrade.md) - Upgrade mods and loaders
-
-### Configuration
 - [Configuration Guide](configuration.md) - Instance and authentication configuration
-
-### Contributing
-- [Contributing Guide](contributing.md) - How to contribute to CLIcraft
 
 ## 🎯 Requirements
 

@@ -1,3 +1,12 @@
+---
+layout: default
+title: alias
+parent: Commands
+nav_order: 10
+description: "Manage Instance Aliases"
+permalink: /commands/alias
+---
+
 # Alias Command
 
 The `alias` command allows you to create shortcuts for your Minecraft instances, making it easy to launch them without needing to remember or type full paths.
@@ -5,12 +14,25 @@ The `alias` command allows you to create shortcuts for your Minecraft instances,
 ## Usage
 
 ```bash
+# Declaring an alias
 clicraft alias [action] [args...]
+
+# Launching from an alias
+clicraft launch [alias]
 ```
+
+## Arguments
+
+| Argument | Action |
+| -------- | ------ |
+| `add <name> [path]` | Add an alias |
+| `list, ls` | List aliases and their corresponding paths |
+| `remove, rm, delete` | Remove an alias |
+
 
 ## Actions
 
-### List Aliases
+## `alias list`
 
 List all configured aliases:
 
@@ -22,7 +44,7 @@ clicraft alias          # default action
 
 This shows all aliases with their paths and instance information (mod loader, Minecraft version, type).
 
-### Add Alias
+### `alias add`
 
 Create a new alias for an instance:
 
@@ -46,7 +68,7 @@ clicraft alias add survival ~/minecraft/survival-world
 clicraft alias add my-modded-world /path/to/instance
 ```
 
-### Remove Alias
+### `alias remove`
 
 Remove an existing alias:
 
@@ -66,22 +88,6 @@ clicraft alias remove myworld
 clicraft alias remove ~/minecraft/survival-world
 ```
 
-## Using Aliases with Launch
-
-Once you've created an alias, you can use it with the `launch` command:
-
-```bash
-clicraft launch myworld
-clicraft launch my-modded-world --offline
-clicraft launch survival --verbose
-```
-
-This is equivalent to using the `--instance` flag:
-
-```bash
-clicraft launch --instance /path/to/instance
-```
-
 ## Alias Creation During Instance Creation
 
 When you create a new instance with `clicraft create`, you'll be prompted to create an alias:
@@ -99,14 +105,7 @@ Aliases are stored in `~/.clicraft/aliases.json`. This file maps alias names to 
 
 ```json
 {
-  "myworld": "/Users/username/minecraft/my-world",
-  "survival": "/Users/username/Games/survival-server"
+  "myworld": "~/minecraft/my-world",
+  "survival": "~/Games/survival-server"
 }
 ```
-
-## Tips
-
-- Use short, memorable names for frequently-used instances
-- Alias names cannot contain spaces
-- If an alias already exists, adding it again will update the path
-- The `alias list` command shows warnings for missing paths or invalid instances

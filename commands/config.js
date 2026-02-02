@@ -50,11 +50,29 @@ async function editSetting(key, value) {
         return;
     }
     
-    let parsedValue = value === 'null' || value === 'auto' ? null : parseValue(value);
+    let parsedValue;
+    if (value === 'null' || value === 'auto') {
+        parsedValue = null;
+    } else if (Array.isArray(settings[key])) {
+        // Handle array settings (like jvmArgs)
+        // Try to parse as JSON array first, otherwise split by comma
+        try {
+            const jsonParsed = JSON.parse(value);
+            parsedValue = Array.isArray(jsonParsed) ? jsonParsed : [value];
+        } catch {
+            // Split by comma and trim whitespace
+            parsedValue = value.split(',').map(v => v.trim()).filter(v => v.length > 0);
+        }
+    } else {
+        parsedValue = parseValue(value);
+    }
+    
     settings[key] = parsedValue;
     saveSettings(settings);
     
-    console.log(chalk.green(`\n✓ Set ${key} = ${parsedValue === null ? '(auto)' : parsedValue}`));
+    const displayValue = parsedValue === null ? '(auto)' : 
+        Array.isArray(parsedValue) ? JSON.stringify(parsedValue) : parsedValue;
+    console.log(chalk.green(`\n✓ Set ${key} = ${displayValue}`));
 }
 
 // Show game settings ignore list

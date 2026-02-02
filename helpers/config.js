@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import version  from "../helpers/getv.js"
 
 // Get the .clicraft config directory path
 export function getConfigDir() {
@@ -20,11 +21,14 @@ const DEFAULT_SETTINGS = {
     // Default memory allocation
     // minMemory: '1G',
     // maxMemory: '2G',
+    jvmArgs: [
+        '-Xmx2G',
+        '-Xms512M',
+    ],
 
     checkUpdates: true,
     autoSaveToConfig: true,
     autoLoadConfigOnLaunch: true,
-    settingsVersion: '0.3.0',
 };
 
 // Default game settings to apply to new instances

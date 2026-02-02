@@ -175,7 +175,7 @@ export async function launchInstance(aliasOrOptions, options) {
         if (!opts?.offline) {
             auth = await refreshAuth();
             if (!auth) {
-                console.log(chalk.yellow('Not logged in. Use "clicraft login" to authenticate.'));
+                console.log(chalk.yellow('Not logged in. Use "clicraft auth login" to authenticate.'));
                 console.log(chalk.gray('Or use --offline to play offline (if available).'));
                 return;
             }
@@ -255,10 +255,8 @@ export async function launchInstance(aliasOrOptions, options) {
         };
 
         // Build JVM arguments
-        const jvmArgs = [
+        let jvmArgs = [
             `-Djava.library.path=${nativesPath}`,
-            '-Xmx2G',
-            '-Xms512M',
             '-XX:+UnlockExperimentalVMOptions',
             '-XX:+UseG1GC',
             '-XX:G1NewSizePercent=20',
@@ -267,6 +265,8 @@ export async function launchInstance(aliasOrOptions, options) {
             '-XX:G1HeapRegionSize=32M',
             '-cp', classpath
         ];
+
+        jvmArgs = [...jvmArgs, ...settings.jvmArgs];
 
         const mainClass = versionData.mainClass;
 

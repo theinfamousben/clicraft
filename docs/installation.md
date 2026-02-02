@@ -36,7 +36,7 @@ npm install -g @bobschlowinskii/clicraft
 
 This is the easiest and recommended way to install CLIcraft.
 
-### Method 2: Clone from Source
+### Method 2: Clone from Source 
 
 Alternatively, you can install from source:
 
@@ -54,10 +54,6 @@ npm link
 
 After linking, you can use the `clicraft` command from any directory:
 
-```bash
-clicraft --version
-```
-
 ## 🔧 Verifying Installation
 
 To verify that CLIcraft is installed correctly, run:
@@ -68,16 +64,6 @@ clicraft --version
 
 This should display the current version of CLIcraft.
 
-## 📁 Configuration Files
-
-CLIcraft stores configuration files in the following locations:
-
-- **CLI settings**: `~/.clicraft/settings.json`
-- **Authentication accounts**: `~/.clicraft/auth/accounts.json`
-- **Instance configuration**: `mcconfig.json` (in each instance directory)
-
-These files are created automatically when you use CLIcraft for the first time.
-
 ## ⬆️ Updating CLIcraft
 
 ### If installed from source:
@@ -85,7 +71,7 @@ These files are created automatically when you use CLIcraft for the first time.
 ```bash
 cd clicraft
 git pull origin main
-npm install
+npm install -g
 ```
 
 ### If installed via npm:
@@ -113,7 +99,7 @@ npm uninstall -g @bobschlowinskii/clicraft
 To also remove configuration files:
 
 ```bash
-rm -rf ~/.mcpkg
+rm -rf ~/.clicraft
 ```
 
 ## 🐛 Troubleshooting
@@ -150,15 +136,6 @@ If you encounter any issues during installation:
 1. Check the [GitHub Issues](https://github.com/theinfamousben/clicraft/issues) page
 2. Open a new issue with details about your problem
 3. Include your operating system, Node.js version, and any error messages
-
-## ⏭️ Next Steps
-
-Once CLIcraft is installed, you're ready to:
-
-1. [Create your first instance](commands/create.md)
-2. [Search for mods](commands/search.md)
-3. [Install mods](commands/install.md)
-4. [Launch the game](commands/launch.md)
 
 ---
 

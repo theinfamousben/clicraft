@@ -16,7 +16,8 @@ CLIcraft uses configuration files to manage:
 - CLI settings (`~/.clicraft/settings.json`)
 - Default game settings (`~/.clicraft/default-game-settings.json`)
 - Game settings ignore list (`~/.clicraft/game-settings-ignore.json`)
-- Authentication data (`~/.clicraft/auth.json`)
+- Authentication data (`~/.clicraft/auth/accounts.json`)
+- Aliases for game instances (`~/.clicraft/aliases.json`)
 - Instance settings (`mcconfig.json`)
 
 ## 🏠 Configuration Locations
@@ -28,7 +29,8 @@ CLI-wide settings are stored in your home directory:
 ├── settings.json              # CLI settings
 ├── default-game-settings.json # Default Minecraft settings for new instances
 ├── game-settings-ignore.json  # Game settings to exclude when capturing
-└── auth.json                  # Authentication tokens
+└── auth                       # Authentication tokens
+    └── accounts.json          # accounts
 ```
 
 ### Instance Configuration
@@ -46,11 +48,9 @@ Global settings for CLIcraft. Manage with `clicraft config`.
 
 ```json
 {
-  "javaPath": null,
-  "minMemory": "1G",
-  "maxMemory": "2G",
-  "modSource": "modrinth",
-  "checkUpdates": true
+  checkUpdates: true,
+  autoSaveToConfig: true,
+  autoLoadConfigOnLaunch: true,
 }
 ```
 
@@ -58,11 +58,9 @@ Global settings for CLIcraft. Manage with `clicraft config`.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `javaPath` | string/null | `null` | Path to Java executable (`null` = auto-detect) |
-| `minMemory` | string | `"1G"` | Minimum JVM memory allocation |
-| `maxMemory` | string | `"2G"` | Maximum JVM memory allocation |
-| `modSource` | string | `"modrinth"` | Default mod source for searches |
-| `checkUpdates` | boolean | `true` | Check for CLI updates on launch |
+| `checkUpdates` | boolean | `true` | automatically check for updates |
+| `autoSaveToConfig` | boolean | `true` | automatically save game settings to mcconfig.json |
+| `autoLoadConfigOnLaunch` | boolean | `true` | automatically load game settings on launch |
 
 ### Managing Settings
 
@@ -139,19 +137,6 @@ When you create a new instance with `clicraft create`, these settings are automa
   "lang": "en_us"
 }
 ```
-
-### Common Settings
-
-| Setting | Type | Description | Example |
-|---------|------|-------------|---------|
-| `renderDistance` | number | View distance (2-32 chunks) | `16` |
-| `fov` | number | Field of view (30-110) | `70` |
-| `guiScale` | number | GUI scale (0=auto, 1-4) | `2` |
-| `gamma` | number | Brightness (0.0-1.0) | `0.5` |
-| `maxFps` | number | Frame rate limit | `144` |
-| `lang` | string | Language code | `"en_us"` |
-| `autoJump` | boolean | Auto-jump enabled | `false` |
-| `soundCategory_master` | number | Master volume (0.0-1.0) | `1.0` |
 
 ### Managing Default Settings
 
@@ -269,19 +254,6 @@ When you run `clicraft create` in a directory containing `mcconfig.json`, CLIcra
 5. Install all mods from the config
 6. Apply game settings (if present)
 
-This is perfect for:
-- Sharing modpack configurations
-- Replicating setups across machines
-- Creating instance templates
-
-```bash
-# Share your instance config
-cp my-instance/mcconfig.json ~/shared-configs/
-
-# Create a new instance from it
-cd ~/shared-configs/
-clicraft create
-```
 
 ## 🔐 Authentication Configuration
 
@@ -384,26 +356,6 @@ If game crashes with memory errors:
 - Reduce `-Xmx` value
 - Close other applications
 - Check available system RAM
-
-### Config Not Applied
-If changes don't take effect:
-- Verify JSON syntax is valid
-- Restart the game completely
-- Check for typos in field names
-
-## 📚 Related Commands
-
-- [`clicraft config`](commands/config.md) - Manage CLI and game settings
-- [`clicraft create`](commands/create.md) - Creates initial config
-- [`clicraft info`](commands/info.md) - Shows current config
-- [`clicraft launch`](commands/launch.md) - Uses config to launch
-- [`clicraft upgrade`](commands/upgrade.md) - Updates version fields
-
-## 🔗 See Also
-
-- [Commands Overview](commands.md)
-- [Installation Guide](installation.md)
-- [Launch Command](commands/launch.md)
 
 ---
 
