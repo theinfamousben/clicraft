@@ -70,7 +70,7 @@ This should display the current version of CLIcraft.
 
 ```bash
 cd clicraft
-git pull origin main
+git pull origin live
 npm install -g
 ```
 
