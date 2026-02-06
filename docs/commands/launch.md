@@ -33,8 +33,9 @@ The `launch` command starts your Minecraft instance with all the correct Java ar
 | Option | Description | Default |
 |--------|-------------|---------|
 | `-i, --instance <path>` | Path to instance directory | Current directory |
-| `--offline` | Launch in offline mode (no authentication) | false |
-| `--verbose` | Show detailed launch information | false |
+| `--offline` | Launch in offline mode (no authentication) | `false` |
+| `--verbose` | Show detailed launch information | `false` |
+| `-l, --last` | Launch last ran instance | `false` |
 
 ## 📋 Examples
 
