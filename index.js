@@ -64,6 +64,7 @@ program
     .option('-i, --instance <path>', 'Path to the instance directory')
     .option('--offline', 'Launch in offline mode')
     .option('--verbose', 'Enable verbose output')
+    .option('-l, --last', 'Launch the last used instance')
     .action(launchInstance);
 
 program

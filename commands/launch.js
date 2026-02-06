@@ -4,7 +4,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 import { refreshAuth } from './auth.js';
 import { captureGameSettings } from '../commands/config.js';
-import { loadSettings, writeGameSettings, getAliasByName } from '../helpers/config.js';
+import { loadSettings, writeGameSettings, getAliasByName, saveSettings } from '../helpers/config.js';
 import { 
     loadConfig, 
     getInstancePath, 
@@ -12,6 +12,7 @@ import {
     mavenToPath 
 } from '../helpers/utils.js';
 import { callPostCommandActions } from '../helpers/post-command.js';
+import { startServer } from '../helpers/server.js';
 
 // Find Java executable
 function findJava() {
@@ -126,7 +127,7 @@ export async function launchInstance(aliasOrOptions, options) {
     }
     
     const settings = loadSettings();
-    
+
     // Resolve instance path from alias, --instance flag, or current directory
     let instancePath;
     if (alias) {
@@ -145,7 +146,23 @@ export async function launchInstance(aliasOrOptions, options) {
             }
         }
     } else {
-        instancePath = getInstancePath(opts);
+        if (opts.last) {
+            if (!settings.lastInstance) {
+                console.log(chalk.red('Error: No last instance found in settings.'));
+                return;
+            }
+
+            if (!fs.existsSync(settings.lastInstance)) {
+                console.log(chalk.red('Error: Last instance path does not exist.'));
+                return;
+            }
+
+            instancePath = settings.lastInstance;
+            console.log(chalk.gray(`Using last instance → ${instancePath}`));
+        }
+        else {
+            instancePath = getInstancePath(opts);
+        }
     }
     
     // Apply saved game settings if enabled
@@ -163,11 +180,14 @@ export async function launchInstance(aliasOrOptions, options) {
     if (!config) return;
 
     if (config.type === 'server') {
-        console.log(chalk.red('Error: This is a server instance. Use ./start.sh to start the server.'));
+        console.log(chalk.yellow(`\n Detected server instance "${config.name}". Starting server...\n`));
+        startServer(instancePath);
         return;
     }
 
     console.log(chalk.cyan(`\n🎮 Launching ${config.name}...\n`));
+    settings.lastInstance = instancePath;
+    saveSettings(settings);
 
     try {
         // Get authentication

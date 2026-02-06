@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.6] - 2026-02-06
+
+### Added
+- **Added `--last` option to `launch` command**
+  - Launches the last ran instance
+  - call with `--last` or `-l`
+- **Allow user to launch server with `launch` command**
+
 ## [0.4.5] - 2026-01-31
 
 ### Added
