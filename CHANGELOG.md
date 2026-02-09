@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2026-02-09
+
+### Added
+- **Automatic dependency installation**
+  - Mods with required dependencies are now installed automatically
+  - Configure with `clicraft config set autoInstallDeps true/false`
+  - Skip for single install with `--no-deps` flag
+
+- **Upgrade `--check` flag**
+  - `clicraft upgrade --check` shows available updates without installing
+  - Summarizes up-to-date, outdated, incompatible, and errored mods
+
+- **Modpack import**
+  - `clicraft import <file.mrpack>` imports Modrinth modpacks
+  - Creates new instance from modpack or imports into existing
+  - Extracts overrides and downloads all mod files
+
+- **Resource pack and shader support**
+  - `clicraft search <query> --resourcepacks` searches resource packs
+  - `clicraft search <query> --shaders` searches shaders
+  - `clicraft install <slug> --resourcepacks` installs to resourcepacks/
+  - `clicraft install <slug> --shaders` installs to shaderpacks/
+
+- **Shell completions**
+  - `clicraft completions bash` generates bash completions
+  - `clicraft completions zsh` generates zsh completions
+  - `clicraft completions fish` generates fish completions
+
+- **Java version detection**
+  - `clicraft info` shows Java version and compatibility status
+  - `clicraft launch` warns if Java version is incompatible
+  - Automatic version requirement detection based on Minecraft version
+
+- **Instance-aware search filtering**
+  - Search automatically filters by Minecraft version and mod loader when run from an instance directory
+  - Use `-i, --instance <path>` to specify an instance explicitly
+  - Use `--any` flag to ignore filtering and search all versions
+  - Flags `-m` and `--loader` override instance defaults
+
+- **Upgrade command keywords**
+  - `clicraft upgrade mods` — Update all mods directly
+  - `clicraft upgrade loader` — Update mod loader directly
+  - `clicraft upgrade minecraft` — Update Minecraft version directly
+  - `clicraft upgrade config` — Update config format directly
+
+### Changed
+- **Renamed search version flag** from `-v, --version` to `-m, --mc-version` to avoid conflict with global `--version` flag
+- **Refactored documentation** — All docs rewritten to be concise and direct
+
+### Fixed
+- **Typo in version option** — "curent" → "current"
+- **Search `--limit` validation** — Now shows error for non-numeric input instead of HTTP 400
+- **Tilde expansion in paths** — `~/path` now correctly expands to home directory in search `-i` flag
+
 ## [0.4.6] - 2026-02-06
 
 ### Added

@@ -11,6 +11,7 @@ import {
     requireConfig, 
     mavenToPath 
 } from '../helpers/utils.js';
+import { checkJavaCompatibility } from '../helpers/java.js';
 import { callPostCommandActions } from '../helpers/post-command.js';
 import { startServer } from '../helpers/server.js';
 
@@ -178,6 +179,15 @@ export async function launchInstance(aliasOrOptions, options) {
 
     const config = requireConfig(instancePath);
     if (!config) return;
+
+    // Check Java compatibility
+    const javaCheck = checkJavaCompatibility(config.minecraftVersion);
+    if (!javaCheck.compatible) {
+        console.log(chalk.red(`\n⚠️  ${javaCheck.message}`));
+        console.log(chalk.gray(`   Install Java ${javaCheck.required} from https://adoptium.net/`));
+        console.log(chalk.gray('   or set JAVA_HOME to a compatible Java installation.\n'));
+        return;
+    }
 
     if (config.type === 'server') {
         console.log(chalk.yellow(`\n Detected server instance "${config.name}". Starting server...\n`));

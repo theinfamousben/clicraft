@@ -4,6 +4,7 @@ import { createInstance } from './commands/create.js';
 import { searchMods } from './commands/search.js';
 import { installMod } from './commands/install.js';
 import { uninstallMod } from './commands/uninstall.js';
+import { importModpack } from './commands/import.js';
 import { authCommand } from './commands/auth.js';
 import { launchInstance } from './commands/launch.js';
 import { instanceInfo } from './commands/info.js';
@@ -11,19 +12,24 @@ import { upgrade } from './commands/upgrade.js';
 import { showVersion } from './commands/version.js';
 import { configCommand } from './commands/config.js';
 import { aliasCommand } from './commands/alias.js';
+import { generateCompletions } from './commands/completions.js';
 
 import {program} from 'commander'; 
 
 program
-    .option('-v, --version', 'Show the curent version')
+    .option('-v, --version', 'Show the current version')
     .action(showVersion)
 
 program
     .command('search <query>')
-    .description('Search for Minecraft mods on Modrinth')
+    .description('Search for Minecraft mods, resource packs, or shaders on Modrinth')
     .option('-l, --limit <number>', 'Number of results to show', '10')
-    .option('-v, --version <version>', 'Filter by Minecraft version')
+    .option('-m, --mc-version <version>', 'Filter by Minecraft version')
     .option('--loader <loader>', 'Filter by mod loader (fabric, forge, quilt, neoforge)')
+    .option('-i, --instance <path>', 'Use version/loader from instance config')
+    .option('--any', 'Ignore instance filtering, search all versions')
+    .option('-r, --resourcepacks', 'Search for resource packs instead of mods')
+    .option('-s, --shaders', 'Search for shaders instead of mods')
     .option('--verbose', 'Enable verbose output')
     .action(searchMods);
 
@@ -36,10 +42,13 @@ program
     .action(createInstance);
 
 program
-    .command('install <mods...>')
-    .description('Install one or more mods to the current Minecraft instance')
+    .command('install <items...>')
+    .description('Install mods, resource packs, or shaders to the current Minecraft instance')
     .option('-i, --instance <path>', 'Path to the instance directory')
     .option('-f, --force', 'Force reinstall/update if already installed')
+    .option('--no-deps', 'Skip automatic dependency installation')
+    .option('-r, --resourcepacks', 'Install as resource packs')
+    .option('-s, --shaders', 'Install as shaders')
     .option('--verbose', 'Enable verbose output')
     .action(installMod);
 
@@ -50,6 +59,14 @@ program
     .option('-f, --force', 'Skip confirmation prompt')
     .option('--verbose', 'Enable verbose output')
     .action(uninstallMod);
+
+program
+    .command('import <packfile>')
+    .description('Import a modpack (.mrpack)')
+    .option('-i, --instance <path>', 'Path to install the modpack')
+    .option('-f, --force', 'Overwrite existing files')
+    .option('--verbose', 'Enable verbose output')
+    .action(importModpack);
 
 program
     .command('auth [action] [args...]')
@@ -86,6 +103,7 @@ program
     .description('Upgrade mods, Minecraft version, or mod loader')
     .option('-i, --instance <path>', 'Path to the instance directory')
     .option('-f, --force', 'Force upgrade even if already up to date')
+    .option('-c, --check', 'Check for updates without installing')
     .option('--verbose', 'Enable verbose output')
     .action(upgrade);
 
@@ -95,5 +113,10 @@ program
     .option('-i, --instance <path>', 'Path to the instance directory')
     .option('--verbose', 'Show detailed output')
     .action(configCommand);
+
+program
+    .command('completions [shell]')
+    .description('Generate shell completions (bash, zsh, fish)')
+    .action(generateCompletions);
 
 program.parse();
