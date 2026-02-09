@@ -29,6 +29,7 @@ const DEFAULT_SETTINGS = {
     checkUpdates: true,
     autoSaveToConfig: true,
     autoLoadConfigOnLaunch: true,
+    lastInstance: "",
 };
 
 // Default game settings to apply to new instances
