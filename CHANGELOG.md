@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-02-09
+
+### Fixed
+- **Zsh completions error** — Fixed `_arguments:comparguments:327: can only be called from completion function` error when sourcing `.zshrc`
+
 ## [1.0.0] - 2026-02-09
 
 ### Added

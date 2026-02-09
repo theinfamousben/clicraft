@@ -229,7 +229,7 @@ _clicraft() {
     esac
 }
 
-_clicraft "$@"`;
+compdef _clicraft clicraft`;
 }
 
 function generateFishCompletions(commands, loaders, authActions, configActions, upgradeKeywords) {
