@@ -20,6 +20,72 @@ import { callPostCommandActions } from '../helpers/post-command.js';
 
 const CONFIG_VERSION = version;
 
+// Check a single mod for updates (no download)
+async function checkMod(config, mod) {
+    try {
+        const versions = await getProjectVersions(mod.slug, config.minecraftVersion, config.modLoader);
+        
+        if (versions.length === 0) {
+            return { mod, status: 'no-version', current: mod.versionNumber, latest: null };
+        }
+
+        const latestVersion = versions[0];
+        
+        if (latestVersion.id === mod.versionId) {
+            return { mod, status: 'up-to-date', current: mod.versionNumber, latest: latestVersion.version_number };
+        }
+
+        return { mod, status: 'update-available', current: mod.versionNumber, latest: latestVersion.version_number };
+    } catch (error) {
+        return { mod, status: 'error', current: mod.versionNumber, latest: null, error: error.message };
+    }
+}
+
+// Check all mods for updates (no download)
+async function checkMods(instancePath, config, options) {
+    if (config.mods.length === 0) {
+        console.log(chalk.yellow('No mods installed.'));
+        return;
+    }
+
+    console.log(chalk.cyan(`\n🔍 Checking ${config.mods.length} mods for updates...\n`));
+
+    const results = [];
+    for (const mod of config.mods) {
+        process.stdout.write(chalk.gray(`  Checking ${mod.name}...`));
+        const result = await checkMod(config, mod);
+        results.push(result);
+        process.stdout.write('\r\x1b[K'); // Clear line
+    }
+
+    const updates = results.filter(r => r.status === 'update-available');
+    const upToDate = results.filter(r => r.status === 'up-to-date');
+    const noVersion = results.filter(r => r.status === 'no-version');
+    const errors = results.filter(r => r.status === 'error');
+
+    if (updates.length > 0) {
+        console.log(chalk.yellow(`📦 ${updates.length} update(s) available:\n`));
+        for (const { mod, current, latest } of updates) {
+            console.log(chalk.white(`  ${mod.name}`));
+            console.log(chalk.gray(`    ${current} → ${chalk.green(latest)}`));
+        }
+        console.log(chalk.gray(`\nRun ${chalk.cyan('clicraft upgrade mods')} to install updates.`));
+    } else {
+        console.log(chalk.green('✅ All mods are up to date.'));
+    }
+
+    if (noVersion.length > 0) {
+        console.log(chalk.yellow(`\n⚠️  ${noVersion.length} mod(s) have no compatible version for ${config.minecraftVersion}`));
+    }
+
+    if (errors.length > 0) {
+        console.log(chalk.red(`\n❌ ${errors.length} mod(s) failed to check`));
+    }
+
+    // Summary
+    console.log(chalk.gray(`\n${upToDate.length} up to date, ${updates.length} updates, ${noVersion.length} incompatible, ${errors.length} errors`));
+}
+
 // Update a single mod
 async function updateMod(instancePath, config, mod, options) {
     console.log(chalk.gray(`\nChecking ${mod.name}...`));
@@ -73,6 +139,12 @@ async function updateMod(instancePath, config, mod, options) {
 
 // Upgrade all mods
 async function upgradeMods(instancePath, config, options) {
+    // Check-only mode
+    if (options.check) {
+        await checkMods(instancePath, config, options);
+        return;
+    }
+
     if (config.mods.length === 0) {
         console.log(chalk.yellow('No mods installed.'));
         return;
@@ -291,7 +363,30 @@ export async function upgrade(modName, options) {
     if (!config) return;
 
     try {
+        // Handle special upgrade keywords
         if (modName) {
+            const keyword = modName.toLowerCase();
+            if (keyword === 'mods' || keyword === 'all') {
+                await upgradeMods(instancePath, config, options);
+                callPostCommandActions();
+                return;
+            }
+            if (keyword === 'loader') {
+                await upgradeLoader(instancePath, config, options);
+                callPostCommandActions();
+                return;
+            }
+            if (keyword === 'minecraft' || keyword === 'mc') {
+                await upgradeMinecraft(instancePath, config, options);
+                callPostCommandActions();
+                return;
+            }
+            if (keyword === 'config') {
+                await upgradeConfig(instancePath, config, options);
+                callPostCommandActions();
+                return;
+            }
+            // Otherwise treat as a mod name
             await upgradeSingleMod(instancePath, config, modName, options);
             return;
         }

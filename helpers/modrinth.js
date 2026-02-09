@@ -41,19 +41,21 @@ export async function getProjectVersions(slugOrId, mcVersion = null, loader = nu
 }
 
 /**
- * Search for mods on Modrinth
+ * Search for projects on Modrinth
  * @param {string} query - Search query
  * @param {object} options - Search options
  * @param {number} [options.limit=10] - Max results
  * @param {string} [options.version] - Minecraft version filter
  * @param {string} [options.loader] - Mod loader filter
+ * @param {string} [options.type] - Project type (mod, resourcepack, shader)
  * @returns {Promise<object>} - Search results
  */
 export async function searchMods(query, options = {}) {
+    const projectType = options.type || 'mod';
     const params = new URLSearchParams({
         query: query,
         limit: options.limit || 10,
-        facets: JSON.stringify([['project_type:mod']])
+        facets: JSON.stringify([[`project_type:${projectType}`]])
     });
 
     // Add version filter if specified
@@ -63,8 +65,8 @@ export async function searchMods(query, options = {}) {
         params.set('facets', JSON.stringify(facets));
     }
 
-    // Add loader filter if specified
-    if (options.loader) {
+    // Add loader filter if specified (for mods and shaders)
+    if (options.loader && (projectType === 'mod' || projectType === 'shader')) {
         const facets = JSON.parse(params.get('facets'));
         facets.push([`categories:${options.loader}`]);
         params.set('facets', JSON.stringify(facets));

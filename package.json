@@ -1,6 +1,6 @@
 {
   "name": "@bobschlowinskii/clicraft",
-  "version": "0.4.6",
+  "version": "1.0.0",
   "description": "A simple Minecraft Mod Package Manager written in Node.JS",
   "main": "index.js",
   "type": "module",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/theinfamousben/clicraft#readme",
   "dependencies": {
+    "adm-zip": "^0.5.16",
     "chalk": "^5.6.2",
     "commander": "^14.0.2",
     "conf": "^15.0.2",

@@ -29,6 +29,7 @@ const DEFAULT_SETTINGS = {
     checkUpdates: true,
     autoSaveToConfig: true,
     autoLoadConfigOnLaunch: true,
+    autoInstallDeps: true,
     lastInstance: "",
 };
 

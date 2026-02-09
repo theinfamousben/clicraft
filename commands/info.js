@@ -9,6 +9,7 @@ import {
     formatDate, 
     getDirSize 
 } from '../helpers/utils.js';
+import { checkJavaCompatibility, detectJavaVersion } from '../helpers/java.js';
 import { callPostCommandActions } from '../helpers/post-command.js';
 
 export async function instanceInfo(options) {
@@ -49,6 +50,25 @@ export async function instanceInfo(options) {
     }
 
     console.log(chalk.white('  Location:        ') + chalk.gray(instancePath));
+
+    // Java compatibility check
+    const java = detectJavaVersion();
+    const javaCompat = checkJavaCompatibility(config.minecraftVersion);
+    
+    console.log();
+    console.log(chalk.cyan('☕ Java'));
+    if (java.version) {
+        console.log(chalk.white('  Installed:       ') + chalk.gray(`Java ${java.version} (${java.fullVersion})`));
+        console.log(chalk.white('  Required:        ') + chalk.gray(`Java ${javaCompat.required}+`));
+        if (javaCompat.compatible) {
+            console.log(chalk.white('  Status:          ') + chalk.green('✓ Compatible'));
+        } else {
+            console.log(chalk.white('  Status:          ') + chalk.red(`✗ Incompatible (need Java ${javaCompat.required})`));
+        }
+    } else {
+        console.log(chalk.white('  Status:          ') + chalk.red('✗ Java not found'));
+        console.log(chalk.gray('  Install Java from https://adoptium.net/'));
+    }
 
     // Mods info
     const modsPath = path.join(instancePath, 'mods');
